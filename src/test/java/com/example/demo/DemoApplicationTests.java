@@ -24,6 +24,7 @@ class DemoApplicationTests {
             System.out.println(Thread.currentThread()+" "+v1+v2);
             return v1+v2;
         }).subscribe(System.out::println);
+
         Flux.range(1,1000).take(2).subscribe(System.out::println);
         Flux.just(5,10).flatMap(x->Flux.interval(Duration.ofSeconds(x*10,100)).take(x)).toStream().forEach(System.out::println);
     }

@@ -1,7 +1,7 @@
 package com.example.demo.service;
 
-import com.example.demo.dao.UserDao;
-import com.example.demo.entity.User;
+import com.example.demo.dao.TUserMapper;
+import com.example.demo.entity.TUser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,10 +10,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserService {
     @Autowired
-    private UserDao userDao;
-    public String addUser(User user){
+    private TUserMapper tUserMapper;
+    public String addUser(TUser user){
         try {
-            userDao.insert(user);
+            tUserMapper.insert(user);
         }catch (Exception e){
             log.info("新增用户失败:{}",e);
             return "添加失败";

@@ -124,6 +124,14 @@
 		</dependency>
 		<!--添加swagger 结束-->
 
+		<!-- 分页插件
+ 文档地址：https://github.com/pagehelper/Mybatis-PageHelper/blob/master/wikis/zh/HowToUse.md -->
+		<dependency>
+			<groupId>com.github.pagehelper</groupId>
+			<artifactId>pagehelper-spring-boot-starter</artifactId>
+			<version>1.2.5</version>
+		</dependency>
+
 
 
 	</dependencies>

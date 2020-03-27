@@ -10,9 +10,14 @@ import javax.servlet.http.HttpServletRequest;
 @Slf4j
 @Controller
 public class HelloController {
-    @GetMapping("/index1")
+    @GetMapping("/index")
     public String hello(HttpServletRequest request,String name){
         log.info("访问",request.getRequestedSessionId());
         return "index";
+    }
+    @GetMapping("/login")
+    public String login(HttpServletRequest request,String name){
+        log.info("访问",request.getRequestedSessionId());
+        return "login";
     }
 }

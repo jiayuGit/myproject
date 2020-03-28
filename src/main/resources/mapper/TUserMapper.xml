@@ -85,6 +85,32 @@
       </if>
     </trim>
   </insert>
+
+  <select id="selectByUser" parameterType="com.example.demo.entity.TUser" resultType="com.example.demo.entity.TUser">
+    select
+    <include refid="Base_Column_List" />
+    from t_user
+    <if test="_parameter !=null">
+        where is_del = 0
+      <if test="uuid != null" >
+        and uuid = #{uuid,jdbcType=VARCHAR}
+      </if>
+      <if test="name != null" >
+        and name = #{name,jdbcType=VARCHAR}
+      </if>
+      <if test="pwd != null" >
+        and pwd = #{pwd,jdbcType=VARCHAR}
+      </if>
+
+      <if test="createTime != null" >
+        and create_time = #{createTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="lastModifyTime != null" >
+        and last_modify_time = #{lastModifyTime,jdbcType=TIMESTAMP}
+      </if>
+
+    </if>
+  </select>
   <update id="updateByPrimaryKeySelective" parameterType="com.example.demo.entity.TUser" >
     update t_user
     <set >

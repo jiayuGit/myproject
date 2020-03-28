@@ -13,6 +13,8 @@ public interface TUserMapper {
 
     TUser selectByPrimaryKey(Integer id);
 
+    List<TUser>  selectByUser(TUser tUser);
+
     int updateByPrimaryKeySelective(TUser record);
 
     int updateByPrimaryKey(TUser record);

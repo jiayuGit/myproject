@@ -15,7 +15,13 @@ public class InterceptorCofig implements WebMvcConfigurer {
         };
         //不需要的拦截路径，同上
         String[] excludePathPatterns = {
-                "/login","/static/**"
+                "/login",
+                "/index",
+                "/favicon.ico",
+                "/login/**",
+                "/send/authCode",
+                "/static/**",
+                "/templates/**"
         };
         registry.addInterceptor(new LoginHanderIntercepor()).addPathPatterns(addPathPatterns).excludePathPatterns(excludePathPatterns);
 

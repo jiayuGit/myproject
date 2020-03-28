@@ -1,15 +1,18 @@
 package com.example.demo.model;
 
+import lombok.Builder;
 import lombok.Data;
 
 import java.io.Serializable;
 
 @Data
-public class AuthUserInfoVo<T extends Serializable> implements Serializable {
+@Builder
+public class AuthUserInfoVo implements Serializable {
     private String accessToken;
     /**
      * 需要重新登录时间
      */
     private Long expiresIn;
-    private T data;
+    private String name;
+
 }

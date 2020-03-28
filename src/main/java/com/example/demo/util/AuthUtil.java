@@ -13,7 +13,7 @@ public class AuthUtil {
     private static long DELTIMEMAX = 20 * 60 * 1000;
 
     public static AuthUserInfoVo getAuthUserInfoVo(String token) {
-        RedisTemplate<String, Serializable> redisTemplate = ApplicationContextUtil.getBeanByType(RedisTemplate.class);
+        RedisTemplate<String, Serializable> redisTemplate = ApplicationContextUtil.getBeanByName("redisTemplateSerializable",RedisTemplate.class);
         AuthUserInfoVo authUserInfoVo = (AuthUserInfoVo) redisTemplate.opsForValue().get(Constants.TOKENKEY + token);
         if (authUserInfoVo != null) {
             Long expiresIn = authUserInfoVo.getExpiresIn() - System.currentTimeMillis();
@@ -28,14 +28,14 @@ public class AuthUtil {
     }
 
     public static String setAuthUserInfoVo(AuthUserInfoVo authUserInfoVo) {
-        RedisTemplate<String, Serializable> redisTemplate = ApplicationContextUtil.getBeanByType(RedisTemplate.class);
+        RedisTemplate<String, Serializable> redisTemplate = ApplicationContextUtil.getBeanByName("redisTemplateSerializable",RedisTemplate.class);
         authUserInfoVo.setAccessToken(UUID.randomUUID().toString());
         redisTemplate.opsForValue().set(Constants.TOKENKEY + authUserInfoVo.getAccessToken(), authUserInfoVo, DELTIMEMAX, TimeUnit.MILLISECONDS);
         return authUserInfoVo.getAccessToken();
     }
 
     public static Boolean outAuthUserInfoVo(String token){
-        RedisTemplate<String, Serializable> redisTemplate = ApplicationContextUtil.getBeanByType(RedisTemplate.class);
+        RedisTemplate<String, Serializable> redisTemplate = ApplicationContextUtil.getBeanByName("redisTemplateSerializable",RedisTemplate.class);
         return redisTemplate.delete(Constants.TOKENKEY+token);
     }
 }

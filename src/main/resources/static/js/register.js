@@ -41,6 +41,8 @@ function sendAuthCode() {
                 let data = JSON.parse(xmlHttp.responseText);
                 if (data.code === 0) {
                     console.log("发送验证码到" + data.data + "成功");
+                }else {
+                    nologin(data.message,p3);
                 }
             }else {
                 console.log(xmlHttp.responseText);
@@ -54,7 +56,7 @@ function sendAuthCode() {
     xmlHttp.setRequestHeader(content_type, applction_json);
 
     xmlHttp.send(JSON.stringify({
-        emaill: nameinput.value
+        emaill: nameinput.value,
     }));
 }
 
@@ -92,7 +94,7 @@ submitbut.onclick = function () {
                     setToken(access_token + "666");
                     return;
                 } else {
-
+                    nologin(data.message,p3);
                 }
 
 

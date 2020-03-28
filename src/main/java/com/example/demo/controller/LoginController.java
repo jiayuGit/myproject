@@ -30,7 +30,7 @@ public class LoginController {
     @Autowired
     private RedisTemplate<String,Serializable> redisTemplate;
     @PostMapping("/logoing")
-    public Result addUser(@RequestBody TUser user){
+    public Result addUser(@RequestBody   TUser user){
 
         if (Check.NuNObj(user)|| Check.NuNStr(user.getName())||Check.NuNStr(user.getPwd())){
             return Result.fail("账号密码不能为空");

@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.constant.Constants;
 import com.example.demo.dao.TUserMapper;
 import com.example.demo.dto.RegisterDto;
 import com.example.demo.entity.TUser;
@@ -29,7 +30,7 @@ public class LoginService {
 
     @Transactional
     public Result addUser(RegisterDto registerDto) {
-        String data =(String) redisTemplate.opsForValue().get(registerDto.getEmaill());
+        String data =(String) redisTemplate.opsForValue().get(Constants.REGISTERKEY+registerDto.getEmaill());
         if (Check.NuNStr(data)||!data.equals(registerDto.getAuthCode())){
             return Result.fail("验证码不正确");
         }
@@ -37,6 +38,7 @@ public class LoginService {
         tUser.setUuid(UUID.randomUUID().toString());
         tUser.setEmaill(registerDto.getEmaill());
         tUser.setPwd(registerDto.getPwd());
+        tUser.setIsDel(false);
         tUserMapper.insert(tUser);
         return Result.ok("添加成功");
 

@@ -20,5 +20,11 @@ public class HelloController {
         request.setAttribute("token",token);
         return "index";
     }
+    @GetMapping("/register")
+    public String register(HttpServletRequest request,String token){
+        log.info("访问register{}",request.getRequestedSessionId()+token);
+        request.setAttribute("token",token);
+        return "register";
+    }
 
 }

@@ -9,15 +9,15 @@ public interface TUserMapper {
 
     int insert(TUser record);
 
+    List<TUser> selectByUser(TUser tUser);
+
+    List<TUser> selectUserPage();
+
     int insertSelective(TUser record);
 
     TUser selectByPrimaryKey(Integer id);
 
-    List<TUser>  selectByUser(TUser tUser);
-
     int updateByPrimaryKeySelective(TUser record);
 
     int updateByPrimaryKey(TUser record);
-
-    List<TUser> selectUserPage();
 }

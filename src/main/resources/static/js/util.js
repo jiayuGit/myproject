@@ -1,7 +1,7 @@
 var servicePate = 'https://' + window.location.host;
 var access_token
 var content_type='content-type';
-var applction_json = 'application/json';
+var applction_json = 'application/json;charset=UTF-8';
 function getToken(){
     return document.cookie;
 }

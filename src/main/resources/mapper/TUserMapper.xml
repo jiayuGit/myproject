@@ -1,143 +1,142 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.example.demo.dao.TUserMapper" >
-  <resultMap id="BaseResultMap" type="com.example.demo.entity.TUser" >
-    <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="uuid" property="uuid" jdbcType="VARCHAR" />
-    <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="pwd" property="pwd" jdbcType="VARCHAR" />
-    <result column="is_del" property="isDel" jdbcType="BIT" />
-    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
-    <result column="last_modify_time" property="lastModifyTime" jdbcType="TIMESTAMP" />
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.dao.TUserMapper">
+  <resultMap id="BaseResultMap" type="com.example.demo.entity.TUser">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="uuid" jdbcType="VARCHAR" property="uuid" />
+    <result column="emaill" jdbcType="VARCHAR" property="emaill" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="pwd" jdbcType="VARCHAR" property="pwd" />
+    <result column="is_del" jdbcType="BIT" property="isDel" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="last_modify_time" jdbcType="TIMESTAMP" property="lastModifyTime" />
   </resultMap>
-  <sql id="Base_Column_List" >
-    id, uuid, name, pwd, is_del, create_time, last_modify_time
+  <sql id="Base_Column_List">
+    id, uuid, emaill, name, pwd, is_del, create_time, last_modify_time
   </sql>
-  <select id="selectUserPage" resultMap="BaseResultMap" >
-    select
-    <include refid="Base_Column_List" />
-    from t_user
-  </select>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
     <include refid="Base_Column_List" />
     from t_user
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+
+  <select id="selectByUser" parameterType="com.example.demo.entity.TUser" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_user
+    where is_del=0
+    <if test="uuid != null">
+      and uuid = #{uuid,jdbcType=VARCHAR}
+    </if>
+    <if test="emaill != null">
+      and emaill = #{emaill,jdbcType=VARCHAR}
+    </if>
+    <if test="name != null">
+      and name = #{name,jdbcType=VARCHAR}
+    </if>
+    <if test="pwd != null">
+      and pwd = #{pwd,jdbcType=VARCHAR}
+    </if>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from t_user
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.example.demo.entity.TUser" >
-    insert into t_user (id, uuid, name, 
-      pwd, is_del, create_time, 
+  <insert id="insert" parameterType="com.example.demo.entity.TUser">
+    insert into t_user (id, uuid, emaill, 
+      name, pwd, is_del, create_time, 
       last_modify_time)
-    values (#{id,jdbcType=INTEGER}, #{uuid,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
-      #{pwd,jdbcType=VARCHAR}, #{isDel,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, 
+    values (#{id,jdbcType=INTEGER}, #{uuid,jdbcType=VARCHAR}, #{emaill,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{pwd,jdbcType=VARCHAR}, #{isDel,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, 
       #{lastModifyTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.example.demo.entity.TUser" >
+  <insert id="insertSelective" parameterType="com.example.demo.entity.TUser">
     insert into t_user
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
         id,
       </if>
-      <if test="uuid != null" >
+      <if test="uuid != null">
         uuid,
       </if>
-      <if test="name != null" >
+      <if test="emaill != null">
+        emaill,
+      </if>
+      <if test="name != null">
         name,
       </if>
-      <if test="pwd != null" >
+      <if test="pwd != null">
         pwd,
       </if>
-      <if test="isDel != null" >
+      <if test="isDel != null">
         is_del,
       </if>
-      <if test="createTime != null" >
+      <if test="createTime != null">
         create_time,
       </if>
-      <if test="lastModifyTime != null" >
+      <if test="lastModifyTime != null">
         last_modify_time,
       </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="uuid != null" >
+      <if test="uuid != null">
         #{uuid,jdbcType=VARCHAR},
       </if>
-      <if test="name != null" >
+      <if test="emaill != null">
+        #{emaill,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
         #{name,jdbcType=VARCHAR},
       </if>
-      <if test="pwd != null" >
+      <if test="pwd != null">
         #{pwd,jdbcType=VARCHAR},
       </if>
-      <if test="isDel != null" >
+      <if test="isDel != null">
         #{isDel,jdbcType=BIT},
       </if>
-      <if test="createTime != null" >
+      <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="lastModifyTime != null" >
+      <if test="lastModifyTime != null">
         #{lastModifyTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
-
-  <select id="selectByUser" parameterType="com.example.demo.entity.TUser" resultType="com.example.demo.entity.TUser">
-    select
-    <include refid="Base_Column_List" />
-    from t_user
-    <if test="_parameter !=null">
-        where is_del = 0
-      <if test="uuid != null" >
-        and uuid = #{uuid,jdbcType=VARCHAR}
-      </if>
-      <if test="name != null" >
-        and name = #{name,jdbcType=VARCHAR}
-      </if>
-      <if test="pwd != null" >
-        and pwd = #{pwd,jdbcType=VARCHAR}
-      </if>
-
-      <if test="createTime != null" >
-        and create_time = #{createTime,jdbcType=TIMESTAMP}
-      </if>
-      <if test="lastModifyTime != null" >
-        and last_modify_time = #{lastModifyTime,jdbcType=TIMESTAMP}
-      </if>
-
-    </if>
-  </select>
-  <update id="updateByPrimaryKeySelective" parameterType="com.example.demo.entity.TUser" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.demo.entity.TUser">
     update t_user
-    <set >
-      <if test="uuid != null" >
+    <set>
+      <if test="uuid != null">
         uuid = #{uuid,jdbcType=VARCHAR},
       </if>
-      <if test="name != null" >
+      <if test="emaill != null">
+        emaill = #{emaill,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
       </if>
-      <if test="pwd != null" >
+      <if test="pwd != null">
         pwd = #{pwd,jdbcType=VARCHAR},
       </if>
-      <if test="isDel != null" >
+      <if test="isDel != null">
         is_del = #{isDel,jdbcType=BIT},
       </if>
-      <if test="createTime != null" >
+      <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="lastModifyTime != null" >
+      <if test="lastModifyTime != null">
         last_modify_time = #{lastModifyTime,jdbcType=TIMESTAMP},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.example.demo.entity.TUser" >
+  <update id="updateByPrimaryKey" parameterType="com.example.demo.entity.TUser">
     update t_user
     set uuid = #{uuid,jdbcType=VARCHAR},
+      emaill = #{emaill,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
       pwd = #{pwd,jdbcType=VARCHAR},
       is_del = #{isDel,jdbcType=BIT},
@@ -145,4 +144,10 @@
       last_modify_time = #{lastModifyTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="selectUserPage" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_user
+  </select>
+
 </mapper>

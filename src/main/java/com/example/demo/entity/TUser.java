@@ -7,6 +7,8 @@ public class TUser {
 
     private String uuid;
 
+    private String emaill;
+
     private String name;
 
     private String pwd;
@@ -31,6 +33,14 @@ public class TUser {
 
     public void setUuid(String uuid) {
         this.uuid = uuid == null ? null : uuid.trim();
+    }
+
+    public String getEmaill() {
+        return emaill;
+    }
+
+    public void setEmaill(String emaill) {
+        this.emaill = emaill == null ? null : emaill.trim();
     }
 
     public String getName() {

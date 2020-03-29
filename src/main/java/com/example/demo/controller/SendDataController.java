@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.model.EmaillDto;
 import com.example.demo.model.Result;
 import com.example.demo.service.MailService;
+import com.example.demo.service.SendDataService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -20,14 +21,15 @@ import java.util.Map;
 public class SendDataController {
 
     @Autowired
-    private MailService mailService;
-    @PostMapping(value = "/authCode")
+    private SendDataService sendDataService;
+    @PostMapping(value = "/authCode",
+    produces = MediaType.APPLICATION_JSON_VALUE)
     public Result sendAuthCode(@RequestBody EmaillDto emaillDto){
         try {
-            mailService.sendSimpleMail(emaillDto.getEmaill(),"验证码","内容");
-
+            sendDataService.sendAuthCode(emaillDto);
         }catch (Exception e){
             log.error("e={}",e);
+            return Result.fail("验证码发送失败");
         }
         return Result.ok(emaillDto.getEmaill());
     }

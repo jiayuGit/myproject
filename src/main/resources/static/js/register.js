@@ -1,4 +1,4 @@
-var nameinput = document.querySelector("input#username");
+var emaillinput = document.querySelector("input#username");
 var pwdinput = document.querySelector("input#password");
 var affirmput = document.querySelector("input#affirm");
 var authCodeput = document.querySelector("input#authCode");
@@ -7,7 +7,6 @@ var submitbut = document.querySelector("button#submit");
 var p1 = document.querySelector("p#p1");
 var p2 = document.querySelector("p#p2");
 var p3 = document.querySelector("p#p3");
-
 var countdown = 60;
 
 function settime(obj) {
@@ -35,18 +34,18 @@ sendCodebut.onclick = function () {
 
 function sendAuthCode() {
     let xmlHttp = new XMLHttpRequest();
-     xmlHttp.onreadystatechange = function (ev) {
-        if (xmlHttp.readyState === 4 && xmlHttp.status === 200){
-            if ( xmlHttp.getResponseHeader(content_type)===applction_json) {
+    xmlHttp.onreadystatechange = function (ev) {
+        if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
+            if (xmlHttp.getResponseHeader(content_type).indexOf(applction_json) >=0) {
                 let data = JSON.parse(xmlHttp.responseText);
                 if (data.code === 0) {
                     console.log("发送验证码到" + data.data + "成功");
-                }else {
-                    nologin(data.message,p3);
+                } else {
+                    nologin(data.message, p3);
                 }
-            }else {
+            } else {
                 console.log(xmlHttp.responseText);
-                nologin('服务器正在抢修中!!',p3);
+                nologin('服务器正在抢修中!!', p3);
             }
         } else {
 
@@ -56,12 +55,12 @@ function sendAuthCode() {
     xmlHttp.setRequestHeader(content_type, applction_json);
 
     xmlHttp.send(JSON.stringify({
-        emaill: nameinput.value,
+        emaill: emaillinput.value
     }));
 }
 
-nameinput.onblur = function () {
-    let value = nameinput.value;
+emaillinput.onblur = function () {
+    let value = emaillinput.value;
     let emreg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
     if (!emreg.test(value)) {
         p1.style.display = 'block';
@@ -76,7 +75,7 @@ function isCanSubmit(is) {
     sendCodebut.disabled = is;
 }
 
-nameinput.onfocus = function () {
+emaillinput.onfocus = function () {
     p1.style.display = 'none';
 };
 submitbut.onclick = function () {
@@ -87,34 +86,32 @@ submitbut.onclick = function () {
             if (xmlHttp.getResponseHeader(content_type) === applction_json) {
                 let data = JSON.parse(xmlHttp.responseText);
                 if (data.code !== 0) {
-                    nologin(data.message,p3);
+                    nologin(data.message, p3);
                     access_token = data.data;
-
-                    window.location.href = servicePate + '/index';
-                    setToken(access_token + "666");
                     return;
                 } else {
-                    nologin(data.message,p3);
+                    nologin(data.message, p3);
                 }
 
 
             } else {
                 console.log(xmlHttp.responseText);
-                nologin('服务器正在抢修中!!',p3);
+                nologin('服务器正在抢修中!!', p3);
             }
 
         }
     }
-    xmlHttp.open("POST", servicePate + '/login/logoing', true);
+    xmlHttp.open("POST", servicePate + '/login/registerUser', true);
     xmlHttp.setRequestHeader(content_type, applction_json);
     xmlHttp.send(JSON.stringify({
-        name: nameinput.value,
-        pwd: pwdinput.value
+        emaill: emaillinput.value,
+        pwd: pwdinput.value,
+        authCode:authCodeput.value
     }));
 
 }
 
-function nologin(massge,obj) {
+function nologin(massge, obj) {
     obj.innerText = massge;
     obj.style.display = 'block';
 }

@@ -86,9 +86,7 @@ submitbut.onclick = function () {
             if (xmlHttp.getResponseHeader(content_type) === applction_json) {
                 let data = JSON.parse(xmlHttp.responseText);
                 if (data.code !== 0) {
-                    nologin(data.message, p3);
-                    access_token = data.data;
-                    return;
+                    nologin("注册成功", p3);
                 } else {
                     nologin(data.message, p3);
                 }

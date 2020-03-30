@@ -62,11 +62,37 @@ function sendAuthCode() {
 emaillinput.onblur = function () {
     let value = emaillinput.value;
     let emreg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
+    if (!value){
+        return;
+    }
     if (!emreg.test(value)) {
         p1.style.display = 'block';
         isCanSubmit(true);
     } else {
-        isCanSubmit(false);
+        let url = servicePate+'/login/registerCheck';
+        let xmlHttp = new XMLHttpRequest();
+        xmlHttp.onreadystatechange=function (ev) {
+            if (xmlHttp.readyState===4&&xmlHttp.status===200){
+                if (xmlHttp.getResponseHeader(content_type)===applction_json){
+                    let data = JSON.parse(xmlHttp.responseText);
+                    if (data.code===0){
+                        isCanSubmit(false);
+                    }else {
+                        nologin(data.message,p1);
+                        isCanSubmit(true);
+                    }
+                }else {
+                    nologin('服务器正在抢修中!!', p3);
+                }
+
+            }
+        };
+        xmlHttp.open("POST",url,true);
+        xmlHttp.setRequestHeader(content_type,applction_json);
+        xmlHttp.send(JSON.stringify({
+            emaill:emaillinput.value
+        }));
+
     }
 };
 

@@ -42,10 +42,20 @@ public class LoginController {
 
         return Result.ok(loginService.login(user));
     }
+    @PostMapping(path = "/registerCheck",
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public Result registerCheck(@RequestBody RegisterDto registerDto) {
+        try {
+            return loginService.registerCheck(registerDto);
+        } catch (Exception e) {
+            log.error("注册验证失败入参{} e={}", registerDto, e);
+            return Result.fail("注册验证失败");
+        }
+    }
 
-@PostMapping(path = "/registerUser",
-        produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-public Result registerUser(@RequestBody RegisterDto registerDto) {
+    @PostMapping(path = "/registerUser",
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public Result registerUser(@RequestBody RegisterDto registerDto) {
         try {
             return loginService.addUser(registerDto);
         } catch (Exception e) {
@@ -53,10 +63,11 @@ public Result registerUser(@RequestBody RegisterDto registerDto) {
             return Result.fail("注册失败");
         }
     }
+
     @PostMapping(path = "/selectUserPage",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 
-      public Result selectUserPage(@RequestBody BasicPageDto pageDto) {
+    public Result selectUserPage(@RequestBody BasicPageDto pageDto) {
         PageHelper.startPage(pageDto.getStartPage(), pageDto.getPageSize());
         String s = UUID.randomUUID().toString();
         redisTemplate.opsForValue().set(s, pageDto, 1000, TimeUnit.SECONDS);

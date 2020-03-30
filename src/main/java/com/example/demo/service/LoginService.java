@@ -62,4 +62,13 @@ public class LoginService {
         String token = AuthUtil.setAuthUserInfoVo(userInfoVo);
         return Result.ok(token);
     }
+    public Result registerCheck(RegisterDto registerDto) {
+        TUser user = new TUser();
+        user.setEmaill(registerDto.getEmaill());
+        List<TUser> tUsers = tUserMapper.selectByUser(user);
+        if (!Check.NuNCollection(tUsers)) {
+            return Result.fail("账户已注册");
+        }
+        return Result.ok();
+    }
 }

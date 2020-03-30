@@ -36,7 +36,7 @@ public class LoginController {
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Result logoing(@RequestBody TUser user) {
 
-        if (Check.NuNObj(user) || Check.NuNStr(user.getName()) || Check.NuNStr(user.getPwd())) {
+        if (Check.NuNObj(user) || Check.NuNStr(user.getEmaill()) || Check.NuNStr(user.getPwd())) {
             return Result.fail("账号密码不能为空");
         }
 

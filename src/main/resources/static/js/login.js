@@ -1,11 +1,15 @@
-var nameinput = document.querySelector("input#username");
+var emaillinput = document.querySelector("input#emaill");
 var pwdinput = document.querySelector("input#password");
 var submitbut = document.querySelector("button#submit");
 var p1 = document.querySelector("p#p1");
 var p2 = document.querySelector("p#p2");
-
-nameinput.onblur=function () {
-    let value = nameinput.value;
+var registerA = document.querySelector("a#register");
+var repwdA = document.querySelector("a#repwd");
+registerA.oncilck=function(){
+    window.location.href=servicePate+'/register';
+};
+emaillinput.onblur=function () {
+    let value = emaillinput.value;
     let emreg=/^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
     if(!emreg.test(value)){
         p1.style.display='block';
@@ -19,7 +23,7 @@ function isCanSubmit(is){
     submitbut.disabled=is;
 }
 
-nameinput.onfocus=function () {
+emaillinput.onfocus=function () {
     p1.style.display='none';
 };
 submitbut.onclick=function () {
@@ -27,17 +31,17 @@ submitbut.onclick=function () {
     xmlHttp.onreadystatechange=function (ev) {
         if(xmlHttp.readyState===4&&xmlHttp.status===200){
             console.log(xmlHttp.getResponseHeader('content-type'));
-            if (xmlHttp.getResponseHeader('content-type')==='application/json'){
+            if (xmlHttp.getResponseHeader(content_type)===applction_json){
                 let data = JSON.parse(xmlHttp.responseText);
-                if (data.code!==0) {
+                if (data.code===0) {
                     nologin(data.message);
                     access_token=data.data;
 
                     window.location.href=servicePate+'/index';
-                    setToken(access_token+"666");
+                    setToken(access_token);
                     return;
                 }else {
-
+                    nologin(data.message);
                 }
 
 
@@ -51,7 +55,7 @@ submitbut.onclick=function () {
     xmlHttp.open("POST",servicePate+'/login/logoing',true);
     xmlHttp.setRequestHeader('content-type','application/json');
     xmlHttp.send(JSON.stringify({
-        name:nameinput.value,
+        emaill:emaillinput.value,
         pwd:pwdinput.value
     }));
 

@@ -26,5 +26,11 @@ public class HelloController {
         request.setAttribute("token",token);
         return "register";
     }
+    @GetMapping("/live")
+    public String live(HttpServletRequest request,String token){
+        log.info("访问live{}",request.getRequestedSessionId()+token);
+        request.setAttribute("token",token);
+        return "liveRoom";
+    }
 
 }

@@ -40,9 +40,10 @@ public class WebSocketEndPoint {
                 if ("join".equals(jsonObject.get("type"))) {
 
                     if (meetingRoom.getRoomUserCount(roomid) > 0) {
+                        int count = meetingRoom.getRoomUserCount(roomid);
                         meetingRoom.getRoomSession(roomid).values().stream().forEach(v -> {
-                            meetingRoom.sendUserMessage(v, "joined", null, session.getId(), null, null);
-                            meetingRoom.sendUserMessage(session, "other_join", null, v.getId(),null,null);
+                            meetingRoom.sendUserMessage(v, "joined", count, session.getId(), null, null);
+                            meetingRoom.sendUserMessage(session, "other_join",count , v.getId(),null,null);
 
                         });
 

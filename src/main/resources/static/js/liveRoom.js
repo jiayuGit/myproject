@@ -4,9 +4,7 @@ var buttonloacl = document.querySelector('a#buttonloacl');
 var buttonremote = document.querySelector('a#buttonremote');
 var text = document.querySelector('textarea#text');
 var container = document.getElementById("container");
-
-
-
+var sum=2*1024*1024;
 var pcConfig = {
     'iceServers': [{
         'urls': 'turn:stun.al.learningrtc.cn:3478',
@@ -21,6 +19,35 @@ var divMap = new Map();
 var aMap = new Map();
 var localStream = null;
 // var remoteStreams = null;
+function setWhile(){
+    pcMap.forEach(function (v,k,arr){
+        let size = pcMap.size;
+        setChang_bw(v,size+1);
+    })
+
+setTimeout(function () {
+        setWhile();
+    }
+    , 5000);
+}
+function setChang_bw(pc,count) {
+    let bw = sum / count;
+    let vsender = null
+    let senders = pc.getSenders();
+    senders.forEach(function (sender) {
+        if (sender && sender.track.kind === 'video') {
+            vsender = sender;
+        }
+    });
+    let parameters = vsender.getParameters();
+    if (!parameters.encodings){
+        return;
+    }
+    parameters.encodings[0].maxBitrate=bw;
+    vsender.setParameters(parameters)
+        .then(function () { console.log("设置发送码率成功"+bw); })
+        .catch(function (reason) { console.log(reason) });
+}
 try {
     let url = 'wss://' + window.location.host + '/websocket/1';
     websocket = new WebSocket(url);
@@ -44,6 +71,7 @@ buttonloacl.onclick = function () {
 };
 buttonremote.onclick = function () {
     senderMessage('join', null, null, null, null);
+    setWhile();
 }
 
 function handerlocalstreamErr(err) {

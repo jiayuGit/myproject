@@ -1,6 +1,7 @@
 package com.example.demo.webSocket;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.websocket.server.WsRemoteEndpointImplServer;
 import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.stereotype.Component;
@@ -28,7 +29,7 @@ public class WebSocketEndPoint {
     @OnOpen
     public void onOpen(@PathParam("roomid") String roomid, @PathParam("name") String name, Session session) {
         log.info("有新的连接：{} sessionID={}", session, session.getId());
-
+        session.setMaxIdleTimeout(360000);
     }
 
     @OnMessage
@@ -43,7 +44,7 @@ public class WebSocketEndPoint {
                         int count = meetingRoom.getRoomUserCount(roomid);
                         meetingRoom.getRoomSession(roomid).values().stream().forEach(v -> {
                             meetingRoom.sendUserMessage(v, "joined", count, session.getId(), null, null);
-                            meetingRoom.sendUserMessage(session, "other_join",count , v.getId(),null,null);
+                            meetingRoom.sendUserMessage(session, "other_join", count, v.getId(), null, null);
 
                         });
 
@@ -69,10 +70,15 @@ public class WebSocketEndPoint {
 
     @OnClose
     public void onClose(@PathParam("roomid") String roomid, @PathParam("name") String name, Session session) {
-        log.info("连接关闭： {}", session);
-        meetingRoom.sendUserToRoom(roomid, session, "bye", null, session.getId(), null, null);
-        meetingRoom.sendUserMessage(session, "leaved", null, null, null, null);
-        meetingRoom.removeUsertoRoom(roomid, session);
+            log.info("连接关闭： {}", session);
+            meetingRoom.sendUserToRoom(roomid, session, "bye", null, session.getId(), null, null);
+            meetingRoom.sendUserMessage(session, "leaved", null, null, null, null);
+            meetingRoom.removeUsertoRoom(roomid, session);
+        try {
+            session.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @OnError

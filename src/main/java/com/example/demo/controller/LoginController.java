@@ -8,6 +8,8 @@ import com.example.demo.service.LoginService;
 import com.example.demo.util.AuthUtil;
 import com.example.demo.util.Check;
 import com.github.pagehelper.PageHelper;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -24,6 +26,7 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 @RestController
 @RequestMapping("/login")
+@Api(tags = "LoginAPI",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class LoginController {
     @Autowired
     private LoginService loginService;
@@ -34,6 +37,7 @@ public class LoginController {
 
     @PostMapping(path = "/logoing",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ApiOperation(value = "登录接口",notes = "登录接口",response = Result.class,produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Result logoing(@RequestBody TUser user) {
 
         if (Check.NuNObj(user) || Check.NuNStr(user.getEmaill()) || Check.NuNStr(user.getPwd())) {
@@ -44,6 +48,7 @@ public class LoginController {
     }
     @PostMapping(path = "/registerCheck",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ApiOperation(value = "注册判断是否可用账户接口",notes = "注册判断是否可用账户接口",response = Result.class,produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Result registerCheck(@RequestBody RegisterDto registerDto) {
         try {
             return loginService.registerCheck(registerDto);
@@ -55,6 +60,7 @@ public class LoginController {
 
     @PostMapping(path = "/registerUser",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ApiOperation(value = "注册接口",notes = "注册接口",response = Result.class,produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Result registerUser(@RequestBody RegisterDto registerDto) {
         try {
             return loginService.addUser(registerDto);
@@ -66,7 +72,6 @@ public class LoginController {
 
     @PostMapping(path = "/selectUserPage",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-
     public Result selectUserPage(@RequestBody BasicPageDto pageDto) {
         PageHelper.startPage(pageDto.getStartPage(), pageDto.getPageSize());
         String s = UUID.randomUUID().toString();

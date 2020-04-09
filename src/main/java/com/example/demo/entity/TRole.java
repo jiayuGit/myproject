@@ -9,18 +9,14 @@ import java.util.Date;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class TUser {
+public class TRole {
     private Integer id;
 
-    private String uuid;
-
-    private String emaill;
+    private String fid;
 
     private String name;
 
-    private String pwd;
-
-    private Boolean isDel;
+    private Byte isDel;
 
     private Date createTime;
 
@@ -34,20 +30,12 @@ public class TUser {
         this.id = id;
     }
 
-    public String getUuid() {
-        return uuid;
+    public String getFid() {
+        return fid;
     }
 
-    public void setUuid(String uuid) {
-        this.uuid = uuid == null ? null : uuid.trim();
-    }
-
-    public String getEmaill() {
-        return emaill;
-    }
-
-    public void setEmaill(String emaill) {
-        this.emaill = emaill == null ? null : emaill.trim();
+    public void setFid(String fid) {
+        this.fid = fid == null ? null : fid.trim();
     }
 
     public String getName() {
@@ -58,19 +46,11 @@ public class TUser {
         this.name = name == null ? null : name.trim();
     }
 
-    public String getPwd() {
-        return pwd;
-    }
-
-    public void setPwd(String pwd) {
-        this.pwd = pwd == null ? null : pwd.trim();
-    }
-
-    public Boolean getIsDel() {
+    public Byte getIsDel() {
         return isDel;
     }
 
-    public void setIsDel(Boolean isDel) {
+    public void setIsDel(Byte isDel) {
         this.isDel = isDel;
     }
 

@@ -9,18 +9,18 @@ import java.util.Date;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class TUser {
+public class TDepartment {
     private Integer id;
 
-    private String uuid;
-
-    private String emaill;
+    private String fid;
 
     private String name;
 
-    private String pwd;
+    private String parentFid;
 
-    private Boolean isDel;
+    private String parentName;
+
+    private Byte isDel;
 
     private Date createTime;
 
@@ -34,20 +34,12 @@ public class TUser {
         this.id = id;
     }
 
-    public String getUuid() {
-        return uuid;
+    public String getFid() {
+        return fid;
     }
 
-    public void setUuid(String uuid) {
-        this.uuid = uuid == null ? null : uuid.trim();
-    }
-
-    public String getEmaill() {
-        return emaill;
-    }
-
-    public void setEmaill(String emaill) {
-        this.emaill = emaill == null ? null : emaill.trim();
+    public void setFid(String fid) {
+        this.fid = fid == null ? null : fid.trim();
     }
 
     public String getName() {
@@ -58,19 +50,27 @@ public class TUser {
         this.name = name == null ? null : name.trim();
     }
 
-    public String getPwd() {
-        return pwd;
+    public String getParentFid() {
+        return parentFid;
     }
 
-    public void setPwd(String pwd) {
-        this.pwd = pwd == null ? null : pwd.trim();
+    public void setParentFid(String parentFid) {
+        this.parentFid = parentFid == null ? null : parentFid.trim();
     }
 
-    public Boolean getIsDel() {
+    public String getParentName() {
+        return parentName;
+    }
+
+    public void setParentName(String parentName) {
+        this.parentName = parentName == null ? null : parentName.trim();
+    }
+
+    public Byte getIsDel() {
         return isDel;
     }
 
-    public void setIsDel(Boolean isDel) {
+    public void setIsDel(Byte isDel) {
         this.isDel = isDel;
     }
 

@@ -1,5 +1,7 @@
 package com.example.demo.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.task.TaskSchedulerBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -34,10 +36,16 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 @Configuration
 public class ScheduleThreadPoolConfig {
     @Bean
-    public Executor  asyncTaskExecutor(){
-
-        ScheduledThreadPoolExecutor scheduledThreadPoolExecutor = new ScheduledThreadPoolExecutor(2);
-        return scheduledThreadPoolExecutor;
+    @Autowired
+    public ThreadPoolTaskScheduler  threadPoolTaskScheduler(TaskSchedulerBuilder builder){
+        return builder.build();
+    }
+    @Bean
+    public TaskSchedulerBuilder taskSchedulerBuilder(){
+        TaskSchedulerBuilder builder = new TaskSchedulerBuilder();
+        builder = builder.poolSize(3);
+        builder = builder.threadNamePrefix("myThread-");
+        return builder;
     }
 
 }

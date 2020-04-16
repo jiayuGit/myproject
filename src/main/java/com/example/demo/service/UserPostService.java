@@ -28,23 +28,23 @@ import java.util.List;
 @Service
 public class UserPostService {
 
-    @Autowired
-    private TUserMapper userMapper;
-
-    @Autowired
-    private TUserPostMapper userPostMapper;
-    @Autowired
-    private TUserRoleMapper userRoleMapper;
-    @Autowired
-    private TDepartmentMapper departmentMapper;
-    @Autowired
-    private TDepartmentPostMapper departmentPostMapper;
-    @Autowired
-    private TPostMapper postMapper;
-    @Autowired
-    private TRoleMapper roleMapper;
-    @Autowired
-    private TUserMapper userMapper;
+//    @Autowired
+//    private TUserMapper userMapper;
+//
+//    @Autowired
+//    private TUserPostMapper userPostMapper;
+//    @Autowired
+//    private TUserRoleMapper userRoleMapper;
+//    @Autowired
+//    private TDepartmentMapper departmentMapper;
+//    @Autowired
+//    private TDepartmentPostMapper departmentPostMapper;
+//    @Autowired
+//    private TPostMapper postMapper;
+//    @Autowired
+//    private TRoleMapper roleMapper;
+//    @Autowired
+//    private TUserMapper userMapper;
 
     public String userPage(UserPostPageDto dto) {
         String res = null;

@@ -34,10 +34,12 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 @Configuration
 public class ScheduleThreadPoolConfig {
     @Bean
-    public Executor  asyncTaskExecutor(){
+    public ThreadPoolTaskScheduler  asyncTaskExecutor(){
 
-        ScheduledThreadPoolExecutor scheduledThreadPoolExecutor = new ScheduledThreadPoolExecutor(2);
-        return scheduledThreadPoolExecutor;
+        ThreadPoolTaskScheduler threadPoolTaskScheduler = new ThreadPoolTaskScheduler();
+        threadPoolTaskScheduler.setPoolSize(2);
+        threadPoolTaskScheduler.setThreadNamePrefix("myScheduleThread-");
+        return threadPoolTaskScheduler;
     }
 
 }

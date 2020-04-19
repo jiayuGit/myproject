@@ -1,37 +1,29 @@
 package com.example.demo;
 
-//import org.junit.jupiter.api.Test;
-import com.example.demo.entity.TUser;
-import com.example.demo.util.Check;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.boot.env.PropertySourceLoader;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.context.ApplicationEventPublisherAware;
-import org.springframework.core.io.UrlResource;
-import org.springframework.core.io.support.PropertiesLoaderUtils;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
-import org.springframework.test.context.junit4.SpringRunner;
-import reactor.core.publisher.Flux;
 
-import java.io.IOException;
-import java.lang.ref.SoftReference;
-import java.lang.ref.WeakReference;
-import java.net.URL;
-import java.time.Duration;
-import java.util.Enumeration;
-import java.util.Optional;
-import java.util.Properties;
+import com.example.demo.dto.UserRolePageDto;
+import com.example.demo.service.UserRoleService;
+import com.example.demo.vo.PageResult;
+import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
+;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes={DemoApplicationTests.class})
-class DemoApplicationTests implements ApplicationEventPublisherAware {
+@SpringBootTest(classes={DemoApplication.class})
+class DemoApplicationTests {
+    @Autowired
+    private UserRoleService userRoleService;
 
     @Test
     public void text(){
-
+        UserRolePageDto dto = new UserRolePageDto();
+        dto.setPageSize(11);
+        dto.setStartPage(1);
+        PageResult pageResult = userRoleService.userPage(dto);
+        System.out.println(pageResult);
     }
 
 //    public static void main(String [] args) {
@@ -50,8 +42,5 @@ class DemoApplicationTests implements ApplicationEventPublisherAware {
 //
 //        System.out.println(tUser1);
 //    }
-    @Override
-    public void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
 
-    }
 }

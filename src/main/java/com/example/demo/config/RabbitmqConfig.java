@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
-//@Configuration
+@Configuration
 public class RabbitmqConfig {
     @Bean
     public RabbitTemplate rabbitTemplate(CachingConnectionFactory cachingConnectionFactory) {

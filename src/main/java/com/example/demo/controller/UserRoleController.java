@@ -3,8 +3,10 @@ package com.example.demo.controller;
 import com.example.demo.dto.UserRoleinfoDto;
 import com.example.demo.dto.UserRolePageDto;
 import com.example.demo.entity.TRole;
+import com.example.demo.entity.TUser;
 import com.example.demo.model.Result;
 import com.example.demo.service.UserRoleService;
+import com.example.demo.vo.PageResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -40,10 +42,14 @@ public class UserRoleController {
     @Autowired
     private UserRoleService userRoleService;
     @PostMapping(path = "/userPage",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    @ApiOperation(value = "查询用户职位列表接口",produces = MediaType.APPLICATION_JSON_UTF8_VALUE,response = Result.class)
+    @ApiOperation(value = "查询用户角色列表接口",produces = MediaType.APPLICATION_JSON_UTF8_VALUE,response = Result.class)
     public Result userPage(@RequestBody UserRolePageDto dto){
-        String data = userRoleService.userPage(dto);
-        return Result.ok();
+        try {
+            PageResult tUsers = userRoleService.userPage(dto);
+            return Result.ok(tUsers);
+        }catch (Exception e){
+            return Result.fail("服务器异常");
+        }
     }
     @PostMapping(path = "/updateUser",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ApiOperation(value = "修改用户角色接口",produces = MediaType.APPLICATION_JSON_UTF8_VALUE,response = Result.class)

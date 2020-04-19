@@ -4,6 +4,10 @@ import com.example.demo.dao.*;
 import com.example.demo.dto.UserRolePageDto;
 import com.example.demo.dto.UserRoleinfoDto;
 import com.example.demo.entity.TRole;
+import com.example.demo.entity.TUser;
+import com.example.demo.vo.PageResult;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,13 +31,13 @@ import java.util.List;
  */
 @Service
 public class UserRoleService {
-//    @Autowired
-//    private TUserMapper userMapper;
+    @Autowired
+    private TUserMapper userMapper;
 //
 //    @Autowired
 //    private TUserPostMapper userPostMapper;
-//    @Autowired
-//    private TUserRoleMapper userRoleMapper;
+    @Autowired
+    private TUserRoleMapper userRoleMapper;
 //    @Autowired
 //    private TDepartmentMapper departmentMapper;
 //    @Autowired
@@ -45,9 +49,14 @@ public class UserRoleService {
 //    @Autowired
 //    private TUserMapper userMapper;
 
-    public String userPage(UserRolePageDto dto) {
-        String res =null;
-        return res;
+    public PageResult userPage(UserRolePageDto dto) {
+        Page<Object> objects = PageHelper.startPage(dto.getStartPage(), dto.getPageSize());
+        List<TUser> tUsers =  userMapper.selectUserPage();
+        PageResult pageResult = PageResult.builder()
+                .data(tUsers)
+                .total(objects.getTotal())
+                .build();
+        return pageResult;
     }
 
     public String updateUserRoleinfo(UserRoleinfoDto dot) {

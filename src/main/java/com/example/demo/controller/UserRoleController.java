@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.BasicPageDto;
 import com.example.demo.dto.UserRoleinfoDto;
 import com.example.demo.dto.UserRolePageDto;
 import com.example.demo.entity.TRole;
@@ -59,9 +60,15 @@ public class UserRoleController {
     }
     @PostMapping(path = "/list",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ApiOperation(value = "查询系统角色接口",produces = MediaType.APPLICATION_JSON_UTF8_VALUE,response = Result.class)
-    public Result roleList(){
-        List<TRole> data = userRoleService.roleList();
-        return Result.ok(data);
+    public Result roleList(@RequestBody BasicPageDto dto){
+        try {
+            PageResult pageResult = userRoleService.roleList(dto);
+            return Result.ok(pageResult);
+        }catch (Exception e){
+            log.error("查询系统角色错误e={} params={}",e,dto);
+            return Result.fail("查询系统角色错误");
+        }
+
     }
     @PostMapping(path = "/add",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ApiOperation(value = "添加系统角色接口",produces = MediaType.APPLICATION_JSON_UTF8_VALUE,response = Result.class)

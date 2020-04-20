@@ -38,5 +38,5 @@ public class UserRoleVo {
 
     private Date lastModifyTime;
 
-    private List<TUserRole> list;
+    private List<String> list;
 }

@@ -20,6 +20,12 @@ public class HelloController {
         request.setAttribute("token",token);
         return "userRole";
     }
+    @GetMapping("/role")
+    public String role(HttpServletRequest request,String token){
+        log.info("role{}",request.getRequestedSessionId()+token);
+        request.setAttribute("token",token);
+        return "role";
+    }
     @GetMapping("/index")
     public String index(HttpServletRequest request,String token){
         log.info("访问index{}",request.getRequestedSessionId()+token);

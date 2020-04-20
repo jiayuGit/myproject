@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.dao.*;
+import com.example.demo.dto.BasicPageDto;
 import com.example.demo.dto.UserRolePageDto;
 import com.example.demo.dto.UserRoleinfoDto;
 import com.example.demo.entity.TRole;
@@ -63,7 +64,7 @@ public class UserRoleService {
                     .name(v.getName())
                     .emaill(v.getEmaill())
                     .uuid(v.getUuid())
-                    .name(v.getName())
+                    .lastModifyTime(v.getLastModifyTime())
                     .list(new ArrayList<>())
                     .build();
             list.add(build);
@@ -75,7 +76,7 @@ public class UserRoleService {
                 .build();
         List<String> collect = tUsers.stream().map(TUser::getUuid).collect(Collectors.toList());
         List<TUserRole> userRoleList =  userRoleMapper.selectUserRoleIfList(collect);
-        userRoleList.stream().forEach(v->map.get(v.getUserFid()).getList().add(v));
+        userRoleList.stream().forEach(v->map.get(v.getUserFid()).getList().add(v.getRoleName()));
         return pageResult;
     }
 
@@ -85,9 +86,14 @@ public class UserRoleService {
     }
 
 
-    public List<TRole> roleList() {
+    public PageResult roleList(BasicPageDto dto) {
+        Page<Object> objects = PageHelper.startPage(dto.getStartPage(), dto.getPageSize());
         List<TRole> res = roleMapper.selectRole();
-        return res;
+        PageResult build = PageResult.builder()
+                .data(res)
+                .total(objects.getTotal())
+                .build();
+        return build;
     }
     @Transactional
     public int addRole(TRole role) throws Exception {

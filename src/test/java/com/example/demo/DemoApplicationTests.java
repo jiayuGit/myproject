@@ -4,7 +4,7 @@ package com.example.demo;
 import com.example.demo.dto.UserRolePageDto;
 import com.example.demo.service.UserRoleService;
 import com.example.demo.vo.PageResult;
-import org.junit.jupiter.api.Test;
+//import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,7 +17,7 @@ class DemoApplicationTests {
     @Autowired
     private UserRoleService userRoleService;
 
-    @Test
+//    @Test
     public void text(){
         UserRolePageDto dto = new UserRolePageDto();
         dto.setPageSize(11);

@@ -13,20 +13,25 @@
     id, fid, name, is_del, create_time, last_modify_time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
+    select
     <include refid="Base_Column_List" />
     from t_role
     where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectRole" resultMap="BaseResultMap"  >
+    select
+    <include refid="Base_Column_List" />
+    from t_role
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_role
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.example.demo.entity.TRole" >
-    insert into t_role (id, fid, name, 
+    insert into t_role (id, fid, name,
       is_del, create_time, last_modify_time
       )
-    values (#{id,jdbcType=INTEGER}, #{fid,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{fid,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},
       #{isDel,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, #{lastModifyTime,jdbcType=TIMESTAMP}
       )
   </insert>

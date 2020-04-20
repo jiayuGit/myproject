@@ -61,12 +61,18 @@ public class UserRoleController {
     @ApiOperation(value = "查询系统角色接口",produces = MediaType.APPLICATION_JSON_UTF8_VALUE,response = Result.class)
     public Result roleList(){
         List<TRole> data = userRoleService.roleList();
-        return Result.ok();
+        return Result.ok(data);
     }
     @PostMapping(path = "/add",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ApiOperation(value = "添加系统角色接口",produces = MediaType.APPLICATION_JSON_UTF8_VALUE,response = Result.class)
     public Result add(@RequestBody TRole role){
-        int i = userRoleService.addRole(role);
+        try {
+            userRoleService.addRole(role);
+        }catch (Exception e){
+            log.error("添加系统角色接口e={} params={}",e,role);
+            Result.fail("添加失败");
+        }
+
         return Result.ok();
     }
 

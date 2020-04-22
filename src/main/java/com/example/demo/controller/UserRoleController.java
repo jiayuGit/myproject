@@ -7,6 +7,7 @@ import com.example.demo.entity.TRole;
 import com.example.demo.entity.TUser;
 import com.example.demo.model.Result;
 import com.example.demo.service.UserRoleService;
+import com.example.demo.vo.KeyValueVo;
 import com.example.demo.vo.PageResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -68,7 +69,17 @@ public class UserRoleController {
             log.error("查询系统角色错误e={} params={}",e,dto);
             return Result.fail("查询系统角色错误");
         }
-
+    }
+    @PostMapping(path = "/listKey",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ApiOperation(value = "查询系统角色接口",produces = MediaType.APPLICATION_JSON_UTF8_VALUE,response = Result.class)
+    public Result roleKey(){
+        try {
+            List<KeyValueVo> list = userRoleService.roleKeyValeList();
+            return Result.ok(list);
+        }catch (Exception e){
+            log.error("查询系统角色错误e={} params={}",e);
+            return Result.fail("查询系统角色错误");
+        }
     }
     @PostMapping(path = "/add",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ApiOperation(value = "添加系统角色接口",produces = MediaType.APPLICATION_JSON_UTF8_VALUE,response = Result.class)

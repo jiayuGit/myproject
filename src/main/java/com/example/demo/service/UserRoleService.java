@@ -7,6 +7,7 @@ import com.example.demo.dto.UserRoleinfoDto;
 import com.example.demo.entity.TRole;
 import com.example.demo.entity.TUser;
 import com.example.demo.entity.TUserRole;
+import com.example.demo.vo.KeyValueVo;
 import com.example.demo.vo.PageResult;
 import com.example.demo.vo.UserRoleVo;
 import com.github.pagehelper.Page;
@@ -76,7 +77,9 @@ public class UserRoleService {
                 .build();
         List<String> collect = tUsers.stream().map(TUser::getUuid).collect(Collectors.toList());
         List<TUserRole> userRoleList =  userRoleMapper.selectUserRoleIfList(collect);
-        userRoleList.stream().forEach(v->map.get(v.getUserFid()).getList().add(v.getRoleName()));
+        userRoleList.stream().forEach(v->
+                map.get(v.getUserFid()).getList().add(
+                        KeyValueVo.builder().value(String.valueOf(v.getRoleFid())).text(v.getRoleName()).build()));
         return pageResult;
     }
 
@@ -85,16 +88,25 @@ public class UserRoleService {
         return res;
     }
 
+    public List<KeyValueVo> roleKeyValeList() {
+        List<TRole> res = roleMapper.selectRole();
+
+        return res.stream().map(v->KeyValueVo.builder().value(v.getFid()).text(v.getName()).build()).collect(Collectors.toList());
+    }
+
 
     public PageResult roleList(BasicPageDto dto) {
         Page<Object> objects = PageHelper.startPage(dto.getStartPage(), dto.getPageSize());
         List<TRole> res = roleMapper.selectRole();
+
         PageResult build = PageResult.builder()
                 .data(res)
                 .total(objects.getTotal())
                 .build();
         return build;
     }
+
+
     @Transactional
     public int addRole(TRole role) throws Exception {
         int i = 0;

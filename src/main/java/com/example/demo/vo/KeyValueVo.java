@@ -1,14 +1,9 @@
 package com.example.demo.vo;
 
-import com.example.demo.entity.TRole;
-import com.example.demo.entity.TUserRole;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.Date;
-import java.util.List;
 
 /**
  * <p></p>
@@ -21,22 +16,14 @@ import java.util.List;
  *
  * @author dengjy
  * @version 1.0
- * @date Created in 2020年04月20日 10:57
+ * @date Created in 2020年04月22日 19:56
  * @since 1.0
  */
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class UserRoleVo {
-    private String uuid;
-
-    private String emaill;
-
-    private String name;
-
-
-    private Date lastModifyTime;
-
-    private List<KeyValueVo> list;
+public class KeyValueVo {
+    private String value;
+    private String text;
 }

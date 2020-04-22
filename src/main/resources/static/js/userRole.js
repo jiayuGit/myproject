@@ -115,22 +115,36 @@ var pageBar = new Vue({
 
 function ok(id) {
     console.log(id)
+    if (id === 'alert4') {
+        httpClient('POST', '/role/updateUser', {
+                list: example3Data.fruitIds,
+                uuid: example3Data.updataId
+            }
+            , function (data) {
+                selectPage(pageButton.cur, pageSize);
+            },
+            function (err) {
+                console.log(JSON.stringify(err));
+            })
+    }
     syalert.syhide(id);
 }
-var example3Data =  {
+
+var example3Data = {
     checkedNames: [],
-    fruits:[],
-    fruitIds:[],
+    updataId: '',
+    fruits: [],
+    fruitIds: [],
     // 初始化全选按钮, 默认不选
     isCheckedAll: false
 };
 var example3 = new Vue({
     el: '#example-3',
-    data () {
+    data() {
         return example3Data
     },
-    methods:{
-        checkedOne (fruitId) {
+    methods: {
+        checkedOne(fruitId) {
             let idIndex = this.fruitIds.indexOf(fruitId)
 
             if (idIndex >= 0) {
@@ -144,7 +158,7 @@ var example3 = new Vue({
             }
             console.log(JSON.stringify(this.fruitIds))
         },
-        checkedAll (data) {
+        checkedAll(data) {
             this.isCheckedAll = data
             console.log(data)
             if (data) {
@@ -158,12 +172,13 @@ var example3 = new Vue({
             }
             console.log(JSON.stringify(this.fruitIds))
         },
-        deleteFruits () {
+        deleteFruits() {
 
         }
     }
 });
-selectRolePage(1,100);
+selectRolePage(1, 100);
+
 function selectRolePage(pageNub, size) {
     let xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = function (ev) {

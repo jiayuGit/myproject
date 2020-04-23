@@ -108,7 +108,7 @@
                         <!--                    <button class="label label-primary" @click="remove(data),syalert.syopen('alert2')">消息弹窗</button>-->
                         <!--                    <button class="label label-primary" @click="syalert.syopen('alert3')">消息提示</button>-->
                         <button class="btn btn-default" @click="syalert.syopen('alert4',data)">修改角色</button>
-
+                        <button class="btn btn-default" @click="syalert.syopen('alert6',data)">角色权限角色</button>
                     </td>
 
                 </tr>
@@ -203,6 +203,21 @@
     <div class="sy-btn">
         <button onClick="syalert.syhide('alert5')">取消</button>
         <button onClick="ok('alert5')">确定</button>
+    </div>
+</div>
+<div class="sy-alert sy-alert-model animated" sy-enter="zoomIn" sy-leave="zoomOut" sy-type="confirm" sy-mask="true"
+     id="alert6">
+    <div class="sy-title">修改角色信息</div>
+    <div class="sy-content">
+        <div id='example-6' class="form">
+            <div>
+                <tree :treelist="treeList"></tree>
+            </div>
+        </div>
+    </div>
+    <div class="sy-btn">
+        <button onClick="syalert.syhide('alert6')">取消</button>
+        <button onClick="ok('alert6')">确定</button>
     </div>
 </div>
 

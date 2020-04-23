@@ -36,7 +36,7 @@ var example5 = new Vue({
 var syalert = function () {
     return {
         syopen: function (id, data) {
-            if(data!==null){
+            if (data !== null) {
                 example3Data.role.fid = data.fid;
                 example3Data.role.name = data.name;
             }
@@ -109,7 +109,7 @@ function selectPage(pageNub, size) {
                 let data = JSON.parse(xmlHttp.responseText);
                 if (data.code === 0) {
                     pageDate.list = data.data.data;
-                    pageButton.all = parseInt(data.data.total / size)===data.data.total / size?data.data.total / size:parseInt(data.data.total / size)+1;
+                    pageButton.all = parseInt(data.data.total / size) === data.data.total / size ? data.data.total / size : parseInt(data.data.total / size) + 1;
                     pageButton.cur = pageNub;
                     return;
                 } else {
@@ -187,7 +187,7 @@ var pageBar = new Vue({
 
 function ok(id) {
     console.log(id)
-    if('alert1'===id){
+    if ('alert1' === id) {
         httpClient('POST', '/role/delete',
             {
                 fid: example3Data.role.fid
@@ -212,7 +212,7 @@ function ok(id) {
                 console.log(JSON.stringify(err));
             })
     }
-    if (id==='alert5'){
+    if (id === 'alert5') {
         httpClient('POST', '/role/add',
             {
                 name: example5Data.role.name
@@ -226,4 +226,110 @@ function ok(id) {
     }
     syalert.syhide(id);
 }
+
+let all = {
+    name: 'all',
+    children: {
+        A: {
+            name: 'A',
+            children: {
+                a1: {
+                    name: 'a1',
+                    children: {
+                        a11: {
+                            name: 'a11',
+                            children: null
+                        },
+                        a12: {
+                            name: 'a12',
+                            children: null
+                        }
+                    }
+                },
+                a2: {
+                    name: 'a2',
+                    children: {
+                        b21: {
+                            name: 'b21',
+                            children: null
+                        }
+                    }
+                }
+            }
+        },
+        B: {
+            name: 'B',
+            children: {
+                b1: {
+                    name: 'b1',
+                    children: {
+                        b11: {
+                            name: 'b11',
+                            children: null
+                        },
+                        b12: {
+                            name: 'b12',
+                            children: null
+                        }
+                    }
+                },
+                b2: {
+                    name: 'b2',
+                    children: {
+                        b21: {
+                            name: 'b21',
+                            children: null
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+const example6 = new Vue({
+    el: "#example-6",
+    components: {
+        tree: {
+            template: '\n' +
+                '<div>\n' +
+                '    <ul>\n' +
+                '        <li   >\n' +
+                '            <span @click="isshow()">{{treelist.name}}</span>\n' +
+                '                <tree  v-for="item in treelist.children"   \n' +
+                '                    v-if="isFolder"\n' +
+                '                    v-show="open" \n' +
+                '                    :treelist="item" \n' +
+                '                    :keys="item"\n' +
+                '                ></tree>\n' +
+                '        </li>\n' +
+                '    </ul>\n' +
+                '</div>\n' +
+                '\n',
+            name: 'tree',
+            props: ['treelist'],
+            data() {
+                return {
+                    open: false
+                }
+            }, computed: {
+                isFolder: function () {
+                    return this.treelist.children
+                }
+            }
+            , methods: {
+                isshow() {
+                    if (this.isFolder) {
+                        this.open = !this.open
+                    }
+                }
+            }
+        }
+
+    },
+    data: {
+        treeList: all
+    }
+})
 

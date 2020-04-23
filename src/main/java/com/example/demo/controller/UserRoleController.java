@@ -51,14 +51,24 @@ public class UserRoleController {
             PageResult tUsers = userRoleService.userPage(dto);
             return Result.ok(tUsers);
         }catch (Exception e){
+            log.error("查询用户角色列表接口e={}",e,dto);
             return Result.fail("服务器异常");
         }
     }
     @PostMapping(path = "/updateUser",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ApiOperation(value = "修改用户角色接口",produces = MediaType.APPLICATION_JSON_UTF8_VALUE,response = Result.class)
     public Result updateUserRoleinfo(@RequestBody UserRoleinfoDto dot){
-        String data = userRoleService.updateUserRoleinfo(dot);
-        return Result.ok();
+        if (Check.NuNStr(dot.getUuid())){
+            return Result.fail("修改用户fid不能为空");
+        }
+        try {
+            String data = userRoleService.updateUserRoleinfo(dot);
+            return Result.ok(data);
+        } catch (Exception e) {
+            log.error("修改用户角色错误e={} params={}",e,dot);
+            return Result.fail("修改用户角色错误");
+        }
+
     }
     @PostMapping(path = "/list",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ApiOperation(value = "查询系统角色接口",produces = MediaType.APPLICATION_JSON_UTF8_VALUE,response = Result.class)
@@ -103,6 +113,21 @@ public class UserRoleController {
         }
         try {
             userRoleService.updata(role);
+        }catch (Exception e){
+            log.error("修改系统角色接口e={} params={}",e,role);
+            Result.fail("修改失败");
+        }
+
+        return Result.ok();
+    }
+    @PostMapping(path = "/delete",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ApiOperation(value = "修改系统角色接口",produces = MediaType.APPLICATION_JSON_UTF8_VALUE,response = Result.class)
+    public Result delete(@RequestBody TRole role){
+        if (Check.NuNObj(role)||Check.NuNStr(role.getFid())){
+            return Result.fail("fid不能为空");
+        }
+        try {
+            userRoleService.delete(role);
         }catch (Exception e){
             log.error("修改系统角色接口e={} params={}",e,role);
             Result.fail("修改失败");

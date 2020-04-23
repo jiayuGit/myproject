@@ -71,52 +71,59 @@
             <center><h2>用户管理</h2></center>
         </div>
         <div id="example-1">
-        <table  class="table table-bordered table-striped text-center">
-            <thead>
-            <tr>
-                <th>
-                    <center>序号</center>
-                </th>
-                <th>
-                    <center>角色名</center>
-                </th>
-                <!--                <th>-->
-                <!--                    <center>邮箱</center>-->
-                <!--                </th>-->
-                <!--                <th>-->
-                <!--                    <center>角色列表</center>-->
-                <!--                </th>-->
-                <th>
-                    <center>修改时间</center>
-                </th>
-                <th>
-                    <center>操作</center>
-                </th>
-            </tr>
-            </thead>
-            <tbody>
-            <!--<tr v-for="(item,index) in items" :key="item.message">-->
-            <tr v-for="(data,index) in pageDate.list">
-                <td>{{index+1}}</td>
-                <td>{{data.name}}</td>
-                <!--                <td>{{data.emaill}}</td>-->
-                <!--                <td>{{data.list}}</td>-->
-                <td>{{data.lastModifyTime}}</td>
-                <td>
-                    <!--                    <button class="label label-primary" @click="remove(data)">remove</button>-->
-                    <!--                    <button class="label label-primary" @click="syalert.syopen('alert1')">删除</button>-->
-                    <!--                    <button class="label label-primary" @click="remove(data),syalert.syopen('alert2')">消息弹窗</button>-->
-                    <!--                    <button class="label label-primary" @click="syalert.syopen('alert3')">消息提示</button>-->
-                    <button class="label label-primary" @click="syalert.syopen('alert4',data)">修改角色</button>
+            <table class="table table-bordered table-striped text-center">
+                <thead>
+                <tr>
+                    <th>
+                        <center>序号</center>
+                    </th>
+                    <th>
+                        <center>角色名</center>
+                    </th>
+                    <!--                <th>-->
+                    <!--                    <center>邮箱</center>-->
+                    <!--                </th>-->
+                    <!--                <th>-->
+                    <!--                    <center>角色列表</center>-->
+                    <!--                </th>-->
+                    <th>
+                        <center>修改时间</center>
+                    </th>
+                    <th>
+                        <center>操作</center>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <!--<tr v-for="(item,index) in items" :key="item.message">-->
+                <tr v-for="(data,index) in pageDate.list">
+                    <td>{{index+1}}</td>
+                    <td>{{data.name}}</td>
+                    <!--                <td>{{data.emaill}}</td>-->
+                    <!--                <td>{{data.list}}</td>-->
+                    <td>{{data.lastModifyTime}}</td>
+                    <td>
+                        <!--                    <button class="label label-primary" @click="remove(data)">remove</button>-->
+                        <button class="btn btn-primary" @click="syalert.syopen('alert1',data)">删除</button>
+                        <!--                    <button class="label label-primary" @click="remove(data),syalert.syopen('alert2')">消息弹窗</button>-->
+                        <!--                    <button class="label label-primary" @click="syalert.syopen('alert3')">消息提示</button>-->
+                        <button class="btn btn-default" @click="syalert.syopen('alert4',data)">修改角色</button>
 
-                </td>
+                    </td>
 
-            </tr>
+                </tr>
 
-            </tbody>
+                </tbody>
 
-        </table>
-            <button type="button" class="btn btn-primary" click="syalert.syopen('alert5','null')">增加角色</button>
+            </table>
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-2 col-md-offset-6">
+                    <button class="btn btn-primary" @click="syalert.syopen('alert5',null)">增加角色</button>
+                </div>
+            </div>
+
+
         </div>
     </div>
     <div class="page-bar">

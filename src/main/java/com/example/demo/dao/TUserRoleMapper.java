@@ -1,5 +1,6 @@
 package com.example.demo.dao;
 
+import com.example.demo.dto.UserRoleinfoDto;
 import com.example.demo.entity.TUserRole;
 import com.example.demo.vo.KeyValueVo;
 import com.example.demo.vo.UserRolePo;
@@ -20,4 +21,8 @@ public interface TUserRoleMapper {
     int updateByPrimaryKey(TUserRole record);
 
     List<UserRolePo> selectUserRoleIfList(List<String> list);
+
+    int updateDeleteByUserFid(String userFid);
+
+    int insertList(List<TUserRole> list);
 }

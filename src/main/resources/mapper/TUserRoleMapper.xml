@@ -17,7 +17,7 @@
         select
         <include refid="Base_Column_List"/>
         from t_user_role
-        where id = #{id,jdbcType=INTEGER}
+        where id = #{id,jdbcType=INTEGER} and is_del=0
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from t_user_role
@@ -115,10 +115,18 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 
+    <update id="updateDeleteByUserFid" parameterType="java.lang.String">
+    update t_user_role
+    set
+      is_del = 1
+
+    where user_fid = #{userFid,jdbcType=INTEGER}
+  </update>
+
     <select id="selectUserRoleIfList" resultType="com.example.demo.vo.UserRolePo" parameterType="java.lang.String">
         select
         tur.id, tur.fid, tur.user_fid, tur.role_fid, tur.is_del, tur.create_time, tur.last_modify_time,tr.name as roleName
-        from t_user_role tur ,t_role tr where tur.role_fid=tr.fid
+        from t_user_role tur ,t_role tr where tur.role_fid=tr.fid and tr.is_del=0 and tur.is_del=0
         <if test="_parameter!=null and _parameter.size()>0">
             and user_fid in
             <foreach item="item" collection="list" separator="," open="(" close=")" index="">
@@ -126,4 +134,11 @@
             </foreach>
         </if>
     </select>
+    <insert id="insertList" parameterType="java.util.List">
+        insert into t_user_role(fid,user_fid,role_fid) values
+        <!--item就是List里每一项的对象名，要用","分割每一条数据，最后要";"结尾-->
+        <foreach collection="list" item="balance" separator="," close=";">
+            (#{balance.fid},#{balance.userFid},#{balance.roleFid})
+        </foreach>
+    </insert>
 </mapper>

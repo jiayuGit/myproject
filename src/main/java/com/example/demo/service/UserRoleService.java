@@ -83,9 +83,26 @@ public class UserRoleService {
         return pageResult;
     }
 
-    public String updateUserRoleinfo(UserRoleinfoDto dot) {
-        String res =null;
-        return res;
+
+    @Transactional
+    public String updateUserRoleinfo(UserRoleinfoDto dot) throws Exception {
+        int i = userRoleMapper.updateDeleteByUserFid(dot.getUuid());
+        if (dot.getList().isEmpty()){
+            return "ok";
+        }
+        List<TUserRole> collect = dot.getList().stream()
+                .map(v -> TUserRole
+                        .builder()
+                        .fid(UUID.randomUUID().toString())
+                        .userFid(dot.getUuid()).roleFid(v)
+                        .build())
+                .collect(Collectors.toList());
+
+        int i1 = userRoleMapper.insertList(collect);
+        if(i1!=dot.getList().size()){
+            throw new Exception("addRole添加失败"+dot+i);
+        }
+        return "ok";
     }
 
     public List<KeyValueVo> roleKeyValeList() {
@@ -123,6 +140,16 @@ public class UserRoleService {
         i = roleMapper.updateByFidSelective(role);
         if (i==0){
             throw new Exception("addRole添加失败"+role.toString());
+        }
+        return i;
+    }
+    @Transactional
+    public int delete(TRole role) throws Exception {
+        role.setIsDel(1);
+        int i = 0;
+        i = roleMapper.updateByFidSelective(role);
+        if (i==0){
+            throw new Exception("addRole删除失败"+role.toString());
         }
         return i;
     }

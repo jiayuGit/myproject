@@ -1,14 +1,7 @@
 package com.example.demo.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
-
 import java.util.Date;
 
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 public class TDepartmentPost {
     private Integer id;
 
@@ -16,11 +9,7 @@ public class TDepartmentPost {
 
     private String departmentFid;
 
-    private String departmentName;
-
     private String postFid;
-
-    private String postName;
 
     private Byte isDel;
 
@@ -52,28 +41,12 @@ public class TDepartmentPost {
         this.departmentFid = departmentFid == null ? null : departmentFid.trim();
     }
 
-    public String getDepartmentName() {
-        return departmentName;
-    }
-
-    public void setDepartmentName(String departmentName) {
-        this.departmentName = departmentName == null ? null : departmentName.trim();
-    }
-
     public String getPostFid() {
         return postFid;
     }
 
     public void setPostFid(String postFid) {
         this.postFid = postFid == null ? null : postFid.trim();
-    }
-
-    public String getPostName() {
-        return postName;
-    }
-
-    public void setPostName(String postName) {
-        this.postName = postName == null ? null : postName.trim();
     }
 
     public Byte getIsDel() {

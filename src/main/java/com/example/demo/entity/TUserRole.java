@@ -1,14 +1,7 @@
 package com.example.demo.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
-
 import java.util.Date;
 
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 public class TUserRole {
     private Integer id;
 
@@ -16,11 +9,7 @@ public class TUserRole {
 
     private String userFid;
 
-    private String userName;
-
     private String roleFid;
-
-    private String roleName;
 
     private Byte isDel;
 
@@ -52,28 +41,12 @@ public class TUserRole {
         this.userFid = userFid == null ? null : userFid.trim();
     }
 
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName == null ? null : userName.trim();
-    }
-
     public String getRoleFid() {
         return roleFid;
     }
 
     public void setRoleFid(String roleFid) {
         this.roleFid = roleFid == null ? null : roleFid.trim();
-    }
-
-    public String getRoleName() {
-        return roleName;
-    }
-
-    public void setRoleName(String roleName) {
-        this.roleName = roleName == null ? null : roleName.trim();
     }
 
     public Byte getIsDel() {

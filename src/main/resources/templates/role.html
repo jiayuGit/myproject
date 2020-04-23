@@ -11,19 +11,51 @@
 <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
 <link rel="stylesheet" href="/static/css/bootstrap-theme.min.css">
 
-<link rel="stylesheet" href="/static/css/animate.min.css" />
-<link rel="stylesheet" href="/static/css/syalert.min.css" />
+<link rel="stylesheet" href="/static/css/animate.min.css"/>
+<link rel="stylesheet" href="/static/css/syalert.min.css"/>
 
 <script type="text/javascript" src="/static/js/jquery.min.js"></script>
-<script src="/static/js/syalert.min.js"></script>
 
 <style type="text/css">
-    *{ margin:0px; padding:0px; box-sizing:border-box; }
-    *:focus{ outline:none;}
-    .tsm{ background:#333; font-size:13px; color:#fff; margin:20px; margin-top:0px; padding:12px; line-height:25px;}
-    .tsm .p2{ margin-top:12px;}
-    .btns{ padding:20px;}
-    .btns div{ display:block; text-align:center; cursor:pointer; padding:10px; border-radius:5px; background:#0CC; color:#fff; margin-bottom:12px; width:100%;}
+    * {
+        margin: 0px;
+        padding: 0px;
+        box-sizing: border-box;
+    }
+
+    *:focus {
+        outline: none;
+    }
+
+    .tsm {
+        background: #333;
+        font-size: 13px;
+        color: #fff;
+        margin: 20px;
+        margin-top: 0px;
+        padding: 12px;
+        line-height: 25px;
+    }
+
+    .tsm .p2 {
+        margin-top: 12px;
+    }
+
+    .btns {
+        padding: 20px;
+    }
+
+    .btns div {
+        display: block;
+        text-align: center;
+        cursor: pointer;
+        padding: 10px;
+        border-radius: 5px;
+        background: #0CC;
+        color: #fff;
+        margin-bottom: 12px;
+        width: 100%;
+    }
 </style>
 
 <script src="/static/js/util.js" type="text/javascript"></script>
@@ -38,7 +70,8 @@
         <div class="panel-heading">
             <center><h2>用户管理</h2></center>
         </div>
-        <table id="example-1" class="table table-bordered table-striped text-center">
+        <div id="example-1">
+        <table  class="table table-bordered table-striped text-center">
             <thead>
             <tr>
                 <th>
@@ -47,12 +80,12 @@
                 <th>
                     <center>角色名</center>
                 </th>
-<!--                <th>-->
-<!--                    <center>邮箱</center>-->
-<!--                </th>-->
-<!--                <th>-->
-<!--                    <center>角色列表</center>-->
-<!--                </th>-->
+                <!--                <th>-->
+                <!--                    <center>邮箱</center>-->
+                <!--                </th>-->
+                <!--                <th>-->
+                <!--                    <center>角色列表</center>-->
+                <!--                </th>-->
                 <th>
                     <center>修改时间</center>
                 </th>
@@ -66,29 +99,32 @@
             <tr v-for="(data,index) in pageDate.list">
                 <td>{{index+1}}</td>
                 <td>{{data.name}}</td>
-<!--                <td>{{data.emaill}}</td>-->
-<!--                <td>{{data.list}}</td>-->
+                <!--                <td>{{data.emaill}}</td>-->
+                <!--                <td>{{data.list}}</td>-->
                 <td>{{data.lastModifyTime}}</td>
                 <td>
                     <!--                    <button class="label label-primary" @click="remove(data)">remove</button>-->
                     <!--                    <button class="label label-primary" @click="syalert.syopen('alert1')">删除</button>-->
                     <!--                    <button class="label label-primary" @click="remove(data),syalert.syopen('alert2')">消息弹窗</button>-->
                     <!--                    <button class="label label-primary" @click="syalert.syopen('alert3')">消息提示</button>-->
-                    <button class="label label-primary" @click="syalert.syopen('alert4',data)">修改用户角色</button>
+                    <button class="label label-primary" @click="syalert.syopen('alert4',data)">修改角色</button>
+
                 </td>
 
             </tr>
+
             </tbody>
 
         </table>
-
+            <button type="button" class="btn btn-primary" click="syalert.syopen('alert5','null')">增加角色</button>
+        </div>
     </div>
     <div class="page-bar">
         <ul>
             <li v-if="cur>1"><a v-on:click="cur--,pageClick()">上一页</a></li>
             <li v-if="cur==1"><a class="banclick">上一页</a></li>
             <!--当前页背景色为蓝色-->
-            <li v-for="index in indexs"  v-bind:class="{ 'active': cur == index}">
+            <li v-for="index in indexs" v-bind:class="{ 'active': cur == index}">
                 <a v-on:click="btnClick(index)">{{ index }}</a>
             </li>
             <li v-if="cur<all"><a v-on:click="cur++,pageClick()">下一页</a></li>
@@ -96,6 +132,7 @@
             <li><a>共<i>{{all}}</i>页</a></li>
         </ul>
     </div>
+
 </div>
 
 
@@ -110,7 +147,8 @@
 </div>
 
 <!-- 消息弹窗 -->
-<div class="sy-alert sy-alert-alert animated" sy-enter="zoomIn" sy-leave="zoomOut" sy-type="alert" sy-mask="true" id="alert2">
+<div class="sy-alert sy-alert-alert animated" sy-enter="zoomIn" sy-leave="zoomOut" sy-type="alert" sy-mask="true"
+     id="alert2">
     <div class="sy-title">温馨提示</div>
     <div class="sy-content">删除成功！</div>
     <div class="sy-btn">
@@ -118,19 +156,19 @@
     </div>
 </div>
 
-<div  class="sy-alert sy-alert-model animated" sy-enter="zoomIn" sy-leave="zoomOut" sy-type="confirm" sy-mask="true" id="alert4">
-    <div class="sy-title">用户注册</div>
+<div class="sy-alert sy-alert-model animated" sy-enter="zoomIn" sy-leave="zoomOut" sy-type="confirm" sy-mask="true"
+     id="alert4">
+    <div class="sy-title">修改角色信息</div>
     <div class="sy-content">
         <div id='example-3' class="form">
-            <div >
-                <input type="checkbox" id="jack" value="Jack" v-model="checkedNames">
-                <label for="jack">Jack</label>
-                <input type="checkbox" id="john" value="John" v-model="checkedNames">
-                <label for="john">John</label>
-                <input type="checkbox" id="mike" value="Mike" v-model="checkedNames">
-                <label for="mike">Mike</label>
-                <br>
-                <span>Checked names: {{ checkedNames }}</span>
+            <div>
+                <label for="jack">角色名</label>
+                <input type="input" id="jack" v-model="role.name"><br>
+                <!--                <label for="john">John</label>-->
+                <!--                <input type="input" id="john" value="John" v-model="checkedNames"><br>-->
+                <!--                <label for="mike">Mike</label>-->
+                <!--                <input type="input" id="mike" value="Mike" v-model="checkedNames"><br>-->
+                <!--                <span>Checked names: {{ role }}</span>-->
             </div>
         </div>
     </div>
@@ -139,6 +177,28 @@
         <button onClick="ok('alert4')">确定</button>
     </div>
 </div>
+<div class="sy-alert sy-alert-model animated" sy-enter="zoomIn" sy-leave="zoomOut" sy-type="confirm" sy-mask="true"
+     id="alert5">
+    <div class="sy-title">修改角色信息</div>
+    <div class="sy-content">
+        <div id='example-5' class="form">
+            <div>
+                <label for="roleName">角色名</label>
+                <input type="input" id="roleName" v-model="role.name"><br>
+                <!--                <label for="john">John</label>-->
+                <!--                <input type="input" id="john" value="John" v-model="checkedNames"><br>-->
+                <!--                <label for="mike">Mike</label>-->
+                <!--                <input type="input" id="mike" value="Mike" v-model="checkedNames"><br>-->
+                <!--                <span>Checked names: {{ role }}</span>-->
+            </div>
+        </div>
+    </div>
+    <div class="sy-btn">
+        <button onClick="syalert.syhide('alert5')">取消</button>
+        <button onClick="ok('alert5')">确定</button>
+    </div>
+</div>
+
 </body>
 
 <script type="text/javascript">

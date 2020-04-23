@@ -1,14 +1,7 @@
 package com.example.demo.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
-
 import java.util.Date;
 
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 public class TUserPost {
     private Integer id;
 
@@ -16,11 +9,7 @@ public class TUserPost {
 
     private String userFid;
 
-    private String userName;
-
     private String postFid;
-
-    private String postName;
 
     private Byte isLeader;
 
@@ -54,28 +43,12 @@ public class TUserPost {
         this.userFid = userFid == null ? null : userFid.trim();
     }
 
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName == null ? null : userName.trim();
-    }
-
     public String getPostFid() {
         return postFid;
     }
 
     public void setPostFid(String postFid) {
         this.postFid = postFid == null ? null : postFid.trim();
-    }
-
-    public String getPostName() {
-        return postName;
-    }
-
-    public void setPostName(String postName) {
-        this.postName = postName == null ? null : postName.trim();
     }
 
     public Byte getIsLeader() {

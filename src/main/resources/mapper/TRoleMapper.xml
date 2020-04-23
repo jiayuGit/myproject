@@ -99,6 +99,24 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <update id="updateByFidSelective" parameterType="com.example.demo.entity.TRole" >
+    update t_role
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="isDel != null" >
+        is_del = #{isDel,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastModifyTime != null" >
+        last_modify_time = #{lastModifyTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where fid = #{fid,jdbcType=INTEGER}
+  </update>
   <update id="updateByPrimaryKey" parameterType="com.example.demo.entity.TRole" >
     update t_role
     set fid = #{fid,jdbcType=VARCHAR},

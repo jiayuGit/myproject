@@ -1,37 +1,23 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.dao.TUserRoleMapper">
     <resultMap id="BaseResultMap" type="com.example.demo.entity.TUserRole">
-        <id column="id" property="id" jdbcType="INTEGER"/>
-        <result column="fid" property="fid" jdbcType="VARCHAR"/>
-        <result column="user_fid" property="userFid" jdbcType="VARCHAR"/>
-        <result column="user_name" property="userName" jdbcType="VARCHAR"/>
-        <result column="role_fid" property="roleFid" jdbcType="VARCHAR"/>
-        <result column="role_name" property="roleName" jdbcType="VARCHAR"/>
-        <result column="is_del" property="isDel" jdbcType="TINYINT"/>
-        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
-        <result column="last_modify_time" property="lastModifyTime" jdbcType="TIMESTAMP"/>
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="fid" jdbcType="VARCHAR" property="fid"/>
+        <result column="user_fid" jdbcType="VARCHAR" property="userFid"/>
+        <result column="role_fid" jdbcType="VARCHAR" property="roleFid"/>
+        <result column="is_del" jdbcType="TINYINT" property="isDel"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="last_modify_time" jdbcType="TIMESTAMP" property="lastModifyTime"/>
     </resultMap>
     <sql id="Base_Column_List">
-    id, fid, user_fid, user_name, role_fid, role_name, is_del, create_time, last_modify_time
+    id, fid, user_fid, role_fid, is_del, create_time, last_modify_time
   </sql>
-    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from t_user_role
         where id = #{id,jdbcType=INTEGER}
-    </select>
-
-    <select id="selectUserRoleIfList" resultMap="BaseResultMap" parameterType="java.lang.String">
-        select
-        <include refid="Base_Column_List"/>
-        from t_user_role
-        <if test="_parameter!=null and _parameter.size()>0">
-            where user_fid in
-            <foreach item="item" collection="list" separator="," open="(" close=")" index="">
-                #{item, jdbcType=VARCHAR}
-            </foreach>
-        </if>
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from t_user_role
@@ -39,13 +25,11 @@
   </delete>
     <insert id="insert" parameterType="com.example.demo.entity.TUserRole">
     insert into t_user_role (id, fid, user_fid, 
-      user_name, role_fid, role_name, 
-      is_del, create_time, last_modify_time
-      )
+      role_fid, is_del, create_time, 
+      last_modify_time)
     values (#{id,jdbcType=INTEGER}, #{fid,jdbcType=VARCHAR}, #{userFid,jdbcType=VARCHAR}, 
-      #{userName,jdbcType=VARCHAR}, #{roleFid,jdbcType=VARCHAR}, #{roleName,jdbcType=VARCHAR}, 
-      #{isDel,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, #{lastModifyTime,jdbcType=TIMESTAMP}
-      )
+      #{roleFid,jdbcType=VARCHAR}, #{isDel,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{lastModifyTime,jdbcType=TIMESTAMP})
   </insert>
     <insert id="insertSelective" parameterType="com.example.demo.entity.TUserRole">
         insert into t_user_role
@@ -59,14 +43,8 @@
             <if test="userFid != null">
                 user_fid,
             </if>
-            <if test="userName != null">
-                user_name,
-            </if>
             <if test="roleFid != null">
                 role_fid,
-            </if>
-            <if test="roleName != null">
-                role_name,
             </if>
             <if test="isDel != null">
                 is_del,
@@ -88,14 +66,8 @@
             <if test="userFid != null">
                 #{userFid,jdbcType=VARCHAR},
             </if>
-            <if test="userName != null">
-                #{userName,jdbcType=VARCHAR},
-            </if>
             <if test="roleFid != null">
                 #{roleFid,jdbcType=VARCHAR},
-            </if>
-            <if test="roleName != null">
-                #{roleName,jdbcType=VARCHAR},
             </if>
             <if test="isDel != null">
                 #{isDel,jdbcType=TINYINT},
@@ -117,14 +89,8 @@
             <if test="userFid != null">
                 user_fid = #{userFid,jdbcType=VARCHAR},
             </if>
-            <if test="userName != null">
-                user_name = #{userName,jdbcType=VARCHAR},
-            </if>
             <if test="roleFid != null">
                 role_fid = #{roleFid,jdbcType=VARCHAR},
-            </if>
-            <if test="roleName != null">
-                role_name = #{roleName,jdbcType=VARCHAR},
             </if>
             <if test="isDel != null">
                 is_del = #{isDel,jdbcType=TINYINT},
@@ -142,12 +108,22 @@
     update t_user_role
     set fid = #{fid,jdbcType=VARCHAR},
       user_fid = #{userFid,jdbcType=VARCHAR},
-      user_name = #{userName,jdbcType=VARCHAR},
       role_fid = #{roleFid,jdbcType=VARCHAR},
-      role_name = #{roleName,jdbcType=VARCHAR},
       is_del = #{isDel,jdbcType=TINYINT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       last_modify_time = #{lastModifyTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+    <select id="selectUserRoleIfList" resultType="com.example.demo.vo.UserRolePo" parameterType="java.lang.String">
+        select
+        tur.id, tur.fid, tur.user_fid, tur.role_fid, tur.is_del, tur.create_time, tur.last_modify_time,tr.name as roleName
+        from t_user_role tur ,t_role tr where tur.role_fid=tr.fid
+        <if test="_parameter!=null and _parameter.size()>0">
+            and user_fid in
+            <foreach item="item" collection="list" separator="," open="(" close=")" index="">
+                #{item, jdbcType=VARCHAR}
+            </foreach>
+        </if>
+    </select>
 </mapper>

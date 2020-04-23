@@ -38,7 +38,7 @@ public class ScheduleConfig {
 
 //    @Autowired
 //    Executor executor;
-    @Scheduled(cron = "0/1 * * * * *")
+//    @Scheduled(cron = "0/1 * * * * *")
     public void schedule(){
       log.info("时间={} Thread={} size={}", LocalDateTime.now(),Thread.currentThread().getName(),taskScheduler.getPoolSize());
         try {

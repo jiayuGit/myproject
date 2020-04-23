@@ -7,19 +7,19 @@ import com.example.demo.dto.UserRoleinfoDto;
 import com.example.demo.entity.TRole;
 import com.example.demo.entity.TUser;
 import com.example.demo.entity.TUserRole;
-import com.example.demo.vo.KeyValueVo;
-import com.example.demo.vo.PageResult;
-import com.example.demo.vo.UserRoleVo;
+import com.example.demo.util.DateUtilFormate;
+import com.example.demo.vo.*;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.thymeleaf.util.DateUtils;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
@@ -76,7 +76,7 @@ public class UserRoleService {
                 .total(objects.getTotal())
                 .build();
         List<String> collect = tUsers.stream().map(TUser::getUuid).collect(Collectors.toList());
-        List<TUserRole> userRoleList =  userRoleMapper.selectUserRoleIfList(collect);
+        List<UserRolePo> userRoleList =  userRoleMapper.selectUserRoleIfList(collect);
         userRoleList.stream().forEach(v->
                 map.get(v.getUserFid()).getList().add(
                         KeyValueVo.builder().value(String.valueOf(v.getRoleFid())).text(v.getRoleName()).build()));
@@ -98,9 +98,9 @@ public class UserRoleService {
     public PageResult roleList(BasicPageDto dto) {
         Page<Object> objects = PageHelper.startPage(dto.getStartPage(), dto.getPageSize());
         List<TRole> res = roleMapper.selectRole();
-
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DateUtilFormate.DATEFORMAT_6);
         PageResult build = PageResult.builder()
-                .data(res)
+                .data(res.stream().map(v-> TRoleVo.builder().fid(v.getFid()).name(v.getName()).lastModifyTime(simpleDateFormat.format(v.getLastModifyTime())).build()).collect(Collectors.toList()))
                 .total(objects.getTotal())
                 .build();
         return build;
@@ -112,6 +112,15 @@ public class UserRoleService {
         int i = 0;
         role.setFid(UUID.randomUUID().toString());
         i = roleMapper.insertSelective(role);
+        if (i==0){
+            throw new Exception("addRole添加失败"+role.toString());
+        }
+        return i;
+    }
+    @Transactional
+    public int updata(TRole role) throws Exception {
+        int i = 0;
+        i = roleMapper.updateByFidSelective(role);
         if (i==0){
             throw new Exception("addRole添加失败"+role.toString());
         }

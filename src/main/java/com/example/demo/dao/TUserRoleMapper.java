@@ -1,6 +1,8 @@
 package com.example.demo.dao;
 
 import com.example.demo.entity.TUserRole;
+import com.example.demo.vo.KeyValueVo;
+import com.example.demo.vo.UserRolePo;
 
 import java.util.List;
 
@@ -17,5 +19,5 @@ public interface TUserRoleMapper {
 
     int updateByPrimaryKey(TUserRole record);
 
-    List<TUserRole> selectUserRoleIfList(List<String> collect);
+    List<UserRolePo> selectUserRoleIfList(List<String> list);
 }

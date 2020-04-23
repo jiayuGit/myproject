@@ -17,7 +17,8 @@ function httpClient(method, path, request, then, err) {
         if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
             // console.log(xmlHttp.getResponseHeader('content-type'));
             if (xmlHttp.getResponseHeader(content_type) === applction_json) {
-                let data = method + path + JSON.parse(xmlHttp.responseText) + path;
+                console.log( method + path + JSON.parse(xmlHttp.responseText) + path)
+                let data = JSON.parse(xmlHttp.responseText);
                 if (data.code === 0) {
                     // console.log(JSON.stringify(data.data))
                     then(data.data);

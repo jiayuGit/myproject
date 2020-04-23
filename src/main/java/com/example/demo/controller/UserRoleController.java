@@ -7,6 +7,7 @@ import com.example.demo.entity.TRole;
 import com.example.demo.entity.TUser;
 import com.example.demo.model.Result;
 import com.example.demo.service.UserRoleService;
+import com.example.demo.util.Check;
 import com.example.demo.vo.KeyValueVo;
 import com.example.demo.vo.PageResult;
 import io.swagger.annotations.Api;
@@ -94,5 +95,20 @@ public class UserRoleController {
         return Result.ok();
     }
 
+    @PostMapping(path = "/updata",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ApiOperation(value = "修改系统角色接口",produces = MediaType.APPLICATION_JSON_UTF8_VALUE,response = Result.class)
+    public Result updata(@RequestBody TRole role){
+        if (Check.NuNObj(role)||Check.NuNStr(role.getFid())){
+            return Result.fail("fid不能为空");
+        }
+        try {
+            userRoleService.updata(role);
+        }catch (Exception e){
+            log.error("修改系统角色接口e={} params={}",e,role);
+            Result.fail("修改失败");
+        }
+
+        return Result.ok();
+    }
 
 }

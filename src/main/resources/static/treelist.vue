@@ -2,6 +2,7 @@
 <div>
     <ul>
         <li   >
+
             <span @click="isshow()">{{treelist.name}}</span>
                 <tree  v-for="item in treelist.children"
                     v-if="isFolder"

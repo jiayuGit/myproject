@@ -229,28 +229,35 @@ function ok(id) {
 
 let all = {
     name: 'all',
+    isChoice:false,
     children: {
         A: {
             name: 'A',
+            isChoice:false,
             children: {
                 a1: {
                     name: 'a1',
+                    isChoice:false,
                     children: {
                         a11: {
                             name: 'a11',
+                            isChoice:false,
                             children: null
                         },
                         a12: {
                             name: 'a12',
+                            isChoice:false,
                             children: null
                         }
                     }
                 },
                 a2: {
                     name: 'a2',
+                    isChoice:false,
                     children: {
                         b21: {
                             name: 'b21',
+                            isChoice:false,
                             children: null
                         }
                     }
@@ -259,25 +266,31 @@ let all = {
         },
         B: {
             name: 'B',
+            isChoice:false,
             children: {
                 b1: {
                     name: 'b1',
+                    isChoice:false,
                     children: {
                         b11: {
                             name: 'b11',
+                            isChoice:false,
                             children: null
                         },
                         b12: {
                             name: 'b12',
+                            isChoice:false,
                             children: null
                         }
                     }
                 },
                 b2: {
                     name: 'b2',
+                    isChoice:false,
                     children: {
                         b21: {
                             name: 'b21',
+                            isChoice:false,
                             children: null
                         }
                     }
@@ -296,7 +309,8 @@ const example6 = new Vue({
                 '<div>\n' +
                 '    <ul>\n' +
                 '        <li   >\n' +
-                '            <span @click="isshow()">{{treelist.name}}</span>\n' +
+                ' <input type="checkbox" :checked="treelist.isChoice" name="checkboxinput" class="input-checkbox" @click="isChoice()">'+
+                '            <span @click="isshow()"> {{treelist.name}}</span>\n' +
                 '                <tree  v-for="item in treelist.children"   \n' +
                 '                    v-if="isFolder"\n' +
                 '                    v-show="open" \n' +
@@ -311,7 +325,8 @@ const example6 = new Vue({
             props: ['treelist'],
             data() {
                 return {
-                    open: false
+                    open: false,
+                    treelist:treelist
                 }
             }, computed: {
                 isFolder: function () {
@@ -323,6 +338,13 @@ const example6 = new Vue({
                     if (this.isFolder) {
                         this.open = !this.open
                     }
+                },
+                isChoice(){
+                    console.log(treelist!==null);
+                    if (treelist.isChoice) {
+                        treelist.isChoice = !treelist.isChoice
+                    }
+                    console.log(treelist.nabla+treelist.isChoice)
                 }
             }
         }

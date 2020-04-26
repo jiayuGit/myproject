@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -27,12 +26,13 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class TRoleVo implements Serializable {
+public class AuthVo implements Serializable {
     private String fid;
+
 
     private String name;
 
-    private List<Object> list;
+    private String authorityPath;
 
     private String lastModifyTime;
 }

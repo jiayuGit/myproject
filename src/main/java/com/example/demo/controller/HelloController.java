@@ -26,6 +26,19 @@ public class HelloController {
         request.setAttribute("token",token);
         return "role";
     }
+
+    @GetMapping("/menuAuth")
+    public String menuAuth(HttpServletRequest request,String token){
+        log.info("menuAuth{}",request.getRequestedSessionId()+token);
+        request.setAttribute("token",token);
+        return "menuAuth";
+    }
+    @GetMapping("/auth")
+    public String auth(HttpServletRequest request,String token){
+        log.info("auth{}",request.getRequestedSessionId()+token);
+        request.setAttribute("token",token);
+        return "auth";
+    }
     @GetMapping("/index")
     public String index(HttpServletRequest request,String token){
         log.info("访问index{}",request.getRequestedSessionId()+token);

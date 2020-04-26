@@ -194,7 +194,6 @@ function ok(id) {
 }
 
 var example3Data = {
-    checkedNames: [],
     updataId: '',
     fruits: [],
     fruitIds: [],

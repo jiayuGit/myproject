@@ -4,15 +4,14 @@
   <resultMap id="BaseResultMap" type="com.example.demo.entity.TAuthority" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="fid" property="fid" jdbcType="VARCHAR" />
-    <result column="user_fid" property="userFid" jdbcType="VARCHAR" />
-    <result column="user_name" property="userName" jdbcType="VARCHAR" />
-    <result column="role_fid" property="roleFid" jdbcType="VARCHAR" />
+    <result column="authority_name" property="authorityName" jdbcType="VARCHAR" />
+    <result column="authority_path" property="authorityPath" jdbcType="VARCHAR" />
     <result column="is_del" property="isDel" jdbcType="TINYINT" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="last_modify_time" property="lastModifyTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, fid, user_fid, user_name, role_fid, is_del, create_time, last_modify_time
+    id, fid, authority_name, authority_path, is_del, create_time, last_modify_time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -25,12 +24,12 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.example.demo.entity.TAuthority" >
-    insert into t_authority (id, fid, user_fid, 
-      user_name, role_fid, is_del, 
-      create_time, last_modify_time)
-    values (#{id,jdbcType=INTEGER}, #{fid,jdbcType=VARCHAR}, #{userFid,jdbcType=VARCHAR}, 
-      #{userName,jdbcType=VARCHAR}, #{roleFid,jdbcType=VARCHAR}, #{isDel,jdbcType=TINYINT}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{lastModifyTime,jdbcType=TIMESTAMP})
+    insert into t_authority (id, fid, authority_name, 
+      authority_path, is_del, create_time, 
+      last_modify_time)
+    values (#{id,jdbcType=INTEGER}, #{fid,jdbcType=VARCHAR}, #{authorityName,jdbcType=VARCHAR}, 
+      #{authorityPath,jdbcType=VARCHAR}, #{isDel,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{lastModifyTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.example.demo.entity.TAuthority" >
     insert into t_authority
@@ -41,14 +40,11 @@
       <if test="fid != null" >
         fid,
       </if>
-      <if test="userFid != null" >
-        user_fid,
+      <if test="authorityName != null" >
+        authority_name,
       </if>
-      <if test="userName != null" >
-        user_name,
-      </if>
-      <if test="roleFid != null" >
-        role_fid,
+      <if test="authorityPath != null" >
+        authority_path,
       </if>
       <if test="isDel != null" >
         is_del,
@@ -67,14 +63,11 @@
       <if test="fid != null" >
         #{fid,jdbcType=VARCHAR},
       </if>
-      <if test="userFid != null" >
-        #{userFid,jdbcType=VARCHAR},
+      <if test="authorityName != null" >
+        #{authorityName,jdbcType=VARCHAR},
       </if>
-      <if test="userName != null" >
-        #{userName,jdbcType=VARCHAR},
-      </if>
-      <if test="roleFid != null" >
-        #{roleFid,jdbcType=VARCHAR},
+      <if test="authorityPath != null" >
+        #{authorityPath,jdbcType=VARCHAR},
       </if>
       <if test="isDel != null" >
         #{isDel,jdbcType=TINYINT},
@@ -93,14 +86,11 @@
       <if test="fid != null" >
         fid = #{fid,jdbcType=VARCHAR},
       </if>
-      <if test="userFid != null" >
-        user_fid = #{userFid,jdbcType=VARCHAR},
+      <if test="authorityName != null" >
+        authority_name = #{authorityName,jdbcType=VARCHAR},
       </if>
-      <if test="userName != null" >
-        user_name = #{userName,jdbcType=VARCHAR},
-      </if>
-      <if test="roleFid != null" >
-        role_fid = #{roleFid,jdbcType=VARCHAR},
+      <if test="authorityPath != null" >
+        authority_path = #{authorityPath,jdbcType=VARCHAR},
       </if>
       <if test="isDel != null" >
         is_del = #{isDel,jdbcType=TINYINT},
@@ -117,12 +107,48 @@
   <update id="updateByPrimaryKey" parameterType="com.example.demo.entity.TAuthority" >
     update t_authority
     set fid = #{fid,jdbcType=VARCHAR},
-      user_fid = #{userFid,jdbcType=VARCHAR},
-      user_name = #{userName,jdbcType=VARCHAR},
-      role_fid = #{roleFid,jdbcType=VARCHAR},
+      authority_name = #{authorityName,jdbcType=VARCHAR},
+      authority_path = #{authorityPath,jdbcType=VARCHAR},
       is_del = #{isDel,jdbcType=TINYINT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       last_modify_time = #{lastModifyTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+
+  <select id="selectAuth" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_authority where is_del=0
+  </select>
+
+
+  <update id="updateByFidSelective" parameterType="com.example.demo.entity.TAuthority" >
+    update t_authority
+    <set >
+      <if test="authorityName != null" >
+        authority_name = #{authorityName,jdbcType=VARCHAR},
+      </if>
+      <if test="isDel != null" >
+        is_del = #{isDel,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastModifyTime != null" >
+        last_modify_time = #{lastModifyTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where fid = #{fid,jdbcType=INTEGER}
+  </update>
+
+
+  <update id="updateDeleteByMenuFid" parameterType="java.lang.String">
+    update t_authority
+    set
+      is_del = 1
+    where menu_fid = #{fid,jdbcType=INTEGER}
+  </update>
+
+
 </mapper>

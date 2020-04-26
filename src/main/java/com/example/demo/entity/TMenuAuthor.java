@@ -7,20 +7,21 @@ import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
+
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class TAuthority {
+@Builder
+public class TMenuAuthor {
     private Integer id;
 
     private String fid;
 
-    private String authorityName;
+    private String menuFid;
 
-    private String authorityPath;
+    private String authFid;
 
-    private Integer isDel;
+    private Byte isDel;
 
     private Date createTime;
 

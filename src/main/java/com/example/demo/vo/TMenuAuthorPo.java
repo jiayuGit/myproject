@@ -1,4 +1,4 @@
-package com.example.demo.entity;
+package com.example.demo.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,24 +7,27 @@ import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
+
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class TAuthority {
+@Builder
+public class TMenuAuthorPo {
     private Integer id;
 
     private String fid;
 
-    private String authorityName;
+    private String menuFid;
 
-    private String authorityPath;
+    private String authFid;
 
-    private Integer isDel;
+    private Byte isDel;
 
     private Date createTime;
 
     private Date lastModifyTime;
+
+    private String authorityName;
 
 
 }

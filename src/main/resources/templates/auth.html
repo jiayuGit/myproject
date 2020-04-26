@@ -78,14 +78,14 @@
                         <center>序号</center>
                     </th>
                     <th>
-                        <center>角色名</center>
+                        <center>权限名</center>
                     </th>
                     <!--                <th>-->
                     <!--                    <center>邮箱</center>-->
                     <!--                </th>-->
-                    <!--                <th>-->
-                    <!--                    <center>角色列表</center>-->
-                    <!--                </th>-->
+                    <th>
+                        <center>权限地址</center>
+                    </th>
                     <th>
                         <center>修改时间</center>
                     </th>
@@ -99,7 +99,7 @@
                 <tr v-for="(data,index) in pageDate.list">
                     <td>{{index+1}}</td>
                     <td>{{data.name}}</td>
-                    <!--                <td>{{data.emaill}}</td>-->
+                    <td>{{data.authorityPath}}</td>
                     <!--                <td>{{data.list}}</td>-->
                     <td>{{data.lastModifyTime}}</td>
                     <td>
@@ -107,8 +107,8 @@
                         <button class="btn btn-primary" @click="syalert.syopen('alert1',data)">删除</button>
                         <!--                    <button class="label label-primary" @click="remove(data),syalert.syopen('alert2')">消息弹窗</button>-->
                         <!--                    <button class="label label-primary" @click="syalert.syopen('alert3')">消息提示</button>-->
-                        <button class="btn btn-default" @click="syalert.syopen('alert4',data)">修改角色</button>
-                        <button class="btn btn-default" @click="syalert.syopen('alert6',data)">角色权限角色</button>
+                        <button class="btn btn-default" @click="syalert.syopen('alert4',data)">修改权限接口</button>
+<!--                        <button class="btn btn-default" @click="syalert.syopen('alert6',data)">角色权限角色</button>-->
                     </td>
 
                 </tr>
@@ -119,7 +119,7 @@
             <div class="row">
                 <div class="col-md-4"></div>
                 <div class="col-md-2 col-md-offset-6">
-                    <button class="btn btn-primary" @click="syalert.syopen('alert5',null)">增加角色</button>
+                    <button class="btn btn-primary" @click="syalert.syopen('alert5',null)">添加权限接口</button>
                 </div>
             </div>
 
@@ -165,12 +165,14 @@
 
 <div class="sy-alert sy-alert-model animated" sy-enter="zoomIn" sy-leave="zoomOut" sy-type="confirm" sy-mask="true"
      id="alert4">
-    <div class="sy-title">修改角色信息</div>
+    <div class="sy-title">修改权限信息</div>
     <div class="sy-content">
         <div id='example-3' class="form">
             <div>
-                <label for="jack">角色名</label>
-                <input type="input" id="jack" v-model="role.name"><br>
+                <label for="name"> 权限接口名 </label>
+                <input type="input" id="name" v-model="role.name"><br>
+                <label for="authorityPath">权限接口地址</label>
+                <input type="input" id="authorityPath" v-model="role.authorityPath"><br>
                 <!--                <label for="john">John</label>-->
                 <!--                <input type="input" id="john" value="John" v-model="checkedNames"><br>-->
                 <!--                <label for="mike">Mike</label>-->
@@ -186,12 +188,15 @@
 </div>
 <div class="sy-alert sy-alert-model animated" sy-enter="zoomIn" sy-leave="zoomOut" sy-type="confirm" sy-mask="true"
      id="alert5">
-    <div class="sy-title">修改角色信息</div>
+    <div class="sy-title">添加权限接口</div>
     <div class="sy-content">
         <div id='example-5' class="form">
             <div>
                 <label for="roleName">角色名</label>
                 <input type="input" id="roleName" v-model="role.name"><br>
+                <label for="authorityPath5">权限名</label>
+                <input type="input" id="authorityPath5" v-model="role.authorityPath"><br>
+
                 <!--                <label for="john">John</label>-->
                 <!--                <input type="input" id="john" value="John" v-model="checkedNames"><br>-->
                 <!--                <label for="mike">Mike</label>-->
@@ -205,13 +210,37 @@
         <button onClick="ok('alert5')">确定</button>
     </div>
 </div>
-
+<div class="sy-alert sy-alert-model animated" sy-enter="zoomIn" sy-leave="zoomOut" sy-type="confirm" sy-mask="true"
+     id="alert6">
+    <div class="sy-title">修改角色菜单</div>
+    <div class="sy-content">
+        <div id='example-6' class="form">
+            <div>
+                <input type='checkbox' class='input-checkbox'
+                       :checked="fruitIds!==null&&fruitIds.length === fruits.length"
+                       @click='checkedAll(fruitIds.length !== fruits.length)'>全选
+                <div v-for='(fruit, index) in fruits' :key="index">
+                    <!--判断fruitIds是否包含当前fruit，fruitIds.indexOf(fruit.fruitId)返回包含fruit的下标, 若不包含则返回-1-->
+                    <input type='checkbox' :checked="fruitIds.indexOf(fruit.value)>=0" name='checkboxinput'
+                           class='input-checkbox' @click='checkedOne(fruit.value)'>
+                    <label>{{fruit.text}}</label>
+                </div>
+                <!--默认删除按钮不能点击, 当选中某一checkbox时可以删除-->
+                <!--                <button :disabled="!fruitIds.length>0" value="Delete" @click="deleteFruits()">Delete</button>-->
+            </div>
+        </div>
+    </div>
+    <div class="sy-btn">
+        <button onClick="syalert.syhide('alert6')">取消</button>
+        <button onClick="ok('alert6')">确定</button>
+    </div>
+</div>
 
 </body>
 
 <script type="text/javascript">
 
 </script>
-<script src="/static/js/role.js" type="text/javascript"></script>
+<script src="/static/js/auth.js" type="text/javascript"></script>
 
 </html>

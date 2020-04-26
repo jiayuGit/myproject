@@ -19,6 +19,7 @@ public class SendDataService {
     @Resource(name = "redisTemplateSerializable")
     private RedisTemplate<String,Serializable> redisTemplate;
 
+
     @Autowired
     private MailService mailService;
     public void sendAuthCode(EmaillDto emaillDto){

@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.dto.*;
 import com.example.demo.entity.TAuthority;
+import com.example.demo.entity.TMenu;
 import com.example.demo.entity.TRole;
 import com.example.demo.model.Result;
 import com.example.demo.service.MenuAuthorityService;
@@ -52,6 +53,18 @@ public class MenuAuthorityController {
             return Result.fail("服务器异常");
         }
     }
+    @PostMapping(path = "/all",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ApiOperation(value = "查询菜单接口",produces = MediaType.APPLICATION_JSON_UTF8_VALUE,response = Result.class)
+    public Result all(){
+        try {
+            List<KeyValueVo> menus = menuAuthorityService.all();
+            return Result.ok(menus);
+        }catch (Exception e){
+            log.error("查询菜单接口e={}",e);
+            return Result.fail("服务器异常");
+        }
+    }
+
     @PostMapping(path = "/updateAuth",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ApiOperation(value = "修改菜单权限接口",produces = MediaType.APPLICATION_JSON_UTF8_VALUE,response = Result.class)
     public Result updateMenuAuth(@RequestBody MenuAuthinfoDto dot){
@@ -96,6 +109,18 @@ public class MenuAuthorityController {
             menuAuthorityService.addAuth(auth);
         }catch (Exception e){
             log.error("添加系统权限接口e={} params={}",e,auth);
+            Result.fail("添加失败");
+        }
+
+        return Result.ok();
+    }
+    @PostMapping(path = "/addMenu",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ApiOperation(value = "添加菜单接口",produces = MediaType.APPLICATION_JSON_UTF8_VALUE,response = Result.class)
+    public Result addMenu(@RequestBody TMenu menu){
+        try {
+            menuAuthorityService.addMenu(menu);
+        }catch (Exception e){
+            log.error("添加系统权限接口e={} params={}",e,menu);
             Result.fail("添加失败");
         }
 

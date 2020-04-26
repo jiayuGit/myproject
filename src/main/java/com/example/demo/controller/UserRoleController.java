@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.BasicPageDto;
+import com.example.demo.dto.RoleMenuinfoDto;
 import com.example.demo.dto.UserRoleinfoDto;
 import com.example.demo.dto.UserRolePageDto;
 import com.example.demo.entity.TRole;
@@ -63,6 +64,21 @@ public class UserRoleController {
         }
         try {
             String data = userRoleService.updateUserRoleinfo(dot);
+            return Result.ok(data);
+        } catch (Exception e) {
+            log.error("修改用户角色错误e={} params={}",e,dot);
+            return Result.fail("修改用户角色错误");
+        }
+
+    }
+    @PostMapping(path = "/updateMenu",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ApiOperation(value = "修改用户角色接口",produces = MediaType.APPLICATION_JSON_UTF8_VALUE,response = Result.class)
+    public Result updateupdateMenuinfo(@RequestBody RoleMenuinfoDto dot){
+        if (Check.NuNStr(dot.getFid())){
+            return Result.fail("修改用户fid不能为空");
+        }
+        try {
+            String data = userRoleService.updateupdateMenuinfo(dot);
             return Result.ok(data);
         } catch (Exception e) {
             log.error("修改用户角色错误e={} params={}",e,dot);

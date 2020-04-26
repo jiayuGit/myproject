@@ -32,7 +32,7 @@ public class TRoleVo implements Serializable {
 
     private String name;
 
-    private List<Object> list;
+    private List<KeyValueVo> list;
 
     private String lastModifyTime;
 }

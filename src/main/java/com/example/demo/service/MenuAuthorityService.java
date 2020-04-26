@@ -143,4 +143,19 @@ public class MenuAuthorityService {
         }
         return i;
     }
+
+    public List<KeyValueVo> all() {
+        List<TMenu> tMenus =  tMenuMapper.selectMenuPage();
+        return tMenus.stream().map(v->KeyValueVo.builder().text(v.getMenuName()).value(v.getFid()).build()).collect(Collectors.toList());
+    }
+    @Transactional
+    public int addMenu(TMenu menu) throws Exception {
+        int i = 0;
+        menu.setFid(UUID.randomUUID().toString());
+        i = tMenuMapper.insertSelective(menu);
+        if (i==0){
+            throw new Exception("menu添加失败"+menu.toString());
+        }
+        return i;
+    }
 }

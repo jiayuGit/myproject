@@ -2,9 +2,11 @@ package com.example.demo.service;
 
 import com.example.demo.dao.*;
 import com.example.demo.dto.BasicPageDto;
+import com.example.demo.dto.RoleMenuinfoDto;
 import com.example.demo.dto.UserRolePageDto;
 import com.example.demo.dto.UserRoleinfoDto;
 import com.example.demo.entity.TRole;
+import com.example.demo.entity.TRoleMenu;
 import com.example.demo.entity.TUser;
 import com.example.demo.entity.TUserRole;
 import com.example.demo.util.DateUtilFormate;
@@ -40,9 +42,9 @@ import java.util.stream.Collectors;
 public class UserRoleService {
     @Autowired
     private TUserMapper userMapper;
-//
-//    @Autowired
-//    private TUserPostMapper userPostMapper;
+
+    @Autowired
+    private TRoleMenuMapper roleMenuMapper;
     @Autowired
     private TUserRoleMapper userRoleMapper;
 //    @Autowired
@@ -105,6 +107,29 @@ public class UserRoleService {
         return "ok";
     }
 
+    @Transactional
+    public String updateupdateMenuinfo(RoleMenuinfoDto dot) throws Exception {
+        int i = roleMenuMapper.updateDeleteByRoleFid(dot.getFid());
+        if (dot.getList().isEmpty()){
+            return "ok";
+        }
+        List<TRoleMenu> collect = dot.getList().stream()
+                .map(v -> TRoleMenu
+                        .builder()
+                        .fid(UUID.randomUUID().toString())
+                        .roleFid(dot.getFid()).menuFid(v)
+                        .build())
+                .collect(Collectors.toList());
+
+        int i1 = roleMenuMapper.insertList(collect);
+        if(i1!=dot.getList().size()){
+            throw new Exception("addRole添加失败"+dot+i);
+        }
+        return "ok";
+    }
+
+
+
     public List<KeyValueVo> roleKeyValeList() {
         List<TRole> res = roleMapper.selectRole();
 
@@ -115,12 +140,26 @@ public class UserRoleService {
     public PageResult roleList(BasicPageDto dto) {
         Page<Object> objects = PageHelper.startPage(dto.getStartPage(), dto.getPageSize());
         List<TRole> res = roleMapper.selectRole();
+        List<TRoleVo> list  = new ArrayList<>(res.size());
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DateUtilFormate.DATEFORMAT_6);
-        PageResult build = PageResult.builder()
-                .data(res.stream().map(v-> TRoleVo.builder().fid(v.getFid()).name(v.getName()).lastModifyTime(simpleDateFormat.format(v.getLastModifyTime())).build()).collect(Collectors.toList()))
+        Map<String, TRoleVo> map = res.stream().map(v -> {
+            TRoleVo build = TRoleVo.builder()
+                    .fid(v.getFid()).name(v.getName()).lastModifyTime(simpleDateFormat.format(v.getLastModifyTime()))
+                    .list(new ArrayList<>())
+                    .build();
+            list.add(build);
+            return build;
+        }).collect(Collectors.toMap(k -> k.getFid(), v -> v, (k1, k2) -> k1));
+        PageResult pageResult = PageResult.builder()
+                .data(list)
                 .total(objects.getTotal())
                 .build();
-        return build;
+        List<String> collect = res.stream().map(TRole::getFid).collect(Collectors.toList());
+        List<RoleMenuPo> roleMenuPos= roleMenuMapper.selectRoleMenuList(collect);
+        roleMenuPos.stream().forEach(v->
+                map.get(v.getRoleFid()).getList().add(
+                        KeyValueVo.builder().value(String.valueOf(v.getMenuFid())).text(v.getMenuName()).build()));
+        return pageResult;
     }
 
 

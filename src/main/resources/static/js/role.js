@@ -25,6 +25,13 @@ var example5Data = {
         name: ''
     }
 };
+var example6Data = {
+    updataId: '',
+    fruits: [],
+    fruitIds: [],
+    // 初始化全选按钮, 默认不选
+    isCheckedAll: false
+};
 var example3 = new Vue({
     el: '#example-3',
     data: example3Data
@@ -33,12 +40,23 @@ var example5 = new Vue({
     el: '#example-5',
     data: example5Data
 });
+
 var syalert = function () {
     return {
         syopen: function (id, data) {
             if (data !== null) {
                 example3Data.role.fid = data.fid;
                 example3Data.role.name = data.name;
+                var list=data.list;
+                example6Data.updataId=data.fid;
+                console.log(JSON.stringify(list))
+                if (list!==null){
+
+                    example6Data.fruitIds=[];
+                    list.forEach(v =>{
+                        example6Data.fruitIds.push(v.value);
+                    })
+                }
             }
             var dom = $("#" + id);
             this.sycenter(dom);
@@ -224,9 +242,92 @@ function ok(id) {
                 console.log(JSON.stringify(err));
             })
     }
+    if (id === 'alert6') {
+        httpClient('POST', '/role/updateMenu',
+            {
+                fid: example6Data.updataId,
+                list:example6Data.fruitIds
+            },
+            function (data) {
+                selectPage(pageButton.cur, pageSize);
+            },
+            function (err) {
+                console.log(JSON.stringify(err));
+            })
+    }
     syalert.syhide(id);
 }
 
+function selectAuthPage(pageNub, size) {
+    let xmlHttp = new XMLHttpRequest();
+    xmlHttp.onreadystatechange = function (ev) {
+        if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
+            console.log(xmlHttp.getResponseHeader('content-type'));
+            if (xmlHttp.getResponseHeader(content_type) === applction_json) {
+                let data = JSON.parse(xmlHttp.responseText);
+                if (data.code === 0) {
+                    example6Data.fruits = data.data;
+                    console.log("/menu/all"+JSON.stringify(data.data))
+                    return;
+                } else {
+                    nologin(data.message);
+                }
 
 
+            } else {
+                console.log(xmlHttp.responseText);
+                nologin('服务器正在抢修中!!');
+            }
 
+        }
+    }
+    xmlHttp.open("POST", servicePate + '/menu/all', true);
+    xmlHttp.setRequestHeader('content-type', 'application/json');
+    xmlHttp.setRequestHeader('access-token', getToken());
+    xmlHttp.send(JSON.stringify({
+        startPage: pageNub !== null ? pageNub : 1,
+        pageSize: size != null ? size : 10
+    }));
+}
+
+
+var example6 = new Vue({
+    el: '#example-6',
+    data() {
+        return example6Data
+    },
+    methods: {
+        checkedOne(fruitId) {
+            let idIndex = this.fruitIds.indexOf(fruitId)
+
+            if (idIndex >= 0) {
+                // 如果已经包含了该id, 则去除(单选按钮由选中变为非选中状态)
+                this.fruitIds.splice(idIndex, 1)
+                console.log("存在")
+            } else {
+                // 选中该checkbox
+                this.fruitIds.push(fruitId)
+                console.log("不存在")
+            }
+            console.log(JSON.stringify(this.fruitIds))
+        },
+        checkedAll(data) {
+            this.isCheckedAll = data
+            console.log(data)
+            if (data) {
+                // 全选时
+                this.fruitIds = []
+                this.fruits.forEach(function (fruit) {
+                    this.fruitIds.push(fruit.value)
+                }, this)
+            } else {
+                this.fruitIds = []
+            }
+            console.log(JSON.stringify(this.fruitIds))
+        },
+        deleteFruits() {
+
+        }
+    }
+});
+selectAuthPage(1, 100);

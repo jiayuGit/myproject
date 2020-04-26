@@ -143,12 +143,12 @@
   </update>
 
 
-  <update id="updateDeleteByMenuFid" parameterType="java.lang.String">
-    update t_authority
-    set
-      is_del = 1
-    where menu_fid = #{fid,jdbcType=INTEGER}
-  </update>
+  <!--<update id="updateDeleteByMenuFid" parameterType="java.lang.String">-->
+    <!--update t_authority-->
+    <!--set-->
+      <!--is_del = 1-->
+    <!--where menu_fid = #{fid,jdbcType=INTEGER}-->
+  <!--</update>-->
 
 
 </mapper>

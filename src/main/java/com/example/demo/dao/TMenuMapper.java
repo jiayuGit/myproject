@@ -18,4 +18,6 @@ public interface TMenuMapper {
     int updateByPrimaryKey(TMenu record);
 
     List<TMenu> selectMenuPage();
+
+    int updateByFidSelective(TMenu tMenu);
 }

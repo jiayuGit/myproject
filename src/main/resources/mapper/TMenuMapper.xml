@@ -21,7 +21,7 @@
   <select id="selectMenuPage" resultMap="BaseResultMap" >
     select
     <include refid="Base_Column_List" />
-    from t_menu
+    from t_menu where is_del=0
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_menu
@@ -99,6 +99,26 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <update id="updateByFidSelective" parameterType="com.example.demo.entity.TMenu" >
+    update t_menu
+    <set >
+      <if test="menuName != null" >
+        menu_name = #{menuName,jdbcType=VARCHAR},
+      </if>
+      <if test="isDel != null" >
+        is_del = #{isDel,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastModifyTime != null" >
+        last_modify_time = #{lastModifyTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where fid = #{fid,jdbcType=INTEGER}
+  </update>
+
   <update id="updateByPrimaryKey" parameterType="com.example.demo.entity.TMenu" >
     update t_menu
     set fid = #{fid,jdbcType=VARCHAR},

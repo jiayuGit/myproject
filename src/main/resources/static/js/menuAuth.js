@@ -206,7 +206,7 @@ var pageBar = new Vue({
 function ok(id) {
     console.log(id)
     if ('alert1' === id) {
-        httpClient('POST', '/role/delete',
+        httpClient('POST', '/menu/deleteMenu',
             {
                 fid: example3Data.role.fid
             },
@@ -218,10 +218,10 @@ function ok(id) {
             })
     }
     if (id === 'alert4') {
-        httpClient('POST', '/role/updata',
+        httpClient('POST', '/menu/upMenu',
             {
                 fid: example3Data.role.fid,
-                name: example3Data.role.name
+                menuName: example3Data.role.name
             },
             function (data) {
                 selectPage(pageButton.cur, pageSize);
@@ -231,9 +231,9 @@ function ok(id) {
             })
     }
     if (id === 'alert5') {
-        httpClient('POST', '/role/add',
+        httpClient('POST', '/menu/addMenu',
             {
-                name: example5Data.role.name
+                menuName: example5Data.role.name
             },
             function (data) {
                 selectPage(pageButton.cur, pageSize);
@@ -243,7 +243,7 @@ function ok(id) {
             })
     }
     if (id === 'alert6') {
-        httpClient('POST', '/role/updateMenu',
+        httpClient('POST', '/menu/updateAuth',
             {
                 fid: example6Data.updataId,
                 list:example6Data.fruitIds

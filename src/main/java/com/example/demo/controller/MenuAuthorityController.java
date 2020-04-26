@@ -142,6 +142,25 @@ public class MenuAuthorityController {
 
         return Result.ok();
     }
+
+    @PostMapping(path = "/upMenu",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ApiOperation(value = "修改系统权限接口",produces = MediaType.APPLICATION_JSON_UTF8_VALUE,response = Result.class)
+    public Result upMenu(@RequestBody TMenu tMenu){
+        if (Check.NuNObj(tMenu)||Check.NuNStr(tMenu.getFid())){
+            return Result.fail("fid不能为空");
+        }
+        if(Check.NuNStr(tMenu.getMenuName())){
+            return Result.fail("名称不能为空");
+        }
+        try {
+            menuAuthorityService.upMenu(tMenu);
+        }catch (Exception e){
+            log.error("修改系统角色接口e={} params={}",e,tMenu);
+            Result.fail("修改失败");
+        }
+
+        return Result.ok();
+    }
     @PostMapping(path = "/delete",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ApiOperation(value = "修改系统角色接口",produces = MediaType.APPLICATION_JSON_UTF8_VALUE,response = Result.class)
     public Result delete(@RequestBody TAuthority auth){
@@ -152,6 +171,21 @@ public class MenuAuthorityController {
             menuAuthorityService.delete(auth);
         }catch (Exception e){
             log.error("修改系统角色接口e={} params={}",e,auth);
+            Result.fail("修改失败");
+        }
+
+        return Result.ok();
+    }
+    @PostMapping(path = "/deleteMenu",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ApiOperation(value = "修改系统角色接口",produces = MediaType.APPLICATION_JSON_UTF8_VALUE,response = Result.class)
+    public Result deleteMenu(@RequestBody TMenu menu){
+        if (Check.NuNObj(menu)||Check.NuNStr(menu.getFid())){
+            return Result.fail("fid不能为空");
+        }
+        try {
+            menuAuthorityService.deleteMenu(menu);
+        }catch (Exception e){
+            log.error("修改系统角色接口e={} params={}",e,menu);
             Result.fail("修改失败");
         }
 

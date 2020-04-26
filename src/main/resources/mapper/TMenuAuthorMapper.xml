@@ -33,7 +33,7 @@
   </select>
 
   <insert id="insertList" parameterType="java.util.List">
-    insert into t_user_role(fid,menu_fid,auth_fid) values
+    insert into t_menu_author(fid,menu_fid,auth_fid) values
     <!--item就是List里每一项的对象名，要用","分割每一条数据，最后要";"结尾-->
     <foreach collection="list" item="balance" separator="," close=";">
       (#{balance.fid},#{balance.menuFid},#{balance.authFid})
@@ -134,5 +134,12 @@
       create_time = #{createTime,jdbcType=TIMESTAMP},
       last_modify_time = #{lastModifyTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateDeleteByMenuFid" parameterType="java.lang.String">
+    update t_menu_author
+    set
+      is_del = 1
+    where menu_fid = #{fid,jdbcType=INTEGER}
   </update>
 </mapper>

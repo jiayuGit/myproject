@@ -104,7 +104,7 @@ public class MenuAuthorityService {
 
     @Transactional
     public String updateMenuAuth(MenuAuthinfoDto dot) throws Exception {
-        int i = authorityMapper.updateDeleteByMenuFid(dot.getFid());
+        int i = menuAuthorMapper.updateDeleteByMenuFid(dot.getFid());
         if (dot.getList().isEmpty()){
             return "ok";
         }
@@ -129,7 +129,7 @@ public class MenuAuthorityService {
         int i = 0;
         i = authorityMapper.updateByFidSelective(auth);
         if (i==0){
-            throw new Exception("addRole添加失败"+auth.toString());
+            throw new Exception("authorityupdateByFidSelective失败"+auth.toString());
         }
         return i;
     }
@@ -140,6 +140,16 @@ public class MenuAuthorityService {
         i = authorityMapper.updateByFidSelective(auth);
         if (i==0){
             throw new Exception("addRole删除失败"+auth.toString());
+        }
+        return i;
+    }
+    @Transactional
+    public int deleteMenu(TMenu menu) throws Exception {
+        menu.setIsDel(1);
+        int i = 0;
+        i = tMenuMapper.updateByFidSelective(menu);
+        if (i==0){
+            throw new Exception("addRole删除失败"+menu.toString());
         }
         return i;
     }
@@ -155,6 +165,15 @@ public class MenuAuthorityService {
         i = tMenuMapper.insertSelective(menu);
         if (i==0){
             throw new Exception("menu添加失败"+menu.toString());
+        }
+        return i;
+    }
+
+    public int upMenu(TMenu tMenu) throws Exception {
+        int i = 0;
+        i = tMenuMapper.updateByFidSelective(tMenu);
+        if (i==0){
+            throw new Exception("authorityupdateByFidSelective失败"+tMenu.toString());
         }
         return i;
     }

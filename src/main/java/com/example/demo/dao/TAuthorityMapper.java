@@ -19,7 +19,7 @@ public interface TAuthorityMapper {
 
     List<TAuthority> selectAuth();
 
-    int updateDeleteByMenuFid(String fid);
+//    int updateDeleteByMenuFid(String fid);
 
     int updateByFidSelective(TAuthority auth);
 }

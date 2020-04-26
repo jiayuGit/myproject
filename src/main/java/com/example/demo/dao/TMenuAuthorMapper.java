@@ -21,4 +21,6 @@ public interface TMenuAuthorMapper {
     List<TMenuAuthorPo> selectMenuAuthList(List<String> collect);
 
     int insertList(List<TMenuAuthor> collect);
+
+    int updateDeleteByMenuFid(String fid);
 }

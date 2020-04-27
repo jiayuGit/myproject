@@ -53,6 +53,10 @@ var example5 = new Vue({
 var syalert = function () {
     return {
         syopen: function (id, data) {
+            if(id==='alert5'){
+                example5Data.role.name = '';
+                example5Data.role.authorityPath='';
+            }
             if (data !== null) {
                 example3Data.role.fid = data.fid;
                 example3Data.role.name = data.name;

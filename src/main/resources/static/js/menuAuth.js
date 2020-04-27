@@ -281,7 +281,7 @@ function selectAuthPage(pageNub, size) {
 
         }
     }
-    xmlHttp.open("POST", servicePate + '/menu/all', true);
+    xmlHttp.open("POST", servicePate + '/menu/listKey', true);
     xmlHttp.setRequestHeader('content-type', 'application/json');
     xmlHttp.setRequestHeader('access-token', getToken());
     xmlHttp.send(JSON.stringify({

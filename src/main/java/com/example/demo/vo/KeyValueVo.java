@@ -24,6 +24,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class KeyValueVo {
+    private String value2;
     private String value;
     private String text;
 }

@@ -29,5 +29,7 @@ public class TMenuAuthorPo {
 
     private String authorityName;
 
+    private String authorityPath;
+
 
 }

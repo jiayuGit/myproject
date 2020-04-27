@@ -22,8 +22,8 @@
 
   <select id="selectMenuAuthList" resultType="com.example.demo.vo.TMenuAuthorPo" parameterType="java.lang.String">
     select
-    tma.id, tma.fid, tma.menu_fid, tma.auth_fid, tma.is_del, tma.create_time, tma.last_modify_time,ta.authority_name
-    from t_menu_author tma ,t_authority ta where tma.auth_fid=ta.fid and ta.is_del=0 and ta.is_del=0
+    tma.id, tma.fid, tma.menu_fid, tma.auth_fid, tma.is_del, tma.create_time, tma.last_modify_time,ta.authority_name,ta.authority_path
+    from t_menu_author tma ,t_authority ta where tma.auth_fid=ta.fid and tma.is_del=0 and ta.is_del=0
     <if test="_parameter!=null and _parameter.size()>0">
       and tma.menu_fid in
       <foreach item="item" collection="list" separator="," open="(" close=")" index="">
@@ -140,6 +140,6 @@
     update t_menu_author
     set
       is_del = 1
-    where menu_fid = #{fid,jdbcType=INTEGER}
+    where menu_fid = #{fid,jdbcType=VARCHAR}
   </update>
 </mapper>

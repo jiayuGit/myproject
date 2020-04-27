@@ -68,7 +68,7 @@
 <div style="padding:20px;" id="app">
     <div class="panel panel-primary">
         <div class="panel-heading">
-            <center><h2>用户管理</h2></center>
+            <center><h2>权限管理</h2></center>
         </div>
         <div id="example-1">
             <table class="table table-bordered table-striped text-center">
@@ -192,9 +192,9 @@
     <div class="sy-content">
         <div id='example-5' class="form">
             <div>
-                <label for="roleName">角色名</label>
-                <input type="input" id="roleName" v-model="role.name"><br>
-                <label for="authorityPath5">权限名</label>
+                <label for="authname">权限名</label>
+                <input type="input" id="authname" v-model="role.name"><br>
+                <label for="authorityPath5">权限地址</label>
                 <input type="input" id="authorityPath5" v-model="role.authorityPath"><br>
 
                 <!--                <label for="john">John</label>-->
@@ -212,7 +212,7 @@
 </div>
 <div class="sy-alert sy-alert-model animated" sy-enter="zoomIn" sy-leave="zoomOut" sy-type="confirm" sy-mask="true"
      id="alert6">
-    <div class="sy-title">修改角色菜单</div>
+    <div class="sy-title">修改权限</div>
     <div class="sy-content">
         <div id='example-6' class="form">
             <div>

@@ -68,7 +68,7 @@
 <div style="padding:20px;" id="app">
     <div class="panel panel-primary">
         <div class="panel-heading">
-            <center><h2>用户管理</h2></center>
+<!--            <center><h2>用户管理</h2></center>-->
         </div>
         <div id="example-1">
             <table class="table table-bordered table-striped text-center">
@@ -102,7 +102,7 @@
                     <td>
                         <label >
                             <div v-for='(da, index) in data.list' :key="index">
-                                {{da.text}} <br>
+                                {{da.text}} ： {{da.value2}}
                             </div>
                         </label>
                     </td>
@@ -113,7 +113,7 @@
                         <!--                    <button class="label label-primary" @click="remove(data),syalert.syopen('alert2')">消息弹窗</button>-->
                         <!--                    <button class="label label-primary" @click="syalert.syopen('alert3')">消息提示</button>-->
                         <button class="btn btn-default" @click="syalert.syopen('alert4',data)">修改菜单</button>
-                        <button class="btn btn-default" @click="syalert.syopen('alert6',data)">角色权限角色</button>
+                        <button class="btn btn-default" @click="syalert.syopen('alert6',data)">修改菜单权限</button>
                     </td>
 
                 </tr>

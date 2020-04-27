@@ -68,7 +68,7 @@ public class MenuAuthorityService {
         List<TMenuAuthorPo> authorityList =  menuAuthorMapper.selectMenuAuthList(collect);
         authorityList.stream().forEach(v->
                 map.get(v.getMenuFid()).getList().add(
-                        KeyValueVo.builder().value(String.valueOf(v.getFid())).text(v.getAuthorityName()).build()));
+                        KeyValueVo.builder().value(String.valueOf(v.getAuthFid())).text(v.getAuthorityName()).value2(v.getAuthorityPath()).build()));
         return pageResult;
     }
 
@@ -89,7 +89,7 @@ public class MenuAuthorityService {
 
     public List<KeyValueVo> authKeyValeList() {
         List<TAuthority> res = authorityMapper.selectAuth();
-        return res.stream().map(v->KeyValueVo.builder().value(v.getFid()).text(v.getAuthorityName()).build()).collect(Collectors.toList());
+        return res.stream().map(v->KeyValueVo.builder().value(v.getFid()).text(v.getAuthorityName()).value2(v.getAuthorityPath()).build()).collect(Collectors.toList());
     }
     @Transactional
     public int addAuth(TAuthority  role) throws Exception {

@@ -12,6 +12,8 @@ public class TMenu {
 
     private String menuName;
 
+    private String path;
+
     private Integer isDel;
 
     private Date createTime;

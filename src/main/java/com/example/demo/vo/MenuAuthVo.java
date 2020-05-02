@@ -32,6 +32,8 @@ public class MenuAuthVo {
 
     private String name;
 
+    private String path;
+
     private Date lastModifyTime;
 
     private List<KeyValueVo> list;

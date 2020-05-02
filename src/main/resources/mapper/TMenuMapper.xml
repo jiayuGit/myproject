@@ -18,9 +18,9 @@
     from t_menu
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <select id="selectMenuPage" resultMap="BaseResultMap" >
+  <select id="selectMenuPage" resultType="com.example.demo.entity.TMenu" >
     select
-    <include refid="Base_Column_List" />
+    *
     from t_menu where is_del=0
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
@@ -47,6 +47,9 @@
       <if test="menuName != null" >
         menu_name,
       </if>
+      <if test="path != null" >
+        path,
+      </if>
       <if test="isDel != null" >
         is_del,
       </if>
@@ -66,6 +69,9 @@
       </if>
       <if test="menuName != null" >
         #{menuName,jdbcType=VARCHAR},
+      </if>
+      <if test="path != null" >
+        #{path,jdbcType=VARCHAR},
       </if>
       <if test="isDel != null" >
         #{isDel,jdbcType=TINYINT},
@@ -87,6 +93,9 @@
       <if test="menuName != null" >
         menu_name = #{menuName,jdbcType=VARCHAR},
       </if>
+      <if test="path != null" >
+        path =#{path,jdbcType=VARCHAR},
+      </if>
       <if test="isDel != null" >
         is_del = #{isDel,jdbcType=TINYINT},
       </if>
@@ -105,6 +114,9 @@
     <set >
       <if test="menuName != null" >
         menu_name = #{menuName,jdbcType=VARCHAR},
+      </if>
+      <if test="path != null" >
+        path =#{path,jdbcType=VARCHAR},
       </if>
       <if test="isDel != null" >
         is_del = #{isDel,jdbcType=TINYINT},

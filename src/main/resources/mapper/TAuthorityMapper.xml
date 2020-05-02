@@ -129,6 +129,9 @@
       <if test="authorityName != null" >
         authority_name = #{authorityName,jdbcType=VARCHAR},
       </if>
+      <if test="authorityPath != null" >
+        authority_path= #{authorityPath,jdbcType=VARCHAR},
+      </if>
       <if test="isDel != null" >
         is_del = #{isDel,jdbcType=TINYINT},
       </if>

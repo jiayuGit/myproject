@@ -22,7 +22,8 @@ var example3Data = {
 };
 var example5Data = {
     role: {
-        name: ''
+        name: '',
+        path:''
     }
 };
 var example6Data = {
@@ -47,6 +48,7 @@ var syalert = function () {
             if (data !== null) {
                 example3Data.role.fid = data.fid;
                 example3Data.role.name = data.name;
+                example3Data.role.path = data.path;
                 var list=data.list;
                 example6Data.updataId=data.fid;
                 console.log(JSON.stringify(list))
@@ -221,7 +223,8 @@ function ok(id) {
         httpClient('POST', '/menu/upMenu',
             {
                 fid: example3Data.role.fid,
-                menuName: example3Data.role.name
+                menuName: example3Data.role.name,
+                path:example3Data.role.path
             },
             function (data) {
                 selectPage(pageButton.cur, pageSize);
@@ -233,7 +236,8 @@ function ok(id) {
     if (id === 'alert5') {
         httpClient('POST', '/menu/addMenu',
             {
-                menuName: example5Data.role.name
+                menuName: example5Data.role.name,
+                path:example5Data.role.path
             },
             function (data) {
                 selectPage(pageButton.cur, pageSize);

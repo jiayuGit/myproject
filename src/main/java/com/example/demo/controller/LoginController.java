@@ -1,7 +1,9 @@
 package com.example.demo.controller;
 
+import com.example.demo.dao.TMenuMapper;
 import com.example.demo.dto.BasicPageDto;
 import com.example.demo.dto.RegisterDto;
+import com.example.demo.entity.TMenu;
 import com.example.demo.entity.TUser;
 import com.example.demo.model.Result;
 import com.example.demo.service.LoginService;
@@ -34,6 +36,19 @@ public class LoginController {
     private StringRedisTemplate stringRedisTemplate;
     @Resource(name = "redisTemplateSerializable")
     private RedisTemplate<String, Serializable> redisTemplate;
+
+    @Autowired
+    private TMenuMapper menuMapper;
+
+    @GetMapping(path = "/menu",
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ApiOperation(value = "登录接口",notes = "登录接口",response = Result.class,produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public Result menu() {
+
+        List<TMenu> tMenus = menuMapper.selectMenuPage();
+
+        return Result.ok(tMenus);
+    }
 
     @PostMapping(path = "/logoing",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)

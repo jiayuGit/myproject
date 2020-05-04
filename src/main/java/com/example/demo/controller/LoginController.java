@@ -40,7 +40,7 @@ public class LoginController {
     @Autowired
     private TMenuMapper menuMapper;
 
-    @GetMapping(path = "/menu",
+    @PostMapping(path = "/menu",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ApiOperation(value = "登录接口",notes = "登录接口",response = Result.class,produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Result menu() {

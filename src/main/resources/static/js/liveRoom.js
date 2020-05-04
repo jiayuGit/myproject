@@ -49,7 +49,7 @@ function setChang_bw(pc,count) {
         .catch(function (reason) { console.log(reason) });
 }
 try {
-    let url = 'wss://' + window.location.host + '' +
+    let url = 'ws://' + window.location.host + '' +
         '/websocket/1';
     websocket = new WebSocket(url);
 }catch (e) {

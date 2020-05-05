@@ -234,9 +234,12 @@
   <select id="selectFlowNode" resultType="com.example.demo.vo.FlowNodeVo" parameterType="java.lang.String">
     select
     tfn.id, tfn.fid, tfn.node_name,tfn.flow_fid , tfn.role_fid, tfn.remark, tfn.state, tfn.parent_fid, tfn.next_fid, tfn.is_del, tfn.last_modify_by,
-    tfn.last_modify_fid, tfn.create_time, tfn.last_modify_time,tu.name userName
-    from t_flow_node as tfn,t_flow as tf,t_user as tu where tfn.flow_fid=tf.fid and tf.user_fid=tu.uuid and is_del=0 and state=1
-    and tfn.role_fid in
+    tfn.last_modify_fid, tfn.create_time, tfn.last_modify_time,tu.name userName,tf.remark flowRemark
+    from t_flow_node as tfn,t_flow as tf,t_user as tu
+    WHERE  tfn.flow_fid = tf.fid and  tf.user_fid = tu.uuid
+    AND tu.is_del = 0 AND tfn.is_del = 0 AND tf.is_del = 0
+    AND tfn.state = 1 and
+    tfn.role_fid in
     <foreach item="item" collection="list" separator="," open="(" close=")" index="">
       #{item, jdbcType=VARCHAR}
     </foreach>

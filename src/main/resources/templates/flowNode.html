@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <title>角色管理</title>
+</head>
+<link rel="stylesheet" href="/static/css/util.css">
+<!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+<link rel="stylesheet" href="/static/css/bootstrap.min.css">
+<!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
+<link rel="stylesheet" href="/static/css/bootstrap-theme.min.css">
+
+<link rel="stylesheet" href="/static/css/animate.min.css"/>
+<link rel="stylesheet" href="/static/css/syalert.min.css"/>
+
+<script type="text/javascript" src="/static/js/jquery.min.js"></script>
+
+<style type="text/css">
+    * {
+        margin: 0px;
+        padding: 0px;
+        box-sizing: border-box;
+    }
+
+    *:focus {
+        outline: none;
+    }
+
+    .tsm {
+        background: #333;
+        font-size: 13px;
+        color: #fff;
+        margin: 20px;
+        margin-top: 0px;
+        padding: 12px;
+        line-height: 25px;
+    }
+
+    .tsm .p2 {
+        margin-top: 12px;
+    }
+
+    .btns {
+        padding: 20px;
+    }
+
+    .btns div {
+        display: block;
+        text-align: center;
+        cursor: pointer;
+        padding: 10px;
+        border-radius: 5px;
+        background: #0CC;
+        color: #fff;
+        margin-bottom: 12px;
+        width: 100%;
+    }
+    .allUtil{
+        width: 1200px;
+        height: 100%;
+    }
+</style>
+
+<script src="/static/js/util.js" type="text/javascript"></script>
+<script src="/static/js/vue.js" type="text/javascript"></script>
+<body>
+<ul class="nav nav-pills nav-stacked">
+
+</ul>
+
+<div style="padding:20px;"  id="app">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <center><h2>审批流程</h2></center>
+        </div>
+        <div id="example-1">
+            <table class="table table-bordered table-striped text-center">
+                <thead>
+                <tr>
+                    <th>
+                        <center>序号</center>
+                    </th>
+                    <th>
+                        <center>申请内容</center>
+                    </th>
+                    <th>
+                        <center>申请人</center>
+                    </th>
+                    <th>
+                        <center>审批状态</center>
+                    </th>
+                    <th>
+                        <center>申请备注</center>
+                    </th>
+                    <!--                <th>-->
+                    <!--                    <center>角色列表</center>-->
+                    <!--                </th>-->
+                    <th>
+                        <center>修改时间</center>
+                    </th>
+                    <th>
+                        <center>操作</center>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <!--<tr v-for="(item,index) in items" :key="item.message">-->
+                <tr v-for="(data,index) in pageDate.list">
+                    <td>{{index+1}}</td>
+                    <td>{{data.nodeName}}</td>
+                    <td>{{data.userName}}</td>
+                    <td>{{data.stateName}}</td>
+                    <td>{{data.flowRemark}}</td>
+                    <!--<td>-->
+                        <!--<label >-->
+                            <!--<div v-for='(da, index) in data.list' :key="index">-->
+                                <!--{{da.text}} ： {{da.value2}}-->
+                            <!--</div>-->
+                        <!--</label>-->
+                    <!--</td>-->
+                    <td>{{data.lastModifyTime}}</td>
+                    <td>
+                        <!--                    <button class="label label-primary" @click="remove(data)">remove</button>-->
+                        <button class="btn btn-primary" @click="syalert.syopen('alert1',data)">通过</button>
+                        <button class="btn btn-primary" @click="syalert.syopen('alert3',data)">驳回</button>
+                        <!--                    <button class="label label-primary" @click="remove(data),syalert.syopen('alert2')">消息弹窗</button>-->
+                        <!--                    <button class="label label-primary" @click="syalert.syopen('alert3')">消息提示</button>-->
+                        <!--<button class="btn btn-default" @click="syalert.syopen('alert4',data)">修改菜单</button>-->
+                        <!--<button class="btn btn-default" @click="syalert.syopen('alert6',data)">修改菜单权限</button>-->
+                    </td>
+
+                </tr>
+
+                </tbody>
+
+            </table>
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-2 col-md-offset-6">
+                    <button class="btn btn-primary" @click="syalert.syopen('alert5',null)">新建流程</button>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+    <div class="page-bar">
+        <ul>
+            <li v-if="cur>1"><a v-on:click="cur--,pageClick()">上一页</a></li>
+            <li v-if="cur==1"><a class="banclick">上一页</a></li>
+            <!--当前页背景色为蓝色-->
+            <li v-for="index in indexs" v-bind:class="{ 'active': cur == index}">
+                <a v-on:click="btnClick(index)">{{ index }}</a>
+            </li>
+            <li v-if="cur<all"><a v-on:click="cur++,pageClick()">下一页</a></li>
+            <li v-if="cur == all"><a class="banclick">下一页</a></li>
+            <li><a>共<i>{{all}}</i>页</a></li>
+        </ul>
+    </div>
+
+</div>
+
+
+<!-- 确认弹窗 -->
+<div class="sy-alert animated" sy-enter="zoomIn" sy-leave="zoomOut" sy-type="confirm" sy-mask="true" id="alert1">
+    <div class="sy-title">温馨提示</div>
+    <div class="sy-content">是否通过？</div>
+    <div class="sy-btn">
+        <button onClick="syalert.syhide('alert1')">取消</button>
+        <button onClick="ok('alert1')">确定</button>
+    </div>
+</div>
+<div class="sy-alert animated" sy-enter="zoomIn" sy-leave="zoomOut" sy-type="confirm" sy-mask="true" id="alert3">
+    <div class="sy-title">温馨提示</div>
+    <div class="sy-content">是否驳回？</div>
+    <div class="sy-btn">
+        <button onClick="syalert.syhide('alert3')">取消</button>
+        <button onClick="ok('alert1')">确定</button>
+    </div>
+</div>
+
+<!-- 消息弹窗 -->
+<div class="sy-alert sy-alert-alert animated" sy-enter="zoomIn" sy-leave="zoomOut" sy-type="alert" sy-mask="true"
+     id="alert2">
+    <div class="sy-title">温馨提示</div>
+    <div class="sy-content">删除成功！</div>
+    <div class="sy-btn">
+        <button onClick="ok('alert2')">确定</button>
+    </div>
+</div>
+
+<div class="sy-alert sy-alert-model animated" sy-enter="zoomIn" sy-leave="zoomOut" sy-type="confirm" sy-mask="true"
+     id="alert4">
+    <div class="sy-title">修改菜单信息</div>
+    <div class="sy-content">
+        <div id='example-3' class="form">
+            <div>
+                <label for="jack">菜单名</label>
+                <input type="input" id="jack" v-model="role.name"><br>
+                <label for="menupath">菜单地址</label>
+                <input type="input" id="menupath" v-model="role.path"><br>
+                <!--                <label for="john">John</label>-->
+                <!--                <input type="input" id="john" value="John" v-model="checkedNames"><br>-->
+                <!--                <label for="mike">Mike</label>-->
+                <!--                <input type="input" id="mike" value="Mike" v-model="checkedNames"><br>-->
+                <!--                <span>Checked names: {{ role }}</span>-->
+            </div>
+        </div>
+    </div>
+    <div class="sy-btn">
+        <button onClick="syalert.syhide('alert4')">取消</button>
+        <button onClick="ok('alert4')">确定</button>
+    </div>
+</div>
+<div class="sy-alert sy-alert-model animated" sy-enter="zoomIn" sy-leave="zoomOut" sy-type="confirm" sy-mask="true"
+     id="alert5">
+    <div class="sy-title">添加菜单</div>
+    <div class="sy-content">
+        <div id='example-5' class="form">
+            <div>
+                <label for="flowName">流程名称</label>
+                <input type="input" id="flowName" v-model="flow.flowName"><br>
+                <label for="remark">备注</label>
+                <input type="input" id="remark" v-model="flow.remark"><br>
+                <div v-for='(data, index) in form.list' :key="index">
+                    <label>选择审批人{{index+1}}</label>
+                    <select v-model="data.roleFid">
+                        <option v-for="item in items" v-bind:value="item.value" >{{item.text}}</option>
+                    </select>
+                    <!--<span>已选:{{selected}}</span>-->
+                    <br>
+                    <label>审批内容</label>
+                    <input type="input" v-model="data.nodeName">
+                    <button @click="delAdministrator(index)">删除</button>
+                </div>
+                <button @click="addAdministrator()">添加</button>
+                <!--                <label for="john">John</label>-->
+                <!--                <input type="input" id="john" value="John" v-model="checkedNames"><br>-->
+                <!--                <label for="mike">Mike</label>-->
+                <!--                <input type="input" id="mike" value="Mike" v-model="checkedNames"><br>-->
+                <!--                <span>Checked names: {{ role }}</span>-->
+            </div>
+        </div>
+    </div>
+    <div class="sy-btn">
+        <button onClick="syalert.syhide('alert5')">取消</button>
+        <button onClick="ok('alert5')">确定</button>
+    </div>
+</div>
+<div  class="sy-alert sy-alert-model animated" sy-enter="zoomIn" sy-leave="zoomOut" sy-type="confirm" sy-mask="true" id="alert6">
+    <div class="sy-title">修改角色菜单</div>
+    <div class="sy-content">
+        <div id='example-6' class="form">
+            <div>
+                <input type='checkbox' class='input-checkbox' :checked="fruitIds!==null&&fruitIds.length === fruits.length" @click='checkedAll(fruitIds.length !== fruits.length)'>全选
+                <div v-for='(fruit, index) in fruits' :key="index">
+                    <!--判断fruitIds是否包含当前fruit，fruitIds.indexOf(fruit.fruitId)返回包含fruit的下标, 若不包含则返回-1-->
+                    <input type='checkbox' :checked="fruitIds.indexOf(fruit.value)>=0" name='checkboxinput' class='input-checkbox' @click='checkedOne(fruit.value)'>
+                    <label>{{fruit.text}}</label>
+                </div>
+                <!--默认删除按钮不能点击, 当选中某一checkbox时可以删除-->
+                <!--                <button :disabled="!fruitIds.length>0" value="Delete" @click="deleteFruits()">Delete</button>-->
+            </div>
+        </div>
+    </div>
+    <div class="sy-btn">
+        <button onClick="syalert.syhide('alert6')">取消</button>
+        <button onClick="ok('alert6')">确定</button>
+    </div>
+</div>
+
+</body>
+
+<script type="text/javascript">
+
+</script>
+<script src="/static/js/flowNode.js" type="text/javascript"></script>
+
+</html>

@@ -77,7 +77,7 @@ public class FlowController {
     @ApiOperation(value = "查询角色审批的节点列表接口",notes = "查询角色审批的节点列表接口",response = Result.class,produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Result nodePage(@RequestBody BasicPageDto dto){
         String fid = "aa";//AuthUtil.getAuthUserInfoVo().getFid();
-        List<String> list = new ArrayList<>(Arrays.asList("1541aeff-7bb4-4716-8570-08bad452bf82"));
+        List<String> list = new ArrayList<>(Arrays.asList("bd635cba-8321-11ea-9155-525400e75790"));
         if (Check.NuNCollection(list)){
             return Result.fail("您没有任何权限");
         }

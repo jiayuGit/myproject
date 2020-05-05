@@ -61,6 +61,12 @@ public class HelloController {
         request.setAttribute("token",token);
         return "liveRoom";
     }
+    @GetMapping("/flowNode")
+    public String flowNode(HttpServletRequest request,String token){
+        log.info("访问flowNode{}",request.getRequestedSessionId()+token);
+        request.setAttribute("token",token);
+        return "flowNode";
+    }
     @GetMapping("/test")
     public String test(HttpServletRequest request,String token){
         log.info("访问test{}",request.getRequestedSessionId()+token);

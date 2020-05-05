@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.dao.TFlowNodeMapper" >
+  <resultMap id="BaseResultMap" type="com.example.demo.entity.TFlowNode" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="fid" property="fid" jdbcType="VARCHAR" />
+    <result column="node_name" property="nodeName" jdbcType="VARCHAR" />
+    <result column="role_fid" property="roleFid" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="state" property="state" jdbcType="TINYINT" />
+    <result column="parent_fid" property="parentFid" jdbcType="VARCHAR" />
+    <result column="next_fid" property="nextFid" jdbcType="VARCHAR" />
+    <result column="is_del" property="isDel" jdbcType="TINYINT" />
+    <result column="last_modify_by" property="lastModifyBy" jdbcType="VARCHAR" />
+    <result column="last_modify_fid" property="lastModifyFid" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="last_modify_time" property="lastModifyTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, fid, node_name, role_fid, remark, state, parent_fid, next_fid, is_del, last_modify_by, 
+    last_modify_fid, create_time, last_modify_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_flow_node
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_flow_node
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.example.demo.entity.TFlowNode" >
+    insert into t_flow_node (id, fid, node_name, 
+      role_fid, remark, state, 
+      parent_fid, next_fid, is_del, 
+      last_modify_by, last_modify_fid, create_time, 
+      last_modify_time)
+    values (#{id,jdbcType=INTEGER}, #{fid,jdbcType=VARCHAR}, #{nodeName,jdbcType=VARCHAR}, 
+      #{roleFid,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{state,jdbcType=TINYINT}, 
+      #{parentFid,jdbcType=VARCHAR}, #{nextFid,jdbcType=VARCHAR}, #{isDel,jdbcType=TINYINT}, 
+      #{lastModifyBy,jdbcType=VARCHAR}, #{lastModifyFid,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{lastModifyTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.demo.entity.TFlowNode" >
+    insert into t_flow_node
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="fid != null" >
+        fid,
+      </if>
+      <if test="nodeName != null" >
+        node_name,
+      </if>
+      <if test="flowFid != null" >
+        flow_fid,
+      </if>
+      <if test="roleFid != null" >
+        role_fid,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="parentFid != null" >
+        parent_fid,
+      </if>
+      <if test="nextFid != null" >
+        next_fid,
+      </if>
+      <if test="isDel != null" >
+        is_del,
+      </if>
+      <if test="lastModifyBy != null" >
+        last_modify_by,
+      </if>
+      <if test="lastModifyFid != null" >
+        last_modify_fid,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="lastModifyTime != null" >
+        last_modify_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="fid != null" >
+        #{fid,jdbcType=VARCHAR},
+      </if>
+      <if test="nodeName != null" >
+        #{nodeName,jdbcType=VARCHAR},
+      </if>
+      <if test="flowFid != null" >
+        #{flowFid,jdbcType=VARCHAR},
+      </if>
+      <if test="roleFid != null" >
+        #{roleFid,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=TINYINT},
+      </if>
+      <if test="parentFid != null" >
+        #{parentFid,jdbcType=VARCHAR},
+      </if>
+      <if test="nextFid != null" >
+        #{nextFid,jdbcType=VARCHAR},
+      </if>
+      <if test="isDel != null" >
+        #{isDel,jdbcType=TINYINT},
+      </if>
+      <if test="lastModifyBy != null" >
+        #{lastModifyBy,jdbcType=VARCHAR},
+      </if>
+      <if test="lastModifyFid != null" >
+        #{lastModifyFid,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastModifyTime != null" >
+        #{lastModifyTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.demo.entity.TFlowNode" >
+    update t_flow_node
+    <set >
+      <if test="fid != null" >
+        fid = #{fid,jdbcType=VARCHAR},
+      </if>
+      <if test="nodeName != null" >
+        node_name = #{nodeName,jdbcType=VARCHAR},
+      </if>
+      <if test="roleFid != null" >
+        role_fid = #{roleFid,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=TINYINT},
+      </if>
+      <if test="parentFid != null" >
+        parent_fid = #{parentFid,jdbcType=VARCHAR},
+      </if>
+      <if test="nextFid != null" >
+        next_fid = #{nextFid,jdbcType=VARCHAR},
+      </if>
+      <if test="isDel != null" >
+        is_del = #{isDel,jdbcType=TINYINT},
+      </if>
+      <if test="lastModifyBy != null" >
+        last_modify_by = #{lastModifyBy,jdbcType=VARCHAR},
+      </if>
+      <if test="lastModifyFid != null" >
+        last_modify_fid = #{lastModifyFid,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastModifyTime != null" >
+        last_modify_time = #{lastModifyTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.demo.entity.TFlowNode" >
+    update t_flow_node
+    set fid = #{fid,jdbcType=VARCHAR},
+      node_name = #{nodeName,jdbcType=VARCHAR},
+      role_fid = #{roleFid,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      state = #{state,jdbcType=TINYINT},
+      parent_fid = #{parentFid,jdbcType=VARCHAR},
+      next_fid = #{nextFid,jdbcType=VARCHAR},
+      is_del = #{isDel,jdbcType=TINYINT},
+      last_modify_by = #{lastModifyBy,jdbcType=VARCHAR},
+      last_modify_fid = #{lastModifyFid,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      last_modify_time = #{lastModifyTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByFlowFid" parameterType="com.example.demo.entity.TFlowNode" >
+    update t_flow_node
+    <set >
+      <if test="nodeName != null" >
+        node_name = #{nodeName,jdbcType=VARCHAR},
+      </if>
+      <if test="roleFid != null" >
+        role_fid = #{roleFid,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=INTEGER},
+      </if>
+      <if test="parentFid != null" >
+        parent_fid = #{parentFid,jdbcType=VARCHAR},
+      </if>
+      <if test="nextFid != null" >
+        next_fid = #{nextFid,jdbcType=VARCHAR},
+      </if>
+      <if test="isDel != null" >
+        is_del = #{isDel,jdbcType=INTEGER},
+      </if>
+      <if test="lastModifyBy != null" >
+        last_modify_by = #{lastModifyBy,jdbcType=VARCHAR},
+      </if>
+      <if test="lastModifyFid != null" >
+        last_modify_fid = #{lastModifyFid,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastModifyTime != null" >
+        last_modify_time = #{lastModifyTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where flow_fid = #{fid,jdbcType=VARCHAR}
+  </update>
+
+  <select id="selectFlowNode" resultType="com.example.demo.vo.FlowNodeVo" parameterType="java.lang.String">
+    select
+    tfn.id, tfn.fid, tfn.node_name,tfn.flow_fid , tfn.role_fid, tfn.remark, tfn.state, tfn.parent_fid, tfn.next_fid, tfn.is_del, tfn.last_modify_by,
+    tfn.last_modify_fid, tfn.create_time, tfn.last_modify_time,tu.name userName
+    from t_flow_node as tfn,t_flow as tf,t_user as tu where tfn.flow_fid=tf.fid and tf.user_fid=tu.uuid and is_del=0 and state=1
+    and tfn.role_fid in
+    <foreach item="item" collection="list" separator="," open="(" close=")" index="">
+      #{item, jdbcType=VARCHAR}
+    </foreach>
+
+  </select>
+</mapper>

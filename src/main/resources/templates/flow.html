@@ -72,7 +72,7 @@
 <div style="padding:20px;"  id="app">
     <div class="panel panel-primary">
         <div class="panel-heading">
-            <center><h2>菜单管理</h2></center>
+            <center><h2>我的流程</h2></center>
         </div>
         <div id="example-1">
             <table class="table table-bordered table-striped text-center">
@@ -82,13 +82,13 @@
                         <center>序号</center>
                     </th>
                     <th>
-                        <center>菜单</center>
+                        <center>流程</center>
                     </th>
                     <th>
-                        <center>菜单地址</center>
+                        <center>审批状态</center>
                     </th>
                     <th>
-                        <center>权限接口</center>
+                        <center>备注</center>
                     </th>
                     <!--                <th>-->
                     <!--                    <center>角色列表</center>-->
@@ -105,23 +105,24 @@
                 <!--<tr v-for="(item,index) in items" :key="item.message">-->
                 <tr v-for="(data,index) in pageDate.list">
                     <td>{{index+1}}</td>
-                    <td>{{data.name}}</td>
-                    <td>{{data.path}}</td>
-                    <td>
-                        <label >
-                            <div v-for='(da, index) in data.list' :key="index">
-                                {{da.text}} ： {{da.value2}}
-                            </div>
-                        </label>
-                    </td>
+                    <td>{{data.flowName}}</td>
+                    <td>{{data.stateName}}</td>
+                    <td>{{data.remark}}</td>
+                    <!--<td>-->
+                        <!--<label >-->
+                            <!--<div v-for='(da, index) in data.list' :key="index">-->
+                                <!--{{da.text}} ： {{da.value2}}-->
+                            <!--</div>-->
+                        <!--</label>-->
+                    <!--</td>-->
                     <td>{{data.lastModifyTime}}</td>
                     <td>
                         <!--                    <button class="label label-primary" @click="remove(data)">remove</button>-->
                         <button class="btn btn-primary" @click="syalert.syopen('alert1',data)">删除</button>
                         <!--                    <button class="label label-primary" @click="remove(data),syalert.syopen('alert2')">消息弹窗</button>-->
                         <!--                    <button class="label label-primary" @click="syalert.syopen('alert3')">消息提示</button>-->
-                        <button class="btn btn-default" @click="syalert.syopen('alert4',data)">修改菜单</button>
-                        <button class="btn btn-default" @click="syalert.syopen('alert6',data)">修改菜单权限</button>
+                        <!--<button class="btn btn-default" @click="syalert.syopen('alert4',data)">修改菜单</button>-->
+                        <!--<button class="btn btn-default" @click="syalert.syopen('alert6',data)">修改菜单权限</button>-->
                     </td>
 
                 </tr>
@@ -132,7 +133,7 @@
             <div class="row">
                 <div class="col-md-4"></div>
                 <div class="col-md-2 col-md-offset-6">
-                    <button class="btn btn-primary" @click="syalert.syopen('alert5',null)">增加菜单</button>
+                    <button class="btn btn-primary" @click="syalert.syopen('alert5',null)">新建流程</button>
                 </div>
             </div>
 
@@ -184,7 +185,7 @@
             <div>
                 <label for="jack">菜单名</label>
                 <input type="input" id="jack" v-model="role.name"><br>
-                <label for="path">菜单地址</label>
+                <label for="menupath">菜单地址</label>
                 <input type="input" id="menupath" v-model="role.path"><br>
                 <!--                <label for="john">John</label>-->
                 <!--                <input type="input" id="john" value="John" v-model="checkedNames"><br>-->
@@ -205,10 +206,22 @@
     <div class="sy-content">
         <div id='example-5' class="form">
             <div>
-                <label for="menuName">菜单名称</label>
-                <input type="input" id="menuName" v-model="role.name"><br>
-                <label for="path">菜单地址</label>
-                <input type="input" id="path" v-model="role.path"><br>
+                <label for="flowName">流程名称</label>
+                <input type="input" id="flowName" v-model="flow.flowName"><br>
+                <label for="remark">备注</label>
+                <input type="input" id="remark" v-model="flow.remark"><br>
+                <div v-for='(data, index) in form.list' :key="index">
+                    <label>选择审批人{{index+1}}</label>
+                    <select v-model="data.roleFid">
+                        <option v-for="item in items" v-bind:value="item.value" >{{item.text}}</option>
+                    </select>
+                    <!--<span>已选:{{selected}}</span>-->
+                    <br>
+                    <label>审批内容</label>
+                    <input type="input" v-model="data.nodeName">
+                    <button @click="delAdministrator(index)">删除</button>
+                </div>
+                <button @click="addAdministrator()">添加</button>
                 <!--                <label for="john">John</label>-->
                 <!--                <input type="input" id="john" value="John" v-model="checkedNames"><br>-->
                 <!--                <label for="mike">Mike</label>-->
@@ -249,6 +262,6 @@
 <script type="text/javascript">
 
 </script>
-<script src="/static/js/menuAuth.js" type="text/javascript"></script>
+<script src="/static/js/flow.js" type="text/javascript"></script>
 
 </html>

@@ -6,7 +6,10 @@ var applction_json = 'application/json;charset=UTF-8';
 function getToken() {
     return document.cookie;
 }
+function errmessga(messge) {
+    console.log(messge)
 
+}
 function setToken(token) {
     return document.cookie = token;
 }
@@ -23,14 +26,14 @@ function httpClient(method, path, request, then, err) {
                     // console.log(JSON.stringify(data.data))
                     then(data.data);
                 } else {
-                    nologin(data.message);
+                    err(data.message);
 
                 }
 
 
             } else {
                 // console.log(xmlHttp.responseText);
-                nologin('服务器正在抢修中!!');
+                err('服务器正在抢修中!!');
             }
             err(xmlHttp.responseText);
         }

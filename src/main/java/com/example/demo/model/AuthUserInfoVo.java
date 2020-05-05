@@ -12,6 +12,7 @@ public class AuthUserInfoVo implements Serializable {
     /**
      * 需要重新登录时间
      */
+    private String fid;
     private Long expiresIn;
     private String name;
 

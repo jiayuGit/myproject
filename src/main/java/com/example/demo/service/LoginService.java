@@ -57,6 +57,7 @@ public class LoginService {
         AuthUserInfoVo userInfoVo = AuthUserInfoVo.builder()
                 .accessToken(UUID.randomUUID().toString())
                 .name(tUsers.get(0).getName())
+                .fid(tUsers.get(0).getUuid())
                 .expiresIn(60 * 60 * 1000L)
                 .build();
         String token = AuthUtil.setAuthUserInfoVo(userInfoVo);

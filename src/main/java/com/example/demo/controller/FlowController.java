@@ -3,6 +3,7 @@ package com.example.demo.controller;
 
 import com.example.demo.dto.BasicPageDto;
 import com.example.demo.dto.FlowInfoDto;
+import com.example.demo.dto.FlowNodeDto;
 import com.example.demo.dto.FlowPageDto;
 import com.example.demo.model.Result;
 import com.example.demo.service.FlowService;
@@ -58,7 +59,7 @@ public class FlowController {
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ApiOperation(value = "查询流程接口",notes = "查询流程接口",response = Result.class,produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Result selectPage(@RequestBody FlowPageDto dto){
-        String fid = "aa";//AuthUtil.getAuthUserInfoVo().getFid();
+        String fid = "1c165e4a-0842-402b-8fb9-663131b986db";//AuthUtil.getAuthUserInfoVo().getFid();
         if (Check.NuNStr(fid)){
             return Result.fail("用户fid不能为空");
         }
@@ -77,7 +78,7 @@ public class FlowController {
     @ApiOperation(value = "查询角色审批的节点列表接口",notes = "查询角色审批的节点列表接口",response = Result.class,produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Result nodePage(@RequestBody BasicPageDto dto){
         String fid = "aa";//AuthUtil.getAuthUserInfoVo().getFid();
-        List<String> list = new ArrayList<>(Arrays.asList("bd635cba-8321-11ea-9155-525400e75790"));
+        List<String> list = new ArrayList<>(Arrays.asList("b9908d93-4e08-412b-a131-037f5d06426d"));
         if (Check.NuNCollection(list)){
             return Result.fail("您没有任何权限");
         }
@@ -93,7 +94,7 @@ public class FlowController {
 
     @PostMapping(path = "/delete",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    @ApiOperation(value = "创建流程接口",notes = "创建流程接口",response = Result.class,produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ApiOperation(value = "删除流程接口",notes = "删除流程接口",response = Result.class,produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Result delete(@RequestBody FlowPageDto dto){
         //AuthUtil.getAuthUserInfoVo().getFid();
         if (Check.NuNStr(dto.getFid())){
@@ -105,6 +106,24 @@ public class FlowController {
         } catch (Exception e) {
             log.error("删除流程失败e={} params={} fid={}",e,dto.getFid());
             return Result.fail("删除流程失败");
+        }
+
+    }
+
+    @PostMapping(path = "/nodeAudit",
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ApiOperation(value = "审核节点接口",notes = "审核节点接口",response = Result.class,produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public Result nodeAudit(@RequestBody FlowNodeDto dto){
+        //AuthUtil.getAuthUserInfoVo().getFid();
+        if (Check.NuNStr(dto.getFid())){
+            return Result.fail("用户fid不能为空");
+        }
+        try {
+            int i = flowService.auditFlowNode(dto);
+            return Result.ok();
+        } catch (Exception e) {
+            log.error("审核节点失败e={} params={} fid={}",e,dto.getFid());
+            return Result.fail("审核节点失败");
         }
 
     }

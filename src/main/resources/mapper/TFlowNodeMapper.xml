@@ -26,6 +26,14 @@
     from t_flow_node
     where id = #{id,jdbcType=INTEGER}
   </select>
+
+  <select id="selectByFid" resultType="com.example.demo.entity.TFlowNode" parameterType="com.example.demo.dto.FlowNodeDto" >
+    select
+    id, fid, node_name,flow_fid, role_fid, remark, state, parent_fid, next_fid, is_del, last_modify_by,
+    last_modify_fid, create_time, last_modify_time
+    from t_flow_node
+    where fid = #{fid,jdbcType=VARCHAR}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_flow_node
     where id = #{id,jdbcType=INTEGER}
@@ -191,6 +199,17 @@
       last_modify_time = #{lastModifyTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <update id="updateByFid" parameterType="com.example.demo.dto.FlowNodeDto" >
+    update t_flow_node
+    set
+    lastModifyBy=#{remark,jdbcType=VARCHAR},
+    lastModifyFid=#{remark,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      state = #{state,jdbcType=TINYINT}
+    where fid = #{fid,jdbcType=VARCHAR}
+  </update>
+
   <update id="updateByFlowFid" parameterType="com.example.demo.entity.TFlowNode" >
     update t_flow_node
     <set >

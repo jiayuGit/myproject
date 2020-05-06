@@ -1,5 +1,6 @@
 package com.example.demo.dao;
 
+import com.example.demo.dto.FlowNodeDto;
 import com.example.demo.entity.TFlowNode;
 import com.example.demo.vo.FlowNodeVo;
 import org.springframework.data.repository.query.Param;
@@ -22,4 +23,8 @@ public interface TFlowNodeMapper {
     int updateByFlowFid(TFlowNode record);
 
     List<FlowNodeVo> selectFlowNode(List<String> list);
+
+    int updateByFid(FlowNodeDto fid);
+
+    TFlowNode selectByFid(FlowNodeDto dto);
 }

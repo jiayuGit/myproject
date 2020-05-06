@@ -166,40 +166,11 @@
 <div class="sy-alert animated" sy-enter="zoomIn" sy-leave="zoomOut" sy-type="confirm" sy-mask="true" id="alert1">
     <div class="sy-title">温馨提示</div>
     <div class="sy-content">是否通过？</div>
-    <div class="sy-btn">
-        <button onClick="syalert.syhide('alert1')">取消</button>
-        <button onClick="ok('alert1')">确定</button>
-    </div>
-</div>
-<div class="sy-alert animated" sy-enter="zoomIn" sy-leave="zoomOut" sy-type="confirm" sy-mask="true" id="alert3">
-    <div class="sy-title">温馨提示</div>
-    <div class="sy-content">是否驳回？</div>
-    <div class="sy-btn">
-        <button onClick="syalert.syhide('alert3')">取消</button>
-        <button onClick="ok('alert1')">确定</button>
-    </div>
-</div>
-
-<!-- 消息弹窗 -->
-<div class="sy-alert sy-alert-alert animated" sy-enter="zoomIn" sy-leave="zoomOut" sy-type="alert" sy-mask="true"
-     id="alert2">
-    <div class="sy-title">温馨提示</div>
-    <div class="sy-content">删除成功！</div>
-    <div class="sy-btn">
-        <button onClick="ok('alert2')">确定</button>
-    </div>
-</div>
-
-<div class="sy-alert sy-alert-model animated" sy-enter="zoomIn" sy-leave="zoomOut" sy-type="confirm" sy-mask="true"
-     id="alert4">
-    <div class="sy-title">修改菜单信息</div>
     <div class="sy-content">
-        <div id='example-3' class="form">
+        <div id='example-11' class="form">
             <div>
-                <label for="jack">菜单名</label>
-                <input type="input" id="jack" v-model="role.name"><br>
-                <label for="menupath">菜单地址</label>
-                <input type="input" id="menupath" v-model="role.path"><br>
+                <label for="jack1">审核备注</label>
+                <input type="input" id="jack1" v-model="role.remark"><br>
                 <!--                <label for="john">John</label>-->
                 <!--                <input type="input" id="john" value="John" v-model="checkedNames"><br>-->
                 <!--                <label for="mike">Mike</label>-->
@@ -209,10 +180,43 @@
         </div>
     </div>
     <div class="sy-btn">
-        <button onClick="syalert.syhide('alert4')">取消</button>
-        <button onClick="ok('alert4')">确定</button>
+        <button onClick="syalert.syhide('alert1')">取消</button>
+        <button onClick="ok('alert1')">确定</button>
     </div>
 </div>
+<div class="sy-alert animated" sy-enter="zoomIn" sy-leave="zoomOut" sy-type="confirm" sy-mask="true" id="alert3">
+    <div class="sy-title">温馨提示</div>
+    <div class="sy-content">是否驳回？</div>
+    <div class="sy-content">
+        <div id='example-3' class="form">
+            <div>
+                <label for="jack3">审核备注</label>
+                <input type="input" id="jack3" v-model="role.remark"><br>
+                <!--                <label for="john">John</label>-->
+                <!--                <input type="input" id="john" value="John" v-model="checkedNames"><br>-->
+                <!--                <label for="mike">Mike</label>-->
+                <!--                <input type="input" id="mike" value="Mike" v-model="checkedNames"><br>-->
+                <!--                <span>Checked names: {{ role }}</span>-->
+            </div>
+        </div>
+    </div>
+    <div class="sy-btn">
+        <button onClick="syalert.syhide('alert3')">取消</button>
+        <button onClick="ok('alert3')">确定</button>
+    </div>
+</div>
+
+<!-- 消息弹窗 -->
+<div class="sy-alert sy-alert-alert animated" sy-enter="zoomIn" sy-leave="zoomOut" sy-type="alert" sy-mask="true"
+     id="alert2">
+    <div class="sy-title">温馨提示</div>
+    <div class="sy-content">删除成功！</div>
+
+    <div class="sy-btn">
+        <button onClick="ok('alert2')">确定</button>
+    </div>
+</div>
+
 <div class="sy-alert sy-alert-model animated" sy-enter="zoomIn" sy-leave="zoomOut" sy-type="confirm" sy-mask="true"
      id="alert5">
     <div class="sy-title">添加菜单</div>

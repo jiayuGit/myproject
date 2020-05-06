@@ -14,10 +14,18 @@ var pageDate = {
  * Version - 1.0
  * Copyright (c) 2019 sy
  */
+var example11Data = {
+    role: {
+        name: '',
+        fid: '',
+        remark:''
+    }
+};
 var example3Data = {
     role: {
         name: '',
-        fid: ''
+        fid: '',
+        remark:''
     }
 };
 var example5Data = {
@@ -84,7 +92,7 @@ var syalert = function () {
         syopen: function (id, data) {
             if (data !== null) {
                 example3Data.role.fid = data.fid;
-
+                example11Data.role.fid = data.fid;
             }
             var dom = $("#" + id);
             this.sycenter(dom);
@@ -142,6 +150,12 @@ var example1 = new Vue({
             }
 
         }
+    }
+);
+
+var example11 = new Vue({
+        el: '#example-11',
+        data: example11Data
     }
 );
 selectPage(page, pageSize);
@@ -235,9 +249,25 @@ var pageBar = new Vue({
 function ok(id) {
     console.log(id)
     if ('alert1' === id) {
-        httpClient('POST', '/flow/delete',
+        httpClient('POST', '/flow/nodeAudit',
             {
-                fid: example3Data.role.fid
+                fid: example11Data.role.fid,
+                remark:example11Data.role.remark,
+                state:2
+            },
+            function (data) {
+                selectPage(pageButton.cur, pageSize);
+            },
+            function (err) {
+                console.log(JSON.stringify(err));
+            })
+    }
+    if ('alert3' === id) {
+        httpClient('POST', '/flow/nodeAudit',
+            {
+                fid: example3Data.role.fid,
+                remark:example3Data.role.remark,
+                state:3
             },
             function (data) {
                 selectPage(pageButton.cur, pageSize);

@@ -5,11 +5,13 @@ import com.example.demo.dao.TFlowMapper;
 import com.example.demo.dao.TFlowNodeMapper;
 import com.example.demo.dto.BasicPageDto;
 import com.example.demo.dto.FlowInfoDto;
+import com.example.demo.dto.FlowNodeDto;
 import com.example.demo.dto.FlowPageDto;
 import com.example.demo.entity.TFlow;
 import com.example.demo.entity.TFlowNode;
 import com.example.demo.enumerate.FlowEnum;
 import com.example.demo.enumerate.FlowNodeEnum;
+import com.example.demo.util.Check;
 import com.example.demo.vo.FlowNodeVo;
 import com.example.demo.vo.FlowVo;
 import com.example.demo.vo.PageResult;
@@ -54,10 +56,10 @@ public class FlowService {
             v.setParentFid(parentFid);
             v.setFlowFid(fid);
             v.setFid(nowFid);
-            if (boo){
+            if (boo) {
                 v.setState(FlowNodeEnum.DSP.getCode());
-                boo=false;
-            }else {
+                boo = false;
+            } else {
                 v.setState(FlowNodeEnum.WKS.getCode());
             }
 
@@ -111,11 +113,38 @@ public class FlowService {
     public PageResult selectFlowNode(BasicPageDto dto, List<String> list) {
         Page<Object> objects = PageHelper.startPage(dto.getStartPage(), dto.getPageSize());
         List<FlowNodeVo> res = flowNodeMapper.selectFlowNode(list);
-        res.forEach(v->v.setStateName(FlowNodeEnum.getNameByCode(v.getState())));
+        res.forEach(v -> v.setStateName(FlowNodeEnum.getNameByCode(v.getState())));
         PageResult build = PageResult.builder()
                 .total(objects.getTotal())
                 .data(res)
                 .build();
         return build;
+    }
+
+    public int auditFlowNode(FlowNodeDto dto) {
+
+        int i = flowNodeMapper.updateByFid(dto);
+        TFlowNode flowNode = flowNodeMapper.selectByFid(dto);
+        if (FlowNodeEnum.SPTG.getCode().equals(dto.getState())) {
+            if (Check.NuNStr(flowNode.getNextFid())) {
+                i += flowMapper.updateByFlowFid(TFlow.builder()
+                        .fid(flowNode.getFlowFid())
+                        .state(FlowEnum.SPTG.getCode())
+                        .build());
+            } else {
+                i += flowNodeMapper.updateByFid(FlowNodeDto.builder()
+                        .fid(flowNode.getNextFid())
+                        .state(FlowNodeEnum.DSP.getCode())
+                        .build());
+            }
+        } else if (FlowNodeEnum.SPBH.getCode().equals(dto.getState())) {
+            i += flowMapper.updateByFlowFid(TFlow.builder()
+                    .fid(flowNode.getFlowFid())
+                    .state(FlowEnum.SPBH.getCode())
+                    .build());
+        }
+
+        return i;
+
     }
 }

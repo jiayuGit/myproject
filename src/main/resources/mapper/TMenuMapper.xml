@@ -23,6 +23,13 @@
     *
     from t_menu where is_del=0
   </select>
+
+  <select id="selectMenuInfo" resultType="com.example.demo.entity.TMenu" parameterType="com.example.demo.entity.TRoleMenu">
+    select
+    tm.*
+    from t_menu as tm ,t_role_menu trm where tm.fid=trm.menu_fid and   tm.is_del=0 and trm.is_del=0
+    and role_fid = #{roleFid,jdbcType=VARCHAR}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_menu
     where id = #{id,jdbcType=INTEGER}

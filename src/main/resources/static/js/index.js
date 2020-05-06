@@ -1,7 +1,5 @@
-
-
-var indexData= {
-    menu:''
+var indexData = {
+    menu: ''
 }
 
 
@@ -12,17 +10,25 @@ var example1 = new Vue({
             indexData: indexData
         },
         methods: {
-            // remove(index) {
-            //     console.log('remove' + JSON.stringify(index));
-            //
-            // }
+            outlogin() {
+                console.log('outlogin');
+                httpClient('POST', '/login/out', {},
+                    function (data) {
+                        window.location.href=servicePate+'/login';
+                    },
+                    function (err) {
+                        errmessga(err);
+                    })
+            },
             change(path) {
-                if (path != null) {
+                if (path !== null&&path!=='') {
                     $("#page").load("/templates/" + path + ".html");
+                }else {
+                    $("#page").load("/templates/homePage.html");
                 }
             },
             init() {
-                $("#page").load("/templates/auth.html");
+                $("#page").load("/templates/homePage.html");
                 httpClient("POST", '/login/menu', null,
                     function (data) {
                         indexData.menu = data

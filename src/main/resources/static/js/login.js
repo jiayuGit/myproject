@@ -37,7 +37,7 @@ submitbut.onclick=function () {
                     nologin(data.message);
                     access_token=data.data;
 
-                    window.location.href=servicePate+'/index';
+                    window.location.href=servicePate+'/index?access-token='+access_token;
                     setToken(access_token);
                     return;
                 }else {

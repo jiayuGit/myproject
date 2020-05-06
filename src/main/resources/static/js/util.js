@@ -9,6 +9,7 @@ function getToken() {
 function errmessga(messge) {
     console.log(messge)
 
+
 }
 function setToken(token) {
     return document.cookie = token;

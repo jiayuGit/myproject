@@ -3,6 +3,7 @@ package com.example.demo.service;
 
 import com.example.demo.dao.TFlowMapper;
 import com.example.demo.dao.TFlowNodeMapper;
+import com.example.demo.dao.TRoleMapper;
 import com.example.demo.dto.BasicPageDto;
 import com.example.demo.dto.FlowInfoDto;
 import com.example.demo.dto.FlowNodeDto;
@@ -36,6 +37,9 @@ public class FlowService {
 
     @Autowired
     private TFlowNodeMapper flowNodeMapper;
+
+    @Autowired
+    private TRoleMapper roleMapper;
 
 
     @Transactional
@@ -146,5 +150,14 @@ public class FlowService {
 
         return i;
 
+    }
+
+    public List<FlowNodeVo> selectFlowNodeInfo(TFlowNode dto) {
+        List<FlowNodeVo> tFlowNodes = flowNodeMapper.selectFlowNodeInfo(dto);
+        List<FlowNodeVo> collect = tFlowNodes.stream().map(v -> {
+            v.setStateName(FlowNodeEnum.getNameByCode(v.getState()));
+            return v;
+        }).collect(Collectors.toList());
+        return collect;
     }
 }

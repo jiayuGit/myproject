@@ -34,6 +34,15 @@
     from t_flow_node
     where fid = #{fid,jdbcType=VARCHAR}
   </select>
+
+  <select id="selectFlowNodeInfo" resultType="com.example.demo.vo.FlowNodeVo" parameterType="com.example.demo.entity.TFlowNode" >
+    select
+    tfn.id, tfn.fid, tfn.node_name,tfn.flow_fid, tfn.role_fid, tfn.remark, tfn.state,
+     tfn.parent_fid, tfn.next_fid, tfn.is_del, tfn.last_modify_by,
+    tfn.last_modify_fid, tfn.create_time, tfn.last_modify_time,tr.name roleName
+    from t_flow_node as  tfn LEFT JOIN t_role as tr on tfn.role_fid=tr.fid
+    where flow_fid = #{flowFid,jdbcType=VARCHAR}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_flow_node
     where id = #{id,jdbcType=INTEGER}

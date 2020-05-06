@@ -56,7 +56,8 @@
         margin-bottom: 12px;
         width: 100%;
     }
-    .allUtil{
+
+    .allUtil {
         width: 1200px;
         height: 100%;
     }
@@ -69,7 +70,7 @@
 
 </ul>
 
-<div style="padding:20px;"  id="app">
+<div style="padding:20px;" id="app">
     <div class="panel panel-primary">
         <div class="panel-heading">
             <center><h2>我的流程</h2></center>
@@ -109,20 +110,20 @@
                     <td>{{data.stateName}}</td>
                     <td>{{data.remark}}</td>
                     <!--<td>-->
-                        <!--<label >-->
-                            <!--<div v-for='(da, index) in data.list' :key="index">-->
-                                <!--{{da.text}} ： {{da.value2}}-->
-                            <!--</div>-->
-                        <!--</label>-->
+                    <!--<label >-->
+                    <!--<div v-for='(da, index) in data.list' :key="index">-->
+                    <!--{{da.text}} ： {{da.value2}}-->
+                    <!--</div>-->
+                    <!--</label>-->
                     <!--</td>-->
                     <td>{{data.lastModifyTime}}</td>
                     <td>
                         <!--                    <button class="label label-primary" @click="remove(data)">remove</button>-->
                         <button class="btn btn-primary" @click="syalert.syopen('alert1',data)">删除</button>
-                        <!--                    <button class="label label-primary" @click="remove(data),syalert.syopen('alert2')">消息弹窗</button>-->
+                        <!--<button class="label label-primary" @click="remove(data),syalert.syopen('alert2')">消息弹窗</button>-->
                         <!--                    <button class="label label-primary" @click="syalert.syopen('alert3')">消息提示</button>-->
                         <!--<button class="btn btn-default" @click="syalert.syopen('alert4',data)">修改菜单</button>-->
-                        <!--<button class="btn btn-default" @click="syalert.syopen('alert6',data)">修改菜单权限</button>-->
+                        <button class="btn btn-default" @click="syalert.syopen('alert6',data)">查看审核进度</button>
                     </td>
 
                 </tr>
@@ -213,7 +214,7 @@
                 <div v-for='(data, index) in form.list' :key="index">
                     <label>选择审批人{{index+1}}</label>
                     <select v-model="data.roleFid">
-                        <option v-for="item in items" v-bind:value="item.value" >{{item.text}}</option>
+                        <option v-for="item in items" v-bind:value="item.value">{{item.text}}</option>
                     </select>
                     <!--<span>已选:{{selected}}</span>-->
                     <br>
@@ -235,26 +236,25 @@
         <button onClick="ok('alert5')">确定</button>
     </div>
 </div>
-<div  class="sy-alert sy-alert-model animated" sy-enter="zoomIn" sy-leave="zoomOut" sy-type="confirm" sy-mask="true" id="alert6">
-    <div class="sy-title">修改角色菜单</div>
+<div class="sy-alert animated" sy-enter="zoomIn" sy-leave="zoomOut" sy-type="confirm" sy-mask="true" id="alert6">
+    <div class="sy-title">审核进度</div>
     <div class="sy-content">
         <div id='example-6' class="form">
             <div>
-                <input type='checkbox' class='input-checkbox' :checked="fruitIds!==null&&fruitIds.length === fruits.length" @click='checkedAll(fruitIds.length !== fruits.length)'>全选
                 <div v-for='(fruit, index) in fruits' :key="index">
                     <!--判断fruitIds是否包含当前fruit，fruitIds.indexOf(fruit.fruitId)返回包含fruit的下标, 若不包含则返回-1-->
-                    <input type='checkbox' :checked="fruitIds.indexOf(fruit.value)>=0" name='checkboxinput' class='input-checkbox' @click='checkedOne(fruit.value)'>
-                    <label>{{fruit.text}}</label>
+                    <label>审核阶段{{idnex}}：</label>{{fruit.nodeName}}&nbsp;<label>审核人：</label>{{fruit.roleName}}&nbsp;<label>审核状态：</label>{{fruit.stateName}}&nbsp;<label>审核备注：</label>{{fruit.remark}}
+                    <br><br>
                 </div>
                 <!--默认删除按钮不能点击, 当选中某一checkbox时可以删除-->
                 <!--                <button :disabled="!fruitIds.length>0" value="Delete" @click="deleteFruits()">Delete</button>-->
             </div>
         </div>
     </div>
-    <div class="sy-btn">
-        <button onClick="syalert.syhide('alert6')">取消</button>
-        <button onClick="ok('alert6')">确定</button>
-    </div>
+
+    <CENTER>
+        <button class="btn btn-default" onClick="syalert.syhide('alert6')">确认</button>
+    </CENTER>
 </div>
 
 </body>

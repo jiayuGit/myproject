@@ -23,8 +23,8 @@ var example3Data = {
 var example5Data = {
     flow: {
         flowName: '',
-        remark:'',
-        list:[]
+        remark: '',
+        list: []
     },
     items: [{text: 'A', value: 'a'}, {text: 'B', value: 'b'}, {text: 'C', value: 'c'}],
 
@@ -33,16 +33,12 @@ var example5Data = {
         selectOne: '2',
         list: [{
             nodeName: '',
-            roleFid:''
+            roleFid: ''
         }]
     }
 };
 var example6Data = {
-    updataId: '',
-    fruits: [],
-    fruitIds: [],
-    // 初始化全选按钮, 默认不选
-    isCheckedAll: false
+    fruits: []
 };
 var example3 = new Vue({
     el: '#example-3',
@@ -70,10 +66,10 @@ var example5 = new Vue({
         },
         delAdministrator(myindex) {
             console.log(myindex)
-            this.form.list.splice(myindex,1);// = this.form.list.filter((currentValue, index) = > index != myindex)
+            this.form.list.splice(myindex, 1);// = this.form.list.filter((currentValue, index) = > index != myindex)
         },
-        change(data,value){
-            data.roleFid=value;
+        change(data, value) {
+            data.roleFid = value;
         }
 
     }
@@ -84,7 +80,14 @@ var syalert = function () {
         syopen: function (id, data) {
             if (data !== null) {
                 example3Data.role.fid = data.fid;
-
+                httpClient("POST", '/flow/selectFlowNodeInfo',
+                    {flowFid: data.fid},
+                    function (data) {
+                        example6Data.fruits=data;
+                    },
+                    function (err) {
+                        console.log(err)
+                    })
             }
             var dom = $("#" + id);
             this.sycenter(dom);
@@ -153,7 +156,7 @@ function selectPage(pageNub, size) {
             console.log(xmlHttp.getResponseHeader('content-type'));
             if (xmlHttp.getResponseHeader(content_type) === applction_json) {
                 let data = JSON.parse(xmlHttp.responseText);
-                if (data.code === 0&&data.data!==null) {
+                if (data.code === 0 && data.data !== null) {
 
                     pageDate.list = data.data.data;
                     pageButton.all = parseInt(data.data.total / size) === data.data.total / size ? data.data.total / size : parseInt(data.data.total / size) + 1;
@@ -251,7 +254,7 @@ function ok(id) {
             {
                 fid: example3Data.role.fid,
                 menuName: example3Data.role.name,
-                path:example3Data.role.path
+                path: example3Data.role.path
             },
             function (data) {
                 selectPage(pageButton.cur, pageSize);
@@ -264,8 +267,8 @@ function ok(id) {
         httpClient('POST', '/flow/create',
             {
                 flowName: example5Data.flow.flowName,
-                remark:example5Data.flow.remark,
-                list:example5Data.form.list
+                remark: example5Data.flow.remark,
+                list: example5Data.form.list
             },
             function (data) {
                 selectPage(pageButton.cur, pageSize);
@@ -278,7 +281,7 @@ function ok(id) {
         httpClient('POST', '/menu/updateAuth',
             {
                 fid: example6Data.updataId,
-                list:example6Data.fruitIds
+                list: example6Data.fruitIds
             },
             function (data) {
                 selectPage(pageButton.cur, pageSize);
@@ -299,7 +302,7 @@ function selectAuthPage(pageNub, size) {
                 let data = JSON.parse(xmlHttp.responseText);
                 if (data.code === 0) {
                     example6Data.fruits = data.data;
-                    console.log("/menu/all"+JSON.stringify(data.data))
+                    console.log("/menu/all" + JSON.stringify(data.data))
                     return;
                 } else {
                     errmessga(data.message);
@@ -327,39 +330,6 @@ var example6 = new Vue({
     el: '#example-6',
     data() {
         return example6Data
-    },
-    methods: {
-        checkedOne(fruitId) {
-            let idIndex = this.fruitIds.indexOf(fruitId)
-
-            if (idIndex >= 0) {
-                // 如果已经包含了该id, 则去除(单选按钮由选中变为非选中状态)
-                this.fruitIds.splice(idIndex, 1)
-                console.log("存在")
-            } else {
-                // 选中该checkbox
-                this.fruitIds.push(fruitId)
-                console.log("不存在")
-            }
-            console.log(JSON.stringify(this.fruitIds))
-        },
-        checkedAll(data) {
-            this.isCheckedAll = data
-            console.log(data)
-            if (data) {
-                // 全选时
-                this.fruitIds = []
-                this.fruits.forEach(function (fruit) {
-                    this.fruitIds.push(fruit.value)
-                }, this)
-            } else {
-                this.fruitIds = []
-            }
-            console.log(JSON.stringify(this.fruitIds))
-        },
-        deleteFruits() {
-
-        }
     }
 });
 selectAuthPage(1, 100);

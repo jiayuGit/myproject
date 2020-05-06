@@ -27,4 +27,6 @@ public interface TFlowNodeMapper {
     int updateByFid(FlowNodeDto fid);
 
     TFlowNode selectByFid(FlowNodeDto dto);
+
+    List<FlowNodeVo> selectFlowNodeInfo(TFlowNode dto);
 }

@@ -52,11 +52,19 @@ public class AuthUtil {
     public static String setAuthUserInfoVo(AuthUserInfoVo authUserInfoVo) {
         RedisTemplate<String, Serializable> redisTemplate = ApplicationContextUtil.getBeanByName("redisTemplateSerializable",RedisTemplate.class);
         authUserInfoVo.setAccessToken(UUID.randomUUID().toString());
+
         redisTemplate.opsForValue().set(Constants.TOKENKEY + authUserInfoVo.getAccessToken(), authUserInfoVo, DELTIMEMAX, TimeUnit.MILLISECONDS);
         return authUserInfoVo.getAccessToken();
     }
 
     public static Boolean outAuthUserInfoVo(String token){
+        RedisTemplate<String, Serializable> redisTemplate = ApplicationContextUtil.getBeanByName("redisTemplateSerializable",RedisTemplate.class);
+        return redisTemplate.delete(Constants.TOKENKEY+token);
+    }
+    public static Boolean outAuthUserInfoVo(){
+        HttpServletRequest request = ((ServletRequestAttributes) (RequestContextHolder.currentRequestAttributes())).getRequest();
+        String token = request.getHeader("access-token");
+
         RedisTemplate<String, Serializable> redisTemplate = ApplicationContextUtil.getBeanByName("redisTemplateSerializable",RedisTemplate.class);
         return redisTemplate.delete(Constants.TOKENKEY+token);
     }

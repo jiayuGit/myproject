@@ -5,10 +5,12 @@ import com.example.demo.dto.BasicPageDto;
 import com.example.demo.dto.FlowInfoDto;
 import com.example.demo.dto.FlowNodeDto;
 import com.example.demo.dto.FlowPageDto;
+import com.example.demo.entity.TFlowNode;
 import com.example.demo.model.Result;
 import com.example.demo.service.FlowService;
 import com.example.demo.util.AuthUtil;
 import com.example.demo.util.Check;
+import com.example.demo.vo.FlowNodeVo;
 import com.example.demo.vo.PageResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -69,6 +71,23 @@ public class FlowController {
             return Result.ok(result);
         } catch (Exception e) {
             log.error("查询流程失败e={} params={} fid={}",e,dto,fid);
+            return Result.fail("查询流程失败");
+        }
+
+    }
+    @PostMapping(path = "/selectFlowNodeInfo",
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ApiOperation(value = "查询流程接口",notes = "查询流程接口",response = Result.class,produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public Result selectFlowNodeInfo(@RequestBody TFlowNode dto){
+        //AuthUtil.getAuthUserInfoVo().getFid();
+        if (Check.NuNStr(dto.getFlowFid())){
+            return Result.fail("用户fid不能为空");
+        }
+        try {
+            List<FlowNodeVo> result = flowService.selectFlowNodeInfo(dto);
+            return Result.ok(result);
+        } catch (Exception e) {
+            log.error("查询流程失败e={} params={}",e,dto);
             return Result.fail("查询流程失败");
         }
 

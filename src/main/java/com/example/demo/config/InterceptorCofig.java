@@ -16,7 +16,7 @@ public class InterceptorCofig implements WebMvcConfigurer {
         //不需要的拦截路径，同上
         String[] excludePathPatterns = {
                 "/login",
-                "/index",
+//                "/index",
                 "/favicon.ico",
                 "/login/**",
                 "/send/authCode",

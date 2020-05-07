@@ -76,6 +76,7 @@ public class LoginService {
         AuthUserInfoVo userInfoVo = AuthUserInfoVo.builder()
                 .accessToken(UUID.randomUUID().toString())
                 .name(tUsers.get(0).getName())
+                .emaill(tUsers.get(0).getEmaill())
                 .rolePoList(userRoleList)
                 .menuList(new ArrayList<>(menuMap.values()))
                 .fid(tUsers.get(0).getUuid())

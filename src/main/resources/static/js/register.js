@@ -8,7 +8,9 @@ var p1 = document.querySelector("p#p1");
 var p2 = document.querySelector("p#p2");
 var p3 = document.querySelector("p#p3");
 var countdown = 60;
-
+function js_method(){
+    window.location.href=servicePate+'/login';
+};
 function settime(obj) {
     if (countdown == 0) {
         obj.removeAttribute("disabled");

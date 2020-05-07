@@ -3,9 +3,10 @@ var pwdinput = document.querySelector("input#password");
 var submitbut = document.querySelector("button#submit");
 var p1 = document.querySelector("p#p1");
 var p2 = document.querySelector("p#p2");
-var registerA = document.querySelector("a#register");
+var registerA = document.querySelector("a#registerA");
 var repwdA = document.querySelector("a#repwd");
-registerA.oncilck=function(){
+// registerA.oncilck=
+    function js_method(){
     window.location.href=servicePate+'/register';
 };
 emaillinput.onblur=function () {

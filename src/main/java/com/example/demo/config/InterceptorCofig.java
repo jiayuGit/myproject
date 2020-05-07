@@ -17,6 +17,7 @@ public class InterceptorCofig implements WebMvcConfigurer {
         String[] excludePathPatterns = {
                 "/login",
 //                "/index",
+                "/register",
                 "/favicon.ico",
                 "/login/**",
                 "/send/authCode",

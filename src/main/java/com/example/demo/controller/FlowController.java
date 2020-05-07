@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
@@ -38,8 +39,7 @@ public class FlowController {
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ApiOperation(value = "创建流程接口",notes = "创建流程接口",response = Result.class,produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Result createFlow(@RequestBody FlowInfoDto dto){
-//        String fid = AuthUtil.getAuthUserInfoVo().getFid();
-        String fid = "aa";
+        String fid = AuthUtil.getAuthUserInfoVo().getFid();
         if (Check.NuNStr(fid)){
             return Result.fail("用户fid不能为空");
         }
@@ -61,7 +61,7 @@ public class FlowController {
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ApiOperation(value = "查询流程接口",notes = "查询流程接口",response = Result.class,produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Result selectPage(@RequestBody FlowPageDto dto){
-        String fid = "1c165e4a-0842-402b-8fb9-663131b986db";//AuthUtil.getAuthUserInfoVo().getFid();
+        String fid = AuthUtil.getAuthUserInfoVo().getFid();
         if (Check.NuNStr(fid)){
             return Result.fail("用户fid不能为空");
         }
@@ -96,8 +96,7 @@ public class FlowController {
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ApiOperation(value = "查询角色审批的节点列表接口",notes = "查询角色审批的节点列表接口",response = Result.class,produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Result nodePage(@RequestBody BasicPageDto dto){
-        String fid = "aa";//AuthUtil.getAuthUserInfoVo().getFid();
-        List<String> list = new ArrayList<>(Arrays.asList("b9908d93-4e08-412b-a131-037f5d06426d"));
+        List<String> list= AuthUtil.getAuthUserInfoVo().getRolePoList().stream().map(v->v.getRoleFid()).collect(Collectors.toList());
         if (Check.NuNCollection(list)){
             return Result.fail("您没有任何权限");
         }
@@ -105,7 +104,7 @@ public class FlowController {
             PageResult result = flowService.selectFlowNode(dto,list);
             return Result.ok(result);
         } catch (Exception e) {
-            log.error("查询角色审批的节点列表接口e={} params={} fid={}",e,dto,fid);
+            log.error("查询角色审批的节点列表接口e={} params={} list={}",e,dto,list);
             return Result.fail("查询角色审批的节点列表接口失败");
         }
 

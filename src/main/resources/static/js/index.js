@@ -14,6 +14,8 @@ var example1 = new Vue({
                 console.log('outlogin');
                 httpClient('POST', '/login/out', {},
                     function (data) {
+                        setToken('');
+                        closeWebSocket();
                         window.location.href=servicePate+'/login';
                     },
                     function (err) {
@@ -21,11 +23,15 @@ var example1 = new Vue({
                     })
             },
             change(path) {
+                if (websocket!==null){
+                    websocket.close();
+                }
                 if (path !== null&&path!=='') {
                     $("#page").load("/templates/" + path + ".html");
                 }else {
                     $("#page").load("/templates/homePage.html");
                 }
+
             },
             init() {
                 $("#page").load("/templates/homePage.html");

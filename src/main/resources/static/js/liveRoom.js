@@ -3,6 +3,8 @@ var nowvideo = document.querySelector('video#nowvideo');
 var buttonloacl = document.querySelector('a#buttonloacl');
 var buttonloac2 = document.querySelector('a#buttonloac2');
 var buttonremote = document.querySelector('a#buttonremote');
+var inputRoom = document.querySelector('input#inputRoom');
+
 var text = document.querySelector('textarea#text');
 var container = document.getElementById("container");
 var sum=2*1024*1024;
@@ -56,12 +58,29 @@ function setChang_bw(pc,count) {
         .catch(function (reason) { console.log(reason) });
 }
 
+function closeWebRTC(){
+    websocket.close();
+    pcMap.forEach(function (key, value) {
+        value.close();
+    });
+    pcMap.clear();
+    divMap.clear();
+
+    videoMap.forEach(function (key, value) {
+        value.srcObject.close();
+        value.parentNode.removeChild(value);
+    });
+    videoMap.clear();
+    aMap.forEach(function (key, value) {
+        value.srcObject.close();
+        value.parentNode.removeChild(value);
+    });
+    aMap.clear();
+    console.log('关闭成功');
+}
 
 buttonloacl.onclick = function () {
-    if(websocket!==null){
-        websocket.close();
-    }
-    initWebSocket()
+
     if (!navigator.mediaDevices ||
         !navigator.mediaDevices.getUserMedia) {
         alert("该浏览器不支持,请更换Chrome或者其他支持的浏览器");
@@ -74,10 +93,10 @@ buttonloacl.onclick = function () {
     }
 };
 buttonloac2.onclick = function () {
-    if(websocket!==null){
-        websocket.close();
-    }
-    initWebSocket()
+    // if(websocket!==null){
+    //     closeWebRTC();
+    // }
+    // initWebSocket()
     if (!navigator.mediaDevices ||
         !navigator.mediaDevices.getDisplayMedia) {
         alert("该浏览器不支持,请更换Chrome或者其他支持的浏览器");
@@ -90,8 +109,11 @@ buttonloac2.onclick = function () {
     }
 };
 buttonremote.onclick = function () {
-    senderMessage('join', null, null, null, null);
-    setWhile();
+    if(websocket!==null){
+        closeWebRTC();
+    }
+    initWebSocket()
+
 }
 
 function handerlocalstreamErr(err) {
@@ -125,13 +147,19 @@ function getlocalstream(stream) {
 }
 function initWebSocket() {
     try {
+        var num = inputRoom.value;
+        if (num===null||num===''){
+            num = 1;
+        }
         let url = 'ws://' + window.location.host + '' +
-            '/websocket/1';
+            '/websocket/'+num;
         websocket = new WebSocket(url);
     }catch (e) {
     }
     websocket.onopen = function () {
         console.log("建立 websocket 连接...");
+        senderMessage('join', null, null, null, null);
+        setWhile();
     };
     websocket.onmessage = function (event) {
         var data = JSON.parse(event.data);

@@ -53,6 +53,7 @@ public class MenuAuthorityService {
         Map<String, MenuAuthVo> map = tMenus.stream().map(v -> {
             MenuAuthVo build = MenuAuthVo.builder()
                     .name(v.getMenuName())
+                    .path(v.getPath())
                     .fid(v.getFid())
                     .lastModifyTime(v.getLastModifyTime())
                     .list(new ArrayList<>())

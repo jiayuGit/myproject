@@ -2,14 +2,24 @@ var servicePate = 'http://' + window.location.host;
 var access_token
 var content_type = 'content-type';
 var applction_json = 'application/json;charset=UTF-8';
-
+var websocket=null;
 function getToken() {
     return document.cookie;
 }
+function errmessga(messge) {
+    console.log(messge)
 
+
+}
+function closeWebSocket() {
+    if (websocket!==null){
+        websocket.close();
+    }
+}
 function setToken(token) {
     return document.cookie = token;
 }
+
 
 function httpClient(method, path, request, then, err) {
     let xmlHttp = new XMLHttpRequest();
@@ -23,14 +33,14 @@ function httpClient(method, path, request, then, err) {
                     // console.log(JSON.stringify(data.data))
                     then(data.data);
                 } else {
-                    nologin(data.message);
+                    err(data.message);
 
                 }
 
 
             } else {
                 // console.log(xmlHttp.responseText);
-                nologin('服务器正在抢修中!!');
+                err('服务器正在抢修中!!');
             }
             err(xmlHttp.responseText);
         }

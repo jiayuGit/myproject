@@ -10,20 +10,21 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class InterceptorCofig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-//        String[] addPathPatterns = {
-//                "/**"
-//        };
-//        //不需要的拦截路径，同上
-//        String[] excludePathPatterns = {
-//                "/login",
+        String[] addPathPatterns = {
+                "/**"
+        };
+        //不需要的拦截路径，同上
+        String[] excludePathPatterns = {
+                "/login",
 //                "/index",
-//                "/favicon.ico",
-//                "/login/**",
-//                "/send/authCode",
-//                "/static/**",
-//                "/templates/**"
-//        };
-//        registry.addInterceptor(new LoginHanderIntercepor()).addPathPatterns(addPathPatterns).excludePathPatterns(excludePathPatterns);
+                "/register",
+                "/favicon.ico",
+                "/login/**",
+                "/send/authCode",
+                "/static/**",
+                "/templates/**"
+        };
+        registry.addInterceptor(new LoginHanderIntercepor()).addPathPatterns(addPathPatterns).excludePathPatterns(excludePathPatterns);
 
 
     }

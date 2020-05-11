@@ -1,7 +1,10 @@
 // var localvideo = document.querySelector('video#localVideo');
 var nowvideo = document.querySelector('video#nowvideo');
 var buttonloacl = document.querySelector('a#buttonloacl');
+var buttonloac2 = document.querySelector('a#buttonloac2');
 var buttonremote = document.querySelector('a#buttonremote');
+var inputRoom = document.querySelector('input#inputRoom');
+
 var text = document.querySelector('textarea#text');
 var container = document.getElementById("container");
 var sum=2*1024*1024;
@@ -12,6 +15,12 @@ var pcConfig = {
         'username': "garrylea"
     }]
 };
+
+var constraints = {
+    audio: false,
+    video: true
+};
+
 var pcMap = new Map();
 var candidateMap = new Map();
 var videoMap = new Map();
@@ -48,31 +57,63 @@ function setChang_bw(pc,count) {
         .then(function () { console.log("设置发送码率成功"+bw); })
         .catch(function (reason) { console.log(reason) });
 }
-try {
-    let url = 'wss://' + window.location.host + '' +
-        '/websocket/1';
-    websocket = new WebSocket(url);
-}catch (e) {
+
+function closeWebRTC(){
+    websocket.close();
+    pcMap.forEach(function (key, value) {
+        value.close();
+    });
+    pcMap.clear();
+    divMap.clear();
+
+    videoMap.forEach(function (key, value) {
+        value.srcObject.close();
+        value.parentNode.removeChild(value);
+    });
+    videoMap.clear();
+    aMap.forEach(function (key, value) {
+        value.srcObject.close();
+        value.parentNode.removeChild(value);
+    });
+    aMap.clear();
+    console.log('关闭成功');
 }
 
 buttonloacl.onclick = function () {
+
     if (!navigator.mediaDevices ||
         !navigator.mediaDevices.getUserMedia) {
         alert("该浏览器不支持,请更换Chrome或者其他支持的浏览器");
         return;
     } else {
-        var constraints = {
-            audio: true,
-            video: true
-        };
+
         navigator.mediaDevices.getUserMedia(constraints)
             .then(getlocalstream)
             .catch(handerlocalstreamErr);
     }
 };
+buttonloac2.onclick = function () {
+    // if(websocket!==null){
+    //     closeWebRTC();
+    // }
+    // initWebSocket()
+    if (!navigator.mediaDevices ||
+        !navigator.mediaDevices.getDisplayMedia) {
+        alert("该浏览器不支持,请更换Chrome或者其他支持的浏览器");
+        return;
+    } else {
+
+        navigator.mediaDevices.getDisplayMedia(constraints)
+            .then(getlocalstream)
+            .catch(handerlocalstreamErr);
+    }
+};
 buttonremote.onclick = function () {
-    senderMessage('join', null, null, null, null);
-    setWhile();
+    if(websocket!==null){
+        closeWebRTC();
+    }
+    initWebSocket()
+
 }
 
 function handerlocalstreamErr(err) {
@@ -104,101 +145,113 @@ function getlocalstream(stream) {
         nowvideo.srcObject=localvideo.srcObject;
     };
 }
-
-websocket.onopen = function () {
-    console.log("建立 websocket 连接...");
-};
-websocket.onmessage = function (event) {
-    var data = JSON.parse(event.data);
-    console.log('服务器发来的数据:', data);
-    if (data.type === 'joined') {
-        console.log("加入房间成功");
-        createRTCPeerConnetion(data.sessionid);
-    } else if (data.type === 'other_join') {
-        console.log("创建RTCPeer");
-        createRTCPeerConnetion(data.sessionid);
-        let pc = pcMap.get(data.sessionid);
-        let options = {
-            offerToReceiveAudio: 1,
-            offerToReceiveVideo: 1
+function initWebSocket() {
+    try {
+        var num = inputRoom.value;
+        if (num===null||num===''){
+            num = 1;
         }
-        pc.createOffer(options)
-            .then(function (desc) {
-                pc.setLocalDescription(desc);
-                senderMessage('offer', desc, data.sessionid, null, null);
-            })
-            .catch(handerOfferErr);
-    } else if (data.type === 'offer') {
-        console.log("远方SDP添加到本地,并发送本地awser");
-        let pc = pcMap.get(data.sessionid);
-        pc.setRemoteDescription(new RTCSessionDescription(JSON.parse(data.data)));
-        pc.createAnswer()
-            .then(function (desc) {
-                pc.setLocalDescription(desc);
-                senderMessage('answer', desc, data.sessionid, null, null);
-            })
-            .catch(handerAnswerErr);
-    } else if (data.type === 'answer') {
-        console.log("远方AnsweSDP添加到本地,并保存到本地")
-        let pc = pcMap.get(data.sessionid);
-        pc.setRemoteDescription(new RTCSessionDescription(JSON.parse(data.data)));
-    } else if (data.type === 'leaved') {
-        pcMap.forEach(function (key, value) {
-            value.close();
-        });
-        pcMap.clear();
-        divMap.clear();
-        aMap.clear();
-        videoMap.forEach(function (key, value) {
-            value.srcObject.close();
-        });
-        videoMap.clear();
-        console.log('关闭成功');
-    } else if (data.type === 'bye') {
-        if (pcMap.has(data.sessionid)) {
-            let depc = pcMap.get(data.sessionid);
-            pcMap.delete(data.sessionid);
-            depc.close();
-            depc = null;
-        }
-        if (videoMap.has(data.sessionid)){
-            let video = videoMap.get(data.sessionid);
-            videoMap.delete(data.sessionid);
-            video.parentNode.removeChild(video);
-            video.srcObject=null;
-            video=null;
-            let div = divMap.get(data.sessionid);
-            divMap.delete(data.sessionid);
-            div.parentNode.removeChild(div);
-            let a = aMap.get(data.sessionid);
-            aMap.delete(data.sessionid);
-            a.parentNode.remove(a);
-
-        }
-
-
-        console.log('对方已关闭', data.sessionid);
-    } else if (data.type === 'candidate') {
-        console.log("添加远方ICEcondidate到本地RTCPeerConnetion", data.sessionid)
-
-        var condidate = new RTCIceCandidate({
-            candidate: data.candidate,
-            sdpMLineIndex: data.sdpMLineIndex
-        })
-        var pc = pcMap.get(data.sessionid);
-        if (!pc) {
-            candidateMap.get(data.sessionid).push(condidate);
-        } else {
-            let arr = candidateMap.get(data.sessionid);
-            while (arr.length > 0) {
-                pc.addIceCandidate(arr.pop());
+        let url = 'ws://' + window.location.host + '' +
+            '/websocket/'+num;
+        websocket = new WebSocket(url);
+    }catch (e) {
+    }
+    websocket.onopen = function () {
+        console.log("建立 websocket 连接...");
+        senderMessage('join', null, null, null, null);
+        setWhile();
+    };
+    websocket.onmessage = function (event) {
+        var data = JSON.parse(event.data);
+        console.log('服务器发来的数据:', data);
+        if (data.type === 'joined') {
+            console.log("加入房间成功");
+            createRTCPeerConnetion(data.sessionid);
+        } else if (data.type === 'other_join') {
+            console.log("创建RTCPeer");
+            createRTCPeerConnetion(data.sessionid);
+            let pc = pcMap.get(data.sessionid);
+            let options = {
+                offerToReceiveAudio: 1,
+                offerToReceiveVideo: 1
             }
-            pc.addIceCandidate(condidate);
-        }
+            pc.createOffer(options)
+                .then(function (desc) {
+                    pc.setLocalDescription(desc);
+                    senderMessage('offer', desc, data.sessionid, null, null);
+                })
+                .catch(handerOfferErr);
+        } else if (data.type === 'offer') {
+            console.log("远方SDP添加到本地,并发送本地awser");
+            let pc = pcMap.get(data.sessionid);
+            pc.setRemoteDescription(new RTCSessionDescription(JSON.parse(data.data)));
+            pc.createAnswer()
+                .then(function (desc) {
+                    pc.setLocalDescription(desc);
+                    senderMessage('answer', desc, data.sessionid, null, null);
+                })
+                .catch(handerAnswerErr);
+        } else if (data.type === 'answer') {
+            console.log("远方AnsweSDP添加到本地,并保存到本地")
+            let pc = pcMap.get(data.sessionid);
+            pc.setRemoteDescription(new RTCSessionDescription(JSON.parse(data.data)));
+        } else if (data.type === 'leaved') {
+            pcMap.forEach(function (key, value) {
+                value.close();
+            });
+            pcMap.clear();
+            divMap.clear();
+            aMap.clear();
+            videoMap.forEach(function (key, value) {
+                value.srcObject.close();
+            });
+            videoMap.clear();
+            console.log('关闭成功');
+        } else if (data.type === 'bye') {
+            if (pcMap.has(data.sessionid)) {
+                let depc = pcMap.get(data.sessionid);
+                pcMap.delete(data.sessionid);
+                depc.close();
+                depc = null;
+            }
+            if (videoMap.has(data.sessionid)) {
+                let video = videoMap.get(data.sessionid);
+                videoMap.delete(data.sessionid);
+                video.parentNode.removeChild(video);
+                video.srcObject = null;
+                video = null;
+                let div = divMap.get(data.sessionid);
+                divMap.delete(data.sessionid);
+                div.parentNode.removeChild(div);
+                let a = aMap.get(data.sessionid);
+                aMap.delete(data.sessionid);
+                a.parentNode.remove(a);
 
+            }
+
+
+            console.log('对方已关闭', data.sessionid);
+        } else if (data.type === 'candidate') {
+            console.log("添加远方ICEcondidate到本地RTCPeerConnetion", data.sessionid)
+
+            var condidate = new RTCIceCandidate({
+                candidate: data.candidate,
+                sdpMLineIndex: data.sdpMLineIndex
+            })
+            var pc = pcMap.get(data.sessionid);
+            if (!pc) {
+                candidateMap.get(data.sessionid).push(condidate);
+            } else {
+                let arr = candidateMap.get(data.sessionid);
+                while (arr.length > 0) {
+                    pc.addIceCandidate(arr.pop());
+                }
+                pc.addIceCandidate(condidate);
+            }
+
+        }
     }
 }
-
 function handerOfferErr(err) {
     console.error("获取本地offer错误", err);
 }

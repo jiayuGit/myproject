@@ -3,6 +3,7 @@ package com.example.demo.vo;
 import com.example.demo.entity.TUserRole;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -20,7 +21,7 @@ import java.util.Date;
  * @since 1.0
  */
 @Data
-public class UserRolePo {
+public class UserRolePo implements Serializable {
     private Integer id;
 
     private String fid;

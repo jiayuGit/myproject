@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>企业OA管理系统</title>
+    <link rel="stylesheet" href="/static/css/util.css">
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
+    <link rel="stylesheet" href="/static/css/bootstrap-theme.min.css">
+
+    <link rel="stylesheet" href="/static/css/animate.min.css"/>
+    <link rel="stylesheet" href="/static/css/syalert.min.css"/>
+
+    <script type="text/javascript" src="/static/js/jquery.min.js"></script>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: #ddd;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .nav {
+            background: #fff;
+            width: 100%;
+            height: 0px;
+            font-size: 20px;
+            line-height: 100px;
+            text-align: center;
+            border-bottom: 1px solid #f60;
+        }
+
+        .box {
+            margin: 0 auto;
+            width: 1800px;
+        }
+
+        .fl_l {
+            width: 200px;
+            float: left;
+            border: 1px solid #f4f4f4;
+            background: #fff;
+        }
+
+        .fl_l li a {
+            border-bottom: 1px solid #eee;
+            text-align: center;
+            display: block;
+            color: #333;
+            font-size: 14px;
+            line-height: 60px;
+        }
+
+        .fl_l li.active a {
+            background: #f60;
+            color: #fff;
+        }
+
+        .fl_r {
+            float: right;
+            width: 1600px;
+        }
+
+        .fl_r li {
+            margin-bottom: 30px;
+            background: #fff;
+            font-size: 50px;
+            line-height: 300px;
+            display: block;
+            text-align: center;
+        }
+
+        .banner {
+            background: #fff;
+            width: 100%;
+            height: 100px;
+            font-size: 40px;
+            line-height: 150px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<script src="/static/js/util.js" type="text/javascript"></script>
+<script src="/static/js/vue.js" type="text/javascript"></script>
+
+<body>
+<div id="example-12">
+    <!--<a-button type="primary" @click="info">-->
+        <!--Display normal message-->
+    <!--</a-button>-->
+</div>
+<div class="banner">OA管理系统</div>
+<div class="box">
+    <div id="example-10">
+        <div  class="fl_l">
+            <li class="active"><a href="##" @click="change('')">首页</a></li>
+            <div v-for="(data,index) in indexData.menu">
+            <li class="active"><a href="##" @click="change(data.path)">{{data.menuName}}</a></li>
+            </div>
+            <li class="active"><a href="##" @click="outlogin()">退出登录</a></li>
+        </div>
+    </div>
+    <ul class="fl_r">
+        <li style="height: 600px; width: 100%">
+            <div id="page"><h1>首页内容</h1></div>
+        </li>
+    </ul>
+    <div style="clear: both;"></div>
+</div>
+
+
+<div style="text-align:center;">
+
+</div>
+</body>
+<script type="text/javascript" src="/static/js/index.js"></script>
+
+</html>

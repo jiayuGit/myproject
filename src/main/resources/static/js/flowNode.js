@@ -14,16 +14,35 @@ var pageDate = {
  * Version - 1.0
  * Copyright (c) 2019 sy
  */
+var example11Data = {
+    role: {
+        name: '',
+        fid: '',
+        remark:''
+    }
+};
 var example3Data = {
     role: {
         name: '',
-        fid: ''
+        fid: '',
+        remark:''
     }
 };
 var example5Data = {
-    role: {
+    flow: {
+        flowName: '',
+        remark:'',
+        list:[]
+    },
+    items: [{text: 'A', value: 'a'}, {text: 'B', value: 'b'}, {text: 'C', value: 'c'}],
+
+    form: {
         name: '',
-        path:''
+        selectOne: '2',
+        list: [{
+            nodeName: '',
+            roleFid:''
+        }]
     }
 };
 var example6Data = {
@@ -37,9 +56,35 @@ var example3 = new Vue({
     el: '#example-3',
     data: example3Data
 });
+httpClient("POST", '/role/listKey',
+    {
+        startPage: 1,
+        pageSize: 100
+    },
+    function (data) {
+        example5Data.items = data;
+    },
+    function (err) {
+        errmessga(err);
+    })
 var example5 = new Vue({
     el: '#example-5',
-    data: example5Data
+    data: example5Data,
+    methods: {
+        addAdministrator() {
+            this.form.list.push({
+                nodeName: ''
+            })
+        },
+        delAdministrator(myindex) {
+            console.log(myindex)
+            this.form.list.splice(myindex,1);// = this.form.list.filter((currentValue, index) = > index != myindex)
+        },
+        change(data,value){
+            data.roleFid=value;
+        }
+
+    }
 });
 
 var syalert = function () {
@@ -47,18 +92,7 @@ var syalert = function () {
         syopen: function (id, data) {
             if (data !== null) {
                 example3Data.role.fid = data.fid;
-                example3Data.role.name = data.name;
-                example3Data.role.path = data.path;
-                var list=data.list;
-                example6Data.updataId=data.fid;
-                console.log(JSON.stringify(list))
-                if (list!==null){
-
-                    example6Data.fruitIds=[];
-                    list.forEach(v =>{
-                        example6Data.fruitIds.push(v.value);
-                    })
-                }
+                example11Data.role.fid = data.fid;
             }
             var dom = $("#" + id);
             this.sycenter(dom);
@@ -118,6 +152,12 @@ var example1 = new Vue({
         }
     }
 );
+
+var example11 = new Vue({
+        el: '#example-11',
+        data: example11Data
+    }
+);
 selectPage(page, pageSize);
 
 function selectPage(pageNub, size) {
@@ -127,24 +167,25 @@ function selectPage(pageNub, size) {
             console.log(xmlHttp.getResponseHeader('content-type'));
             if (xmlHttp.getResponseHeader(content_type) === applction_json) {
                 let data = JSON.parse(xmlHttp.responseText);
-                if (data.code === 0) {
+                if (data.code === 0&&data.data!==null) {
+
                     pageDate.list = data.data.data;
                     pageButton.all = parseInt(data.data.total / size) === data.data.total / size ? data.data.total / size : parseInt(data.data.total / size) + 1;
                     pageButton.cur = pageNub;
                     return;
                 } else {
-                    nologin(data.message);
+                    errmessga(data.message);
                 }
 
 
             } else {
                 console.log(xmlHttp.responseText);
-                nologin('服务器正在抢修中!!');
+                errmessga('服务器正在抢修中!!');
             }
 
         }
     }
-    xmlHttp.open("POST", servicePate + '/menu/authPage', true);
+    xmlHttp.open("POST", servicePate + '/flow/nodePage', true);
     xmlHttp.setRequestHeader('content-type', 'application/json');
     xmlHttp.setRequestHeader('access-token', getToken());
     xmlHttp.send(JSON.stringify({
@@ -208,9 +249,25 @@ var pageBar = new Vue({
 function ok(id) {
     console.log(id)
     if ('alert1' === id) {
-        httpClient('POST', '/menu/deleteMenu',
+        httpClient('POST', '/flow/nodeAudit',
             {
-                fid: example3Data.role.fid
+                fid: example11Data.role.fid,
+                remark:example11Data.role.remark,
+                state:2
+            },
+            function (data) {
+                selectPage(pageButton.cur, pageSize);
+            },
+            function (err) {
+                console.log(JSON.stringify(err));
+            })
+    }
+    if ('alert3' === id) {
+        httpClient('POST', '/flow/nodeAudit',
+            {
+                fid: example3Data.role.fid,
+                remark:example3Data.role.remark,
+                state:3
             },
             function (data) {
                 selectPage(pageButton.cur, pageSize);
@@ -233,32 +290,7 @@ function ok(id) {
                 console.log(JSON.stringify(err));
             })
     }
-    if (id === 'alert5') {
-        httpClient('POST', '/menu/addMenu',
-            {
-                menuName: example5Data.role.name,
-                path:example5Data.role.path
-            },
-            function (data) {
-                selectPage(pageButton.cur, pageSize);
-            },
-            function (err) {
-                console.log(JSON.stringify(err));
-            })
-    }
-    if (id === 'alert6') {
-        httpClient('POST', '/menu/updateAuth',
-            {
-                fid: example6Data.updataId,
-                list:example6Data.fruitIds
-            },
-            function (data) {
-                selectPage(pageButton.cur, pageSize);
-            },
-            function (err) {
-                console.log(JSON.stringify(err));
-            })
-    }
+
     syalert.syhide(id);
 }
 
@@ -274,13 +306,13 @@ function selectAuthPage(pageNub, size) {
                     console.log("/menu/all"+JSON.stringify(data.data))
                     return;
                 } else {
-                    nologin(data.message);
+                    errmessga(data.message);
                 }
 
 
             } else {
                 console.log(xmlHttp.responseText);
-                nologin('服务器正在抢修中!!');
+                errmessga('服务器正在抢修中!!');
             }
 
         }

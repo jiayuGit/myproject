@@ -128,15 +128,15 @@
     </div>
     <div class="page-bar">
         <ul>
-            <li v-if="cur>1"><a v-on:click="cur--,pageClick()">上一页</a></li>
-            <li v-if="cur==1"><a class="banclick">上一页</a></li>
+            <li v-if="cur>1"><a v-on:click="cur--,pageClick()"  style="font-size:18px">上一页</a></li>
+            <li v-if="cur==1"><a class="banclick" style="font-size:18px">上一页</a></li>
             <!--当前页背景色为蓝色-->
-            <li v-for="index in indexs" v-bind:class="{ 'active': cur == index}">
-                <a v-on:click="btnClick(index)">{{ index }}</a>
+            <li v-for="index in indexs" v-bind:class="{ 'active': cur == index}"  style="font-size:18px">
+                <a v-on:click="btnClick(index)"  style="font-size:18px">{{ index }}</a>
             </li>
-            <li v-if="cur<all"><a v-on:click="cur++,pageClick()">下一页</a></li>
-            <li v-if="cur == all"><a class="banclick">下一页</a></li>
-            <li><a>共<i>{{all}}</i>页</a></li>
+            <li v-if="cur<all"><a v-on:click="cur++,pageClick()"  style="font-size:18px">下一页</a></li>
+            <li v-if="cur == all"  style="font-size:18px"><a class="banclick"  style="font-size:18px">下一页</a></li>
+            <li  style="font-size:18px"><a  style="font-size:18px">共<i  style="font-size:18px">{{all}}</i>页</a></li>
         </ul>
     </div>
 

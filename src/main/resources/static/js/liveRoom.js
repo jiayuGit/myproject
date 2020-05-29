@@ -151,9 +151,8 @@ function initWebSocket() {
         if (num===null||num===''){
             num = 1;
         }
-        let url = 'ws://' + window.location.host + '' +
-            '/websocket/'+num;
-        websocket = new WebSocket(url);
+
+        websocket = new WebSocket(websocketurl+num);
     }catch (e) {
     }
     websocket.onopen = function () {

@@ -20,6 +20,7 @@ var example1 = new Vue({
                     },
                     function (err) {
                         errmessga(err);
+
                     })
             },
             change(path) {
@@ -41,6 +42,7 @@ var example1 = new Vue({
                     },
                     function (err) {
                         console.log(err);
+                        window.location.href=servicePate+'/login';
                     });
             }
 

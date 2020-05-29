@@ -1,8 +1,10 @@
-var servicePate = 'http://' + window.location.host;
+var servicePate = 'https://' + window.location.host;
 var access_token
 var content_type = 'content-type';
 var applction_json = 'application/json;charset=UTF-8';
 var websocket=null;
+var websocketurl = 'wss://' + window.location.host + '' +
+    '/websocket/';
 function getToken() {
     return document.cookie;
 }
@@ -42,7 +44,7 @@ function httpClient(method, path, request, then, err) {
                 // console.log(xmlHttp.responseText);
                 err('服务器正在抢修中!!');
             }
-            err(xmlHttp.responseText);
+
         }
     }
     xmlHttp.open(method, servicePate + path, true);

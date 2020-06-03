@@ -5,11 +5,14 @@ import com.example.demo.dto.UserRolePageDto;
 import com.example.demo.service.UserRoleService;
 import com.example.demo.vo.PageResult;
 //import org.junit.jupiter.api.Test;
+import org.apache.tomcat.jni.Local;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-;
+;import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes={DemoApplication.class})
@@ -26,7 +29,10 @@ class DemoApplicationTests {
         System.out.println(pageResult);
     }
 
-//    public static void main(String [] args) {
+    public static void main(String [] args) {
+        ZonedDateTime zonedDateTime = LocalDate.now().atStartOfDay(ZoneId.systemDefault());
+        System.out.println(zonedDateTime);
+
 //        for (String s:"".split("#")
 //             ) {
 //            System.out.println(s+"="+s.length());
@@ -41,6 +47,6 @@ class DemoApplicationTests {
 //        TUser tUser1 = Optional.ofNullable(tUser).filter(v -> !Check.NuNStr(v.getEmaill())).orElse(TUser.builder().emaill("aaaa").build());
 //
 //        System.out.println(tUser1);
-//    }
-
+    }
+//
 }

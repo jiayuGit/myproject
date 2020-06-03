@@ -1,10 +1,12 @@
 package com.example.demo.service;
 
 import com.example.demo.constant.Constants;
+import com.example.demo.dao.TAttendanceSheetMapper;
 import com.example.demo.dao.TMenuMapper;
 import com.example.demo.dao.TUserMapper;
 import com.example.demo.dao.TUserRoleMapper;
 import com.example.demo.dto.RegisterDto;
+import com.example.demo.entity.TAttendanceSheet;
 import com.example.demo.entity.TMenu;
 import com.example.demo.entity.TRoleMenu;
 import com.example.demo.entity.TUser;
@@ -21,6 +23,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -29,6 +33,9 @@ import java.util.stream.Collectors;
 public class LoginService {
     @Autowired
     private TUserMapper tUserMapper;
+
+    @Autowired
+    private TAttendanceSheetMapper tAttendanceSheetMapper;
     
     @Resource(name = "redisTemplateSerializable")
     private RedisTemplate<String, Serializable> redisTemplate;
@@ -93,5 +100,30 @@ public class LoginService {
             return Result.fail("账户已注册");
         }
         return Result.ok();
+    }
+    @Transactional
+    public void clockIn(AuthUserInfoVo authUserInfoVo) {
+        TAttendanceSheet tAttendanceSheet1 = tAttendanceSheetMapper
+                .selectByTime(TAttendanceSheet.builder()
+                .start(Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant()))
+                .end(Date.from(LocalDate.now().plusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant()))
+                .build());
+
+        TAttendanceSheet tAttendanceSheet = TAttendanceSheet.builder()
+                .fid(UUID.randomUUID().toString())
+                .userFid(authUserInfoVo.getFid())
+                .startTime(new Date())
+                .build();
+        tAttendanceSheetMapper.insertSelective(tAttendanceSheet);
+
+    }
+    @Transactional
+    public void clockOut(AuthUserInfoVo authUserInfoVo) {
+        TAttendanceSheet tAttendanceSheet = TAttendanceSheet.builder()
+                .start(Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant()))
+                .end(Date.from(LocalDate.now().plusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant()))
+                .endTime(new Date())
+                .build();
+        tAttendanceSheetMapper.insertSelective(tAttendanceSheet);
     }
 }

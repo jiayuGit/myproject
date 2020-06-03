@@ -78,6 +78,45 @@ public class LoginController {
         }
 
     }
+    @PostMapping(path = "/clockIn",
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ApiOperation(value = "员工签到接口", notes = "员工签到接口", response = Result.class, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public Result clockIn() {
+
+        try {
+
+            AuthUserInfoVo authUserInfoVo = AuthUtil.getAuthUserInfoVo();
+            if (Check.NuNObj(authUserInfoVo)) {
+                return Result.fail("请重新登录");
+            }
+            loginService.clockIn(authUserInfoVo)
+            ;
+            return Result.ok();
+        } catch (Exception e) {
+            log.error("员工签到失败e={}", e);
+            return Result.fail("员工签到失败");
+        }
+
+    }
+    @PostMapping(path = "/clockOut",
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ApiOperation(value = "员工签退接口", notes = "员工签退接口", response = Result.class, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public Result clockOut() {
+
+        try {
+
+            AuthUserInfoVo authUserInfoVo = AuthUtil.getAuthUserInfoVo();
+            if (Check.NuNObj(authUserInfoVo)) {
+                return Result.fail("请重新登录");
+            }
+            loginService.clockOut(authUserInfoVo);
+            return Result.ok();
+        } catch (Exception e) {
+            log.error("员工签退失败e={}", e);
+            return Result.fail("员工签退失败");
+        }
+
+    }
 
     @PostMapping(path = "/menu",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)

@@ -109,12 +109,7 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.example.demo.entity.TUser">
     update t_user
     <set>
-      <if test="uuid != null">
-        uuid = #{uuid,jdbcType=VARCHAR},
-      </if>
-      <if test="emaill != null">
-        emaill = #{emaill,jdbcType=VARCHAR},
-      </if>
+
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
       </if>
@@ -131,7 +126,8 @@
         last_modify_time = #{lastModifyTime,jdbcType=TIMESTAMP},
       </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
+    where
+    emaill = #{emaill,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.example.demo.entity.TUser">
     update t_user

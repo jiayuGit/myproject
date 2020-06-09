@@ -37,4 +37,6 @@ public class UserRolePo implements Serializable {
     private Date lastModifyTime;
 
     private String roleName;
+
+
 }

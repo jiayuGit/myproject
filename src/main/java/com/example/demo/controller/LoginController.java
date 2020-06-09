@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.dao.TMenuMapper;
 import com.example.demo.dto.BasicPageDto;
+import com.example.demo.dto.ClockCountDto;
 import com.example.demo.dto.FlowPageDto;
 import com.example.demo.dto.RegisterDto;
 import com.example.demo.entity.TMenu;
@@ -71,6 +72,8 @@ public class LoginController {
             Result result1 = flowController.nodePage(new FlowPageDto());
             PageResult pageResult1 = (PageResult)result1.getData();
             userInfoVo.setOtherPending(pageResult1.getTotal());
+            ClockCountDto clockCountDto = new ClockCountDto();
+            userInfoVo.setClockCount((Integer)this.clockCount(clockCountDto).getData());
             return Result.ok(userInfoVo);
         } catch (Exception e) {
             log.error("查询菜单失败e={}", e);
@@ -78,9 +81,30 @@ public class LoginController {
         }
 
     }
+
+    @PostMapping(path = "/userUpdate",
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ApiOperation(value = "修改用户信息接口", notes = "用户信息接口", response = Result.class, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public Result userUpdate(UserInfoVo infoVo) {
+
+        try {
+
+            AuthUserInfoVo authUserInfoVo = AuthUtil.getAuthUserInfoVo();
+            if (Check.NuNObj(authUserInfoVo)) {
+                return Result.fail("请重新登录");
+            }
+            loginService.userUpdate(infoVo);
+            return Result.ok();
+        } catch (Exception e) {
+            log.error("修改用户信息失败e={}", e);
+            return Result.fail("修改用户信息失败");
+        }
+
+    }
+
     @PostMapping(path = "/clockIn",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    @ApiOperation(value = "员工签到接口", notes = "员工签到接口", response = Result.class, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ApiOperation(value = "员工签到签退接口", notes = "员工签到接口", response = Result.class, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Result clockIn() {
 
         try {
@@ -89,19 +113,34 @@ public class LoginController {
             if (Check.NuNObj(authUserInfoVo)) {
                 return Result.fail("请重新登录");
             }
-            loginService.clockIn(authUserInfoVo)
-            ;
-            return Result.ok();
+            return Result.ok(loginService.clockIn(authUserInfoVo));
         } catch (Exception e) {
             log.error("员工签到失败e={}", e);
             return Result.fail("员工签到失败");
         }
 
     }
-    @PostMapping(path = "/clockOut",
+    @PostMapping(path = "/clockCount",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    @ApiOperation(value = "员工签退接口", notes = "员工签退接口", response = Result.class, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public Result clockOut() {
+    @ApiOperation(value = "员工签到总计接口", notes = "员工签到接口", response = Result.class, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public Result clockCount(@RequestBody ClockCountDto dto) {
+
+        try {
+
+            AuthUserInfoVo authUserInfoVo = new AuthUserInfoVo();
+            authUserInfoVo.setFid(dto.getFid());
+            return Result.ok(loginService.clockCount(authUserInfoVo));
+        } catch (Exception e) {
+            log.error("员工签到失败e={}", e);
+            return Result.fail("员工签到失败");
+        }
+
+    }
+
+    @PostMapping(path = "/check",
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ApiOperation(value = "查询员工当前签到信息接口", notes = "员工签退接口", response = Result.class, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public Result check() {
 
         try {
 
@@ -109,11 +148,10 @@ public class LoginController {
             if (Check.NuNObj(authUserInfoVo)) {
                 return Result.fail("请重新登录");
             }
-            loginService.clockOut(authUserInfoVo);
-            return Result.ok();
+            return Result.ok(loginService.check(authUserInfoVo));
         } catch (Exception e) {
-            log.error("员工签退失败e={}", e);
-            return Result.fail("员工签退失败");
+            log.error("查询员工当前签到信息失败e={}", e);
+            return Result.fail("查询员工当前签到信息失败");
         }
 
     }

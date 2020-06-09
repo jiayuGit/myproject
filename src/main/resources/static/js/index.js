@@ -1,3 +1,21 @@
+var buttonClock = document.querySelector("button#buttonClock");
+buttonClock.onclick=function () {
+    console.log("button");
+    httpClient("POST",'/login/clockIn',{},
+        function (data) {
+            buttonClock.innerText=data;
+            if(data==="签退成功,再次点击更新下班时间"){
+                buttonClock.style="height: 50px;width: 450px;font-size: 30px"
+            }
+            if(data==="签到成功,再次点击下班"){
+                buttonClock.style="height: 50px;width: 340px;font-size: 30px"
+            }
+        }
+        ,function (err) {
+            console.log(err);
+        })
+};
+
 var indexData = {
     menu: ''
 }
@@ -44,6 +62,19 @@ var example1 = new Vue({
                         console.log(err);
                         window.location.href=servicePate+'/login';
                     });
+                httpClient("POST",'/login/check',{},
+                    function (data) {
+                        buttonClock.innerText=data;
+                        if(data==="再次点击更新下班时间"){
+                            buttonClock.style="height: 50px;width: 310px;font-size: 30px"
+                        }
+                        if(data==="再次点击下班"){
+                            buttonClock.style="height: 50px;width: 200px;font-size: 30px"
+                        }
+                    }
+                    ,function (err) {
+                        console.log(err);
+                    })
             }
 
         },

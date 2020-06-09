@@ -39,4 +39,6 @@ public class UserRoleVo {
     private Date lastModifyTime;
 
     private List<KeyValueVo> list;
+
+    private Integer clockCount;
 }

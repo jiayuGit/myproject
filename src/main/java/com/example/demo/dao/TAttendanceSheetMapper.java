@@ -2,6 +2,8 @@ package com.example.demo.dao;
 
 import com.example.demo.entity.TAttendanceSheet;
 
+import java.util.List;
+
 public interface TAttendanceSheetMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -17,5 +19,5 @@ public interface TAttendanceSheetMapper {
 
     void updateByStartTime(TAttendanceSheet tAttendanceSheet);
 
-    TAttendanceSheet selectByTime(TAttendanceSheet tAttendanceSheet);
+    List<TAttendanceSheet> selectByTime(TAttendanceSheet tAttendanceSheet);
 }

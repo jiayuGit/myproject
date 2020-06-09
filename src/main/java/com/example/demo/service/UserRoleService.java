@@ -9,6 +9,7 @@ import com.example.demo.entity.TRole;
 import com.example.demo.entity.TRoleMenu;
 import com.example.demo.entity.TUser;
 import com.example.demo.entity.TUserRole;
+import com.example.demo.model.AuthUserInfoVo;
 import com.example.demo.util.DateUtilFormate;
 import com.example.demo.vo.*;
 import com.github.pagehelper.Page;
@@ -47,6 +48,9 @@ public class UserRoleService {
     private TRoleMenuMapper roleMenuMapper;
     @Autowired
     private TUserRoleMapper userRoleMapper;
+
+    @Autowired
+    private LoginService loginService;
 //    @Autowired
 //    private TDepartmentMapper departmentMapper;
 //    @Autowired
@@ -63,6 +67,7 @@ public class UserRoleService {
         List<TUser> tUsers =  userMapper.selectUserPage();
         List<UserRoleVo> list  = new ArrayList<>(tUsers.size());
         Map<String, UserRoleVo> map = tUsers.stream().map(v -> {
+
             UserRoleVo build = UserRoleVo.builder()
                     .name(v.getName())
                     .emaill(v.getEmaill())
@@ -70,7 +75,11 @@ public class UserRoleService {
                     .lastModifyTime(v.getLastModifyTime())
                     .list(new ArrayList<>())
                     .build();
+            AuthUserInfoVo authUserInfoVo = new AuthUserInfoVo();
+            authUserInfoVo.setFid(v.getUuid());
+            build.setClockCount(loginService.clockCount(authUserInfoVo));
             list.add(build);
+
             return build;
         }).collect(Collectors.toMap(k -> k.getUuid(), v -> v, (k1, k2) -> k1));
         PageResult pageResult = PageResult.builder()
@@ -79,9 +88,13 @@ public class UserRoleService {
                 .build();
         List<String> collect = tUsers.stream().map(TUser::getUuid).collect(Collectors.toList());
         List<UserRolePo> userRoleList =  userRoleMapper.selectUserRoleIfList(collect);
-        userRoleList.stream().forEach(v->
-                map.get(v.getUserFid()).getList().add(
-                        KeyValueVo.builder().value(String.valueOf(v.getRoleFid())).text(v.getRoleName()).build()));
+        userRoleList.stream().forEach(v->{
+
+            map.get(v.getUserFid()).getList().add(
+                    KeyValueVo.builder().value(String.valueOf(v.getRoleFid())).text(v.getRoleName()).build());
+
+
+                });
         return pageResult;
     }
 

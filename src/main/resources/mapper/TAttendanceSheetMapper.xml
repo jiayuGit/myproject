@@ -25,8 +25,12 @@
     select
     <include refid="Base_Column_List" />
     from t_attendance_sheet
-    where start_time<![CDATA[ >= ]]>#{start}
+    where
+    start_time<![CDATA[ >= ]]>#{start}
     and start_time<![CDATA[ <= ]]>#{end}
+    <if test="userFid != null and userFid!=''" >
+    and  user_fid=#{userFid}
+    </if>
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_attendance_sheet
@@ -145,7 +149,7 @@
       last_modify_time = #{lastModifyTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByTime" parameterType="com.example.demo.entity.TAttendanceSheet" >
+  <update id="updateByStartTime" parameterType="com.example.demo.entity.TAttendanceSheet" >
     update t_attendance_sheet
     <set >
       <if test="fid != null" >

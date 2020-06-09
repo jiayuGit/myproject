@@ -26,4 +26,5 @@ public class AuthUserInfoVo implements Serializable {
     private List<UserRolePo> rolePoList;
     private List<TMenu> menuList;
 
+
 }

@@ -14,6 +14,7 @@ import com.example.demo.model.AuthUserInfoVo;
 import com.example.demo.model.Result;
 import com.example.demo.util.AuthUtil;
 import com.example.demo.util.Check;
+import com.example.demo.vo.UserInfoVo;
 import com.example.demo.vo.UserRolePo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -102,28 +103,63 @@ public class LoginService {
         return Result.ok();
     }
     @Transactional
-    public void clockIn(AuthUserInfoVo authUserInfoVo) {
-        TAttendanceSheet tAttendanceSheet1 = tAttendanceSheetMapper
+    public String clockIn(AuthUserInfoVo authUserInfoVo) {
+        List<TAttendanceSheet> tAttendanceSheets = tAttendanceSheetMapper
                 .selectByTime(TAttendanceSheet.builder()
-                .start(Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant()))
-                .end(Date.from(LocalDate.now().plusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant()))
-                .build());
-
-        TAttendanceSheet tAttendanceSheet = TAttendanceSheet.builder()
-                .fid(UUID.randomUUID().toString())
-                .userFid(authUserInfoVo.getFid())
-                .startTime(new Date())
-                .build();
-        tAttendanceSheetMapper.insertSelective(tAttendanceSheet);
+                        .userFid(authUserInfoVo.getFid())
+                        .start(Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant()))
+                        .end(Date.from(LocalDate.now().plusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant()))
+                        .build());
+        if (tAttendanceSheets!=null&&!tAttendanceSheets.isEmpty()){
+            TAttendanceSheet tAttendanceSheet1 = tAttendanceSheets.get(0);
+            tAttendanceSheet1.setEndTime(new Date());
+            tAttendanceSheetMapper.updateByPrimaryKeySelective(tAttendanceSheet1);
+            return "签退成功,再次点击更新下班时间";
+        }else{
+            TAttendanceSheet tAttendanceSheet = TAttendanceSheet.builder()
+                    .fid(UUID.randomUUID().toString())
+                    .userFid(authUserInfoVo.getFid())
+                    .startTime(new Date())
+                    .build();
+            tAttendanceSheetMapper.insertSelective(tAttendanceSheet);
+            return "签到成功,再次点击下班";
+        }
 
     }
+//    @Transactional
+    public String check(AuthUserInfoVo authUserInfoVo) {
+        List<TAttendanceSheet> tAttendanceSheet1 = tAttendanceSheetMapper
+                .selectByTime(TAttendanceSheet.builder()
+                        .userFid(authUserInfoVo.getFid())
+                        .start(Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant()))
+                        .end(Date.from(LocalDate.now().plusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant()))
+                        .build());
+        if (tAttendanceSheet1!=null&&!tAttendanceSheet1.isEmpty()){
+            return "再次点击更新下班时间";
+        }else{
+            return "再次点击下班";
+        }
+    }
+
+    public Integer clockCount(AuthUserInfoVo authUserInfoVo) {
+        List<TAttendanceSheet> tAttendanceSheet1 = tAttendanceSheetMapper
+                .selectByTime(TAttendanceSheet.builder()
+                        .userFid(authUserInfoVo.getFid())
+                        .start(Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant()))
+                        .end(Date.from(LocalDate.now().plusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant()))
+                        .build());
+        if (tAttendanceSheet1!=null){
+            return tAttendanceSheet1.size();
+        }
+        return 0;
+    }
     @Transactional
-    public void clockOut(AuthUserInfoVo authUserInfoVo) {
-        TAttendanceSheet tAttendanceSheet = TAttendanceSheet.builder()
-                .start(Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant()))
-                .end(Date.from(LocalDate.now().plusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant()))
-                .endTime(new Date())
+    public void userUpdate(UserInfoVo authUserInfoVo) {
+        TUser build = TUser.builder()
+                .emaill(authUserInfoVo.getEmaill())
+                .name(authUserInfoVo.getName())
                 .build();
-        tAttendanceSheetMapper.insertSelective(tAttendanceSheet);
+        tUserMapper.updateByPrimaryKeySelective(build);
+
     }
 }

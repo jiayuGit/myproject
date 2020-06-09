@@ -24,6 +24,8 @@ public class UserInfoVo {
 
     private Long otherPending;
 
+    private Integer clockCount;
+
 
 
 }

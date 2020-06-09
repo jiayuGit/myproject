@@ -144,6 +144,7 @@
     select
     <include refid="Base_Column_List" />
     from t_user
+    where is_del=0
   </select>
 
 </mapper>

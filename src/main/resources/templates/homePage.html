@@ -12,7 +12,6 @@
 
 <!--<link rel="stylesheet" href="/static/css/animate.min.css"/>-->
 <!--<link rel="stylesheet" href="/static/css/syalert.min.css"/>-->
-
 <script type="text/javascript" src="/static/js/jquery.min.js"></script>
 <script src="/static/js/util.js" type="text/javascript"></script>
 <script src="/static/js/vue.js" type="text/javascript"></script>
@@ -25,11 +24,28 @@
         <label>本月出勤数：</label>{{userInfo.clockCount}}
         <label>我的申请审批：</label>{{userInfo.myPending}}
         <label>待我审批：</label>{{userInfo.otherPending}}
+        <button class="label label-primary" @click="syalert.syopen('alert4')" style="height: 200px;font-size:12px">修改用户名</button>
         <div v-for="(data,index) in userInfo.rolePoList" style="font-size:12px">
             <label>{{data.roleName}}</label>
         </div>
     </div>
 </center>
+<div class="sy-alert sy-alert-model animated" sy-enter="zoomIn" sy-leave="zoomOut" sy-type="confirm" sy-mask="true"
+     id="alert4">
+    <div class="sy-title">修改用户角色</div>
+    <div class="sy-content">
+        <div id='example-3' class="form">
+            <div>
+                <label for="jack">用户名</label>
+                <input type="input" id="jack" v-model="user.name"><br>
+            </div>
+        </div>
+    </div>
+    <div class="sy-btn">
+        <button onClick="syalert.syhide('alert4')">取消</button>
+        <button onClick="ok('alert4')">确定</button>
+    </div>
+</div>
 </body>
 <script src="/static/js/homePage.js" type="text/javascript"></script>
 </html>

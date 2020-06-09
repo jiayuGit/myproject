@@ -85,7 +85,7 @@ public class LoginController {
     @PostMapping(path = "/userUpdate",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ApiOperation(value = "修改用户信息接口", notes = "用户信息接口", response = Result.class, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public Result userUpdate(UserInfoVo infoVo) {
+    public Result userUpdate(@RequestBody UserInfoVo infoVo) {
 
         try {
 

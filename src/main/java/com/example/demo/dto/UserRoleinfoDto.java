@@ -23,5 +23,7 @@ import java.util.List;
 public class UserRoleinfoDto implements Serializable {
     private static final long serialVersionUID = -5537497291577853531L;
     private String uuid;
+    private String name;
+    private String emaill;
     private List<String> list;
 }

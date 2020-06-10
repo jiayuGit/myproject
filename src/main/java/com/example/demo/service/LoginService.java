@@ -25,7 +25,9 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.ZoneId;
+import java.time.temporal.TemporalAdjusters;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -137,19 +139,23 @@ public class LoginService {
         if (tAttendanceSheet1!=null&&!tAttendanceSheet1.isEmpty()){
             return "再次点击更新下班时间";
         }else{
-            return "再次点击下班";
+            return "上班签到";
         }
     }
 
     public Integer clockCount(AuthUserInfoVo authUserInfoVo) {
+//        LocalTime localTime = LocalTime.of(0,0,0);
         List<TAttendanceSheet> tAttendanceSheet1 = tAttendanceSheetMapper
                 .selectByTime(TAttendanceSheet.builder()
                         .userFid(authUserInfoVo.getFid())
-                        .start(Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant()))
-                        .end(Date.from(LocalDate.now().plusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant()))
+                        .start(Date.from(LocalDate.now().with(TemporalAdjusters.firstDayOfMonth()).atStartOfDay(ZoneId.systemDefault()).toInstant()))
+                        .end(Date.from(LocalDate.now().with(TemporalAdjusters.lastDayOfMonth()).plusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant()))
                         .build());
+        ;
         if (tAttendanceSheet1!=null){
-            return tAttendanceSheet1.size();
+            return tAttendanceSheet1.stream()
+                    .mapToInt(v->(v.getEndTime().getTime()-v.getStartTime().getTime())>=8*60*60*1000?1:0)
+                    .sum();
         }
         return 0;
     }

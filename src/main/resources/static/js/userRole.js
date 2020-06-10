@@ -20,6 +20,8 @@ var syalert = function () {
         syopen: function (id,data) {
             var list=data.list;
             example3Data.updataId=data.uuid;
+            example3Data.name=data.name;
+            example3Data.emaill=data.emaill;
             console.log(JSON.stringify(list))
             if (list!==null){
 
@@ -181,7 +183,9 @@ function ok(id) {
     if (id === 'alert4') {
         httpClient('POST', '/role/updateUser', {
                 list: example3Data.fruitIds,
-                uuid: example3Data.updataId
+                uuid: example3Data.updataId,
+                name:example3Data.name,
+                emaill:example3Data.emaill
             }
             , function (data) {
                 selectPage(pageButton.cur, pageSize);
@@ -195,6 +199,8 @@ function ok(id) {
 
 var example3Data = {
     updataId: '',
+    name:'',
+    emaill:'',
     fruits: [],
     fruitIds: [],
     // 初始化全选按钮, 默认不选

@@ -68,8 +68,8 @@ var example1 = new Vue({
                         if(data==="再次点击更新下班时间"){
                             buttonClock.style="height: 50px;width: 310px;font-size: 30px"
                         }
-                        if(data==="再次点击下班"){
-                            buttonClock.style="height: 50px;width: 200px;font-size: 30px"
+                        if(data==="上班签到"){
+                            buttonClock.style="height: 50px;width: 150px;font-size: 30px"
                         }
                     }
                     ,function (err) {

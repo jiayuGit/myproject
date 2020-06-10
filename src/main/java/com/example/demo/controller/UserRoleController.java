@@ -7,10 +7,12 @@ import com.example.demo.dto.UserRolePageDto;
 import com.example.demo.entity.TRole;
 import com.example.demo.entity.TUser;
 import com.example.demo.model.Result;
+import com.example.demo.service.LoginService;
 import com.example.demo.service.UserRoleService;
 import com.example.demo.util.Check;
 import com.example.demo.vo.KeyValueVo;
 import com.example.demo.vo.PageResult;
+import com.example.demo.vo.UserInfoVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -45,6 +47,8 @@ import java.util.List;
 public class UserRoleController {
     @Autowired
     private UserRoleService userRoleService;
+    @Autowired
+    private LoginService loginService;
     @PostMapping(path = "/userPage",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ApiOperation(value = "查询用户角色列表接口",produces = MediaType.APPLICATION_JSON_UTF8_VALUE,response = Result.class)
     public Result userPage(@RequestBody UserRolePageDto dto){
@@ -64,6 +68,10 @@ public class UserRoleController {
         }
         try {
             String data = userRoleService.updateUserRoleinfo(dot);
+            UserInfoVo authUserInfoVo = new UserInfoVo();
+            authUserInfoVo.setEmaill(dot.getEmaill());
+            authUserInfoVo.setName(dot.getName());
+            loginService.userUpdate(authUserInfoVo);
             return Result.ok(data);
         } catch (Exception e) {
             log.error("修改用户角色错误e={} params={}",e,dot);

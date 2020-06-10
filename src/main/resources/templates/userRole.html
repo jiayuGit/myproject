@@ -116,7 +116,7 @@
                     <!--                    <button class="label label-primary" @click="syalert.syopen('alert1')">删除</button>-->
                     <!--                    <button class="label label-primary" @click="remove(data),syalert.syopen('alert2')">消息弹窗</button>-->
                     <!--                    <button class="label label-primary" @click="syalert.syopen('alert3')">消息提示</button>-->
-                    <button class="label label-primary" @click="syalert.syopen('alert4',data)">修改用户角色</button>
+                    <button class="label label-primary" @click="syalert.syopen('alert4',data)">修改用户信息</button>
                 </td>
 
             </tr>
@@ -169,10 +169,12 @@
 
 <div class="sy-alert sy-alert-model animated" sy-enter="zoomIn" sy-leave="zoomOut" sy-type="confirm" sy-mask="true"
      id="alert4">
-    <div class="sy-title">修改用户角色</div>
+    <div class="sy-title">修改用户信息</div>
     <div class="sy-content">
         <div id='example-3' class="form">
             <div>
+                <label for="jack">用户名</label>
+                <input type="input" id="jack" v-model="name"><br>
                 <input type='checkbox' class='input-checkbox'
                        :checked="fruitIds!==null&&fruitIds.length === fruits.length"
                        @click='checkedAll(fruitIds.length !== fruits.length)'>全选
